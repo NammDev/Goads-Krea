@@ -1,1 +1,0 @@
-https://s.krea.ai/landingPageHeroFallback.mp4

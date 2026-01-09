@@ -1,5 +1,0 @@
-https://s.krea.ai/landingPhotorealExamplePortrait.webp
-https://customer-fz5oh80x9qirexi3.cloudflarestream.com/96c1ff6b6334070fdd26fc37f8a5d1d6/iframe?muted=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-fz5oh80x9qirexi3.cloudflarestream.com%2F96c1ff6b6334070fdd26fc37f8a5d1d6%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600?autoplay=false&controls=false&loop=true&muted=true&preload=auto&responsive=true
-https://s.krea.ai/landingEnhancerExampleSwordBloomCentered.webp
-https://customer-fz5oh80x9qirexi3.cloudflarestream.com/25ea2f5507c04b1f4d5f1fa6dda573b6/iframe?muted=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-fz5oh80x9qirexi3.cloudflarestream.com%2F25ea2f5507c04b1f4d5f1fa6dda573b6%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600?autoplay=false&controls=false&loop=true&muted=true&preload=auto&responsive=true
-https://s.krea.ai/landingPageTruckKrea1.webp

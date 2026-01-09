@@ -32,7 +32,7 @@ export function HeroSection() {
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-[1536px] mx-auto text-center">
-          {/* Hero Title - pixel perfect match with gradient text */}
+          {/* Hero Title */}
           <h1
             aria-label="Krea.ai is a powerful AI suite for Creatives."
             className={cn(
@@ -46,7 +46,7 @@ export function HeroSection() {
             suite for Creatives.
           </h1>
 
-          {/* Hero Subtitle - uses h2 semantics like original */}
+          {/* Hero Subtitle */}
           <h2
             className={cn(
               "text-primary-400 font-normal",
@@ -58,20 +58,35 @@ export function HeroSection() {
             with AI.
           </h2>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - animate in from left with stagger */}
           <div className="mt-8 flex items-center justify-center gap-3 mb-12">
-            <Button variant="primary" size="md" className="w-36">
+            <Button
+              variant="primary"
+              size="md"
+              className="w-36 animate-slide-in-left"
+              style={{ animationDelay: "400ms" }}
+            >
               <UserPlus className="w-4 h-4" />
               Sign Up
             </Button>
-            <Button variant="secondary" size="md" className="w-42">
+            <Button
+              variant="secondary"
+              size="md"
+              className="w-42 animate-slide-in-left"
+              style={{ animationDelay: "500ms" }}
+            >
               <LogIn className="w-4 h-4" />
               Launch App
             </Button>
           </div>
 
-          {/* App Preview */}
-          <AppPreview />
+          {/* App Preview - zoom in animation */}
+          <div
+            className="animate-zoom-in"
+            style={{ animationDelay: "500ms" }}
+          >
+            <AppPreview />
+          </div>
         </div>
       </section>
     </>

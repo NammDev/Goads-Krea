@@ -9,7 +9,13 @@ interface NavLinkProps {
   inverted?: boolean;
 }
 
-export function NavLink({ href, children, className, external, inverted }: NavLinkProps) {
+export function NavLink({
+  href,
+  children,
+  className,
+  external,
+  inverted,
+}: NavLinkProps) {
   const baseClasses = cn(
     "rounded-md px-4 py-3 xl:px-5",
     "text-[15px] font-normal leading-[1.5] tracking-[0.01em]",

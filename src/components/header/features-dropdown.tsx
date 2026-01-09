@@ -14,7 +14,7 @@ import {
   FileIcon,
 } from "@/components/icons";
 
-// Feature data matching original Krea layout
+/** Feature data matching original Krea layout */
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string }>;
   name: string;
@@ -51,7 +51,7 @@ const featureCategories: FeatureCategory[] = [
         name: "AI 3D Generation",
         links: [
           { label: "Text to 3D Object", href: "/3d" },
-          { label: "Image to 3D Object", href: "/3d-image" },
+          { label: "Image to 3D Object", href: "/3d" },
         ],
       },
     ],
@@ -63,17 +63,17 @@ const featureCategories: FeatureCategory[] = [
         icon: EnhanceIcon,
         name: "AI Image Enhancements",
         links: [
-          { label: "Upscaling", href: "/upscaler" },
-          { label: "Generative Image Editing", href: "/inpainting" },
+          { label: "Upscaling", href: "/enhancer" },
+          { label: "Generative Image Editing", href: "/edit" },
         ],
       },
       {
         icon: VideoEnhanceIcon,
         name: "AI Video Enhancements",
         links: [
-          { label: "Frame Interpolation", href: "/frame-interpolation" },
-          { label: "Video Style Transfer", href: "/video-style" },
-          { label: "Video Upscaling", href: "/video-upscaler" },
+          { label: "Frame Interpolation", href: "/animator" },
+          { label: "Video Style Transfer", href: "/video-restyle" },
+          { label: "Video Upscaling", href: "/enhancer" },
         ],
       },
     ],
@@ -85,157 +85,238 @@ const featureCategories: FeatureCategory[] = [
         icon: FinetuneIcon,
         name: "AI Finetuning",
         links: [
-          { label: "Image LoRa Finetuning", href: "/finetuning/image" },
-          { label: "Video LoRa Finetuning", href: "/finetuning/video" },
-          { label: "LoRa Sharing", href: "/finetuning/sharing" },
+          { label: "Image LoRa Finetuning", href: "/train" },
+          { label: "Video LoRa Finetuning", href: "/train" },
+          { label: "LoRa Sharing", href: "/train" },
         ],
       },
       {
         icon: FileIcon,
         name: "File Management",
-        links: [
-          { label: "Krea Asset Manager", href: "/assets" },
-        ],
+        links: [{ label: "Krea Asset Manager", href: "/assets" }],
       },
     ],
   },
 ];
 
-interface FeaturesDropdownProps {
+/** Chevron arrow icon for feature links */
+function LinkArrow({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 10 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      height="8"
+      className={cn("translate-y-[1px] text-primary-600", className)}
+    >
+      <path
+        d="M9.62988 8.1543C9.62988 8.33008 9.59473 8.49707 9.52441 8.65527C9.45996 8.80762 9.35449 8.9541 9.20801 9.09473L2.44922 15.7129C2.2207 15.9355 1.94238 16.0469 1.61426 16.0469C1.40332 16.0469 1.20703 15.9941 1.02539 15.8887C0.84375 15.7832 0.697266 15.6426 0.585938 15.4668C0.480469 15.291 0.427734 15.0918 0.427734 14.8691C0.427734 14.5469 0.550781 14.2598 0.796875 14.0078L6.81738 8.1543L0.796875 2.30078C0.550781 2.05469 0.427734 1.76758 0.427734 1.43945C0.427734 1.22266 0.480469 1.02637 0.585938 0.850586C0.697266 0.668945 0.84375 0.525391 1.02539 0.419922C1.20703 0.314453 1.40332 0.261719 1.61426 0.261719C1.94238 0.261719 2.2207 0.373047 2.44922 0.595703L9.20801 7.21387C9.34863 7.35449 9.4541 7.50098 9.52441 7.65332C9.59473 7.80566 9.62988 7.97266 9.62988 8.1543Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/** Reusable feature link component */
+function FeatureLink({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="text-primary-700 group flex items-center gap-2 text-sm opacity-70 transition-opacity duration-200 hover:opacity-100"
+    >
+      <span>{label}</span>
+      <LinkArrow />
+    </Link>
+  );
+}
+
+/** Reusable feature item component */
+function FeatureItemCard({ item }: { item: FeatureItem }) {
+  const IconComponent = item.icon;
+  return (
+    <div className="flex h-[130px] w-full flex-col items-start gap-4.5">
+      {/* Icon + Title */}
+      <div className="flex items-center gap-2.5">
+        <div className="bg-primary-100 flex aspect-square h-9 w-9 shrink-0 items-center justify-center rounded-sm">
+          <IconComponent className="w-[18px] text-black/75" />
+        </div>
+        <div className="text-primary-700 text-xbase font-medium whitespace-nowrap">
+          {item.name}
+        </div>
+      </div>
+      {/* Links */}
+      <ul className="flex flex-col gap-2">
+        {item.links.map((link) => (
+          <li key={link.label}>
+            <FeatureLink href={link.href} label={link.label} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Promo card with image - right side of dropdown */
+function PromoCard() {
+  return (
+    <div className="hidden h-full xl:block">
+      <div
+        className="bg-primary-200 relative flex aspect-[4/5] h-[375px] max-h-[375px] shrink-0 overflow-hidden rounded-2xl bg-cover bg-center md:h-[500px] md:max-h-[500px] md:w-auto"
+        role="figure"
+        aria-labelledby="promo-caption"
+      >
+        <img
+          loading="lazy"
+          src="https://s.krea.ai/krea-1/skinTexture.webp"
+          alt="Cinematic photo of a person in a linen jacket"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+        />
+        <div
+          className="relative z-20 flex h-full w-full flex-col justify-between p-5 sm:p-6 md:p-7"
+          style={{
+            backgroundImage:
+              "linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%)",
+          }}
+        >
+          {/* Krea 1 Logo */}
+          <div>
+            <KreaIcon size="lg" className="h-4 text-white md:h-6" />
+          </div>
+          {/* Prompt and CTA */}
+          <div>
+            <div
+              className="text-primary-0/60 pb-2 text-xs font-medium uppercase tracking-widest"
+              id="promo-caption"
+            >
+              Prompt
+            </div>
+            <p className="text-base font-medium leading-tight tracking-tight text-white md:text-3xl">
+              "Cinematic photo of a person in a linen jacket"
+            </p>
+            <div className="pt-4">
+              <Link
+                href="/image?model=k1"
+                className="bg-primary-150 text-primary-1000 text-xsm active-scale-95 flex w-fit items-center justify-center rounded-md px-5 py-3 font-medium leading-[100%] transition-all duration-200 ease-out hover:scale-[1.025]"
+              >
+                Generate image
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface FeaturesTriggerProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   inverted?: boolean;
 }
 
-export function FeaturesDropdown({ isOpen, onOpenChange, inverted }: FeaturesDropdownProps) {
+/** Trigger button for Features dropdown - rendered in nav */
+export function FeaturesTrigger({
+  isOpen,
+  onOpenChange,
+  inverted,
+}: FeaturesTriggerProps) {
   return (
-    <div className="relative">
-      {/* Trigger Button */}
-      <button
+    <button
+      className={cn(
+        "flex cursor-pointer items-center gap-1",
+        "rounded-lg bg-transparent px-4 py-3 xl:px-5",
+        "text-xbase font-normal leading-[1.5] tracking-[0.01em]",
+        "transition-colors duration-200",
+        inverted ? "hover:bg-black/10" : "hover:bg-white/10",
+        isOpen && (inverted ? "bg-black/10" : "bg-white/10")
+      )}
+      onMouseEnter={() => onOpenChange(true)}
+      onMouseLeave={(e) => {
+        // Only close if not moving to dropdown panel (check if moving down toward dropdown)
+        const rect = e.currentTarget.getBoundingClientRect();
+        const isMovingDown = e.clientY >= rect.bottom - 5;
+        if (!isMovingDown) {
+          onOpenChange(false);
+        }
+      }}
+    >
+      Features
+      <ChevronIcon
+        direction="down"
         className={cn(
-          "flex cursor-pointer items-center gap-1",
-          "rounded-lg bg-transparent px-4 py-3 xl:px-5",
-          "text-[15px] font-normal leading-[1.5] tracking-[0.01em]",
-          "transition-colors duration-200",
-          inverted ? "hover:bg-black/10" : "hover:bg-white/10",
-          isOpen && (inverted ? "bg-black/10" : "bg-white/10")
+          "translate-y-[1px] transition-transform duration-200",
+          isOpen && "rotate-180"
         )}
-        onMouseEnter={() => onOpenChange(true)}
-        onMouseLeave={() => onOpenChange(false)}
-      >
-        Features
-        <ChevronIcon
-          direction="down"
-          className={cn(
-            "translate-y-[1px] transition-transform duration-200",
-            isOpen && "rotate-180"
-          )}
-        />
-      </button>
+      />
+    </button>
+  );
+}
 
-      {/* Dropdown Menu - Fixed positioning with hover bridge */}
+interface FeaturesDropdownPanelProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+/** Dropdown panel for Features - rendered at header level */
+export function FeaturesDropdownPanel({
+  isOpen,
+  onOpenChange,
+}: FeaturesDropdownPanelProps) {
+  return (
+    <div
+      className={cn(
+        "absolute bottom-0 left-1/2 hidden -translate-x-1/2 translate-y-full pt-2.5 lg:block",
+        // Pointer events only when open to prevent blocking clicks during close animation
+        isOpen ? "pointer-events-auto" : "pointer-events-none"
+      )}
+      onMouseEnter={() => onOpenChange(true)}
+      onMouseLeave={() => onOpenChange(false)}
+      style={{
+        // Use visibility with delay for closing animation (200ms matches close duration)
+        visibility: isOpen ? "visible" : "hidden",
+        transition: isOpen ? "visibility 0s" : "visibility 0s 200ms",
+      }}
+    >
       <div
+        role="menu"
+        tabIndex={0}
         className={cn(
-          "fixed left-0 right-0 top-[52px] z-[100]",
-          "flex justify-center pt-4",
-          "hidden lg:flex",
-          isOpen ? "pointer-events-auto" : "pointer-events-none"
+          "bg-primary-0 border-primary-200 rounded-2xl border",
+          // Open: slower (300ms) with custom ease-out curve
+          // Close: faster (200ms) with ease-in for quick retraction
+          isOpen
+            ? "scale-100 translate-y-0 opacity-100"
+            : "scale-95 -translate-y-2 opacity-0"
         )}
-        onMouseEnter={() => onOpenChange(true)}
-        onMouseLeave={() => onOpenChange(false)}
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.25) 0px 20px 39px -20px",
+          // Transform origin aligned with trigger button (15% from left, top)
+          transformOrigin: "15% top",
+          // Different transition timing for open vs close
+          transition: isOpen
+            ? "opacity 300ms cubic-bezier(0.2, 0, 0, 1), transform 300ms cubic-bezier(0.2, 0, 0, 1)"
+            : "opacity 200ms ease-in, transform 200ms ease-in",
+        }}
       >
-        <div
-          className={cn(
-            "transition-all duration-200 ease-out",
-            isOpen
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-2 opacity-0"
-          )}
-          role="menu"
-        >
-          {/* Dropdown Content - Matching Krea's exact layout */}
-          <div className="rounded-2xl bg-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
-            <div className="flex p-10 pb-12">
-              {/* Feature Categories - 3 columns */}
-              <div className="flex gap-16">
-                {featureCategories.map((category) => (
-                  <div key={category.title} className="min-w-[200px]">
-                    {/* Category Title */}
-                    <p className="mb-8 text-base font-normal text-neutral-400">
-                      {category.title}
-                    </p>
-
-                    {/* Category Items */}
-                    <div className="flex flex-col gap-10">
-                      {category.items.map((item) => (
-                        <div key={item.name}>
-                          {/* Item Header with Icon - No box around icon */}
-                          <div className="mb-4 flex items-center gap-3">
-                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
-                              <item.icon className="h-5 w-5" />
-                            </div>
-                            <span className="text-[15px] font-medium text-neutral-900">
-                              {item.name}
-                            </span>
-                          </div>
-
-                          {/* Links - No indentation, directly below */}
-                          <div className="flex flex-col gap-2">
-                            {item.links.map((link) => (
-                              <Link
-                                key={link.label}
-                                href={link.href}
-                                className="group flex items-center gap-1 text-[14px] text-neutral-500 transition-colors duration-150 hover:text-neutral-900"
-                              >
-                                <span>{link.label}</span>
-                                <ChevronIcon
-                                  direction="right"
-                                  className="h-3 w-3 text-neutral-400 transition-colors group-hover:text-neutral-600"
-                                />
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Promo Section - Right side with image */}
-              <div className="ml-10 w-[380px] overflow-hidden rounded-2xl bg-neutral-900">
-                {/* Header */}
-                <div className="flex items-center gap-2 p-5 pb-0">
-                  <KreaIcon size="md" className="text-white" />
-                  <span className="text-base font-semibold text-white">Krea 1</span>
-                </div>
-
-                {/* Image */}
-                <div className="relative mt-4 aspect-[4/3] w-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=450&fit=crop&crop=face"
-                    alt="AI Generated Portrait"
-                    className="h-full w-full object-cover"
-                  />
-                  {/* Gradient overlay for text */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                  {/* Text overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.15em] text-neutral-400">
-                      PROMPT
-                    </p>
-                    <p className="mb-5 text-xl font-medium leading-tight text-white">
-                      "Cinematic photo of a person in a linen jacket"
-                    </p>
-                    <button className="w-full rounded-lg bg-white py-3 text-sm font-medium text-black transition-colors hover:bg-neutral-100">
-                      Generate image
-                    </button>
-                  </div>
+        {/* Main content container */}
+        <div className="flex w-fit max-w-[90vw] gap-11 p-11">
+          {/* Feature Categories Grid */}
+          <div className="grid auto-cols-max grid-flow-col gap-x-11">
+            {featureCategories.map((category) => (
+              <div key={category.title}>
+                {/* Category Title */}
+                <p className="text-primary-400 text-base">{category.title}</p>
+                {/* Category Items */}
+                <div className="mt-8 flex flex-col gap-10">
+                  {category.items.map((item) => (
+                    <FeatureItemCard key={item.name} item={item} />
+                  ))}
                 </div>
               </div>
-            </div>
+            ))}
           </div>
+          {/* Promo Card */}
+          <PromoCard />
         </div>
       </div>
     </div>

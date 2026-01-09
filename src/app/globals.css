@@ -2,6 +2,12 @@
 
 /* Krea Design System - Tailwind CSS v4 Theme Configuration */
 @theme inline {
+  /* Semantic Colors - Button variants */
+  --color-secondary: oklch(97% 0 0);
+  --color-secondary-foreground: oklch(20.5% 0 0);
+  --color-ring: oklch(55.1% 0 0);
+  --color-destructive: oklch(57.7% 0.245 27.325);
+
   /* Colors - Primary Scale (Gray tones) */
   --color-primary-0: #ffffff;
   --color-primary-50: #f9fafb;
@@ -125,14 +131,79 @@ body {
   background-clip: text;
 }
 
-/* Button active scale */
+/* ============================================
+   Hero Section Entrance Animations
+   ============================================ */
+
+/* Slide in from left - for buttons */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  opacity: 0;
+  animation: slide-in-left 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Zoom in - for preview */
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-zoom-in {
+  opacity: 0;
+  animation: zoom-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Slide down - for header */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  transform: translateY(-100%);
+  animation: slide-down 700ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 400ms;
+}
+
+/* Button active scale - with smooth transition */
+.active-scale-95 {
+  transition: transform 0.15s ease-out;
+}
 .active-scale-95:active {
   transform: scale(0.95);
 }
 
-/* Thin border utility */
+/* Thin border utility - Krea's exact style */
 .thin-border {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: color-mix(in oklab, var(--color-primary-1000) 10%, transparent);
+}
+
+/* Duration 400ms - Krea's button transition timing */
+.duration-400 {
+  --tw-duration: 0.4s;
+  transition-duration: 0.4s;
 }
 
 /* Navigation hover effect */

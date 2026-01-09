@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { KreaLogo, HamburgerIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "./nav-link";
-import { FeaturesDropdown } from "./features-dropdown";
+import { FeaturesTrigger, FeaturesDropdownPanel } from "./features-dropdown";
 
 export function Header() {
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
@@ -40,7 +40,10 @@ export function Header() {
         "h-[68px] border-b-[0.5px]",
         "px-8 lg:px-16",
         "select-none",
-        "transition-all duration-300",
+        // Entrance animation - slides down from top
+        "animate-slide-down",
+        // Color transition for scroll inversion
+        "transition-[background-color,color] duration-200 ease-out",
         // Default: dark mode (black bg, white text)
         // Inverted: light mode (white/transparent bg, black text)
         isInverted
@@ -76,7 +79,7 @@ export function Header() {
                 <NavLink href="/app" inverted={isInverted}>
                   App
                 </NavLink>
-                <FeaturesDropdown
+                <FeaturesTrigger
                   isOpen={isFeaturesOpen}
                   onOpenChange={setIsFeaturesOpen}
                   inverted={isInverted}
@@ -145,6 +148,12 @@ export function Header() {
           </div>
         </div>
       </div>
+
+      {/* Dropdown panel - positioned from header bottom */}
+      <FeaturesDropdownPanel
+        isOpen={isFeaturesOpen}
+        onOpenChange={setIsFeaturesOpen}
+      />
     </header>
   );
 }

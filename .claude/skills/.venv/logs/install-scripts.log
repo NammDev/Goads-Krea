@@ -1,0 +1,5 @@
+Collecting pyyaml>=6.0
+  Using cached pyyaml-6.0.3-cp39-cp39-macosx_11_0_arm64.whl.metadata (2.4 kB)
+Using cached pyyaml-6.0.3-cp39-cp39-macosx_11_0_arm64.whl (174 kB)
+Installing collected packages: pyyaml
+Successfully installed pyyaml-6.0.3

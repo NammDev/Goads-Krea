@@ -1,0 +1,23 @@
+Requirement already satisfied: pytest>=7.0.0 in ./.venv/lib/python3.9/site-packages (from -r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (8.4.2)
+Requirement already satisfied: pytest-cov>=4.0.0 in ./.venv/lib/python3.9/site-packages (from -r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 2)) (7.0.0)
+Requirement already satisfied: pytest-mock>=3.10.0 in ./.venv/lib/python3.9/site-packages (from -r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 3)) (3.15.1)
+Collecting mongomock>=4.1.0 (from -r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 4))
+  Using cached mongomock-4.3.0-py2.py3-none-any.whl.metadata (12 kB)
+Requirement already satisfied: exceptiongroup>=1 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (1.3.1)
+Requirement already satisfied: iniconfig>=1 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (2.1.0)
+Requirement already satisfied: packaging>=20 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (25.0)
+Requirement already satisfied: pluggy<2,>=1.5 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (1.6.0)
+Requirement already satisfied: pygments>=2.7.2 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (2.19.2)
+Requirement already satisfied: tomli>=1 in ./.venv/lib/python3.9/site-packages (from pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (2.3.0)
+Requirement already satisfied: coverage>=7.10.6 in ./.venv/lib/python3.9/site-packages (from coverage[toml]>=7.10.6->pytest-cov>=4.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 2)) (7.10.7)
+Collecting pytz (from mongomock>=4.1.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 4))
+  Using cached pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting sentinels (from mongomock>=4.1.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 4))
+  Using cached sentinels-1.1.1-py3-none-any.whl.metadata (3.0 kB)
+Requirement already satisfied: typing-extensions>=4.6.0 in ./.venv/lib/python3.9/site-packages (from exceptiongroup>=1->pytest>=7.0.0->-r /Users/nammdev/Documents/Code/krea-v4/.claude/skills/databases/scripts/tests/requirements.txt (line 1)) (4.15.0)
+Using cached mongomock-4.3.0-py2.py3-none-any.whl (64 kB)
+Using cached pytz-2025.2-py2.py3-none-any.whl (509 kB)
+Using cached sentinels-1.1.1-py3-none-any.whl (3.7 kB)
+Installing collected packages: pytz, sentinels, mongomock
+
+Successfully installed mongomock-4.3.0 pytz-2025.2 sentinels-1.1.1

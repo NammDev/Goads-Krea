@@ -1,0 +1,9 @@
+Requirement already satisfied: pip in ./.venv/lib/python3.9/site-packages (21.2.4)
+Collecting pip
+  Using cached pip-25.3-py3-none-any.whl (1.8 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 21.2.4
+    Uninstalling pip-21.2.4:
+      Successfully uninstalled pip-21.2.4
+Successfully installed pip-25.3

@@ -1,0 +1,192 @@
+<section
+  class="relative mb-12 overflow-hidden rounded-xl sm:mb-16 sm:rounded-2xl lg:mb-20"
+>
+  <div class="absolute inset-0 z-0">
+    <img
+      src="/series-b-hero.webp"
+      alt="Krea Enterprise"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/50"></div>
+  </div>
+  <div class="relative z-10 grid items-stretch gap-0 lg:grid-cols-2 lg:gap-12">
+    <div>
+      <div
+        class="min-h-[200px] rounded-2xl sm:min-h-[280px] md:min-h-[320px] lg:h-full lg:min-h-0"
+      >
+        <div class="p-4 text-white sm:p-6 md:p-8 lg:p-10">
+          <h2
+            class="mb-3 text-3xl leading-tight font-semibold sm:mb-4 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
+          >
+            Talk to our sales team
+          </h2>
+          <p
+            class="mb-4 text-base opacity-90 sm:mb-6 sm:text-lg md:mb-8 md:text-xl lg:text-2xl"
+          >
+            If you're interested in learning more about Krea's enterprise
+            solutions, we can help.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      id="contact"
+      class="bg-primary-50 dark:bg-primary-900 relative z-10 rounded-2xl p-4 sm:p-6 md:p-8"
+    >
+      <h3
+        class="text-primary-900 dark:text-primary-100 mb-1.5 text-lg font-semibold sm:mb-2 sm:text-xl md:text-2xl"
+      >
+        Contact sales for a free team trial
+      </h3>
+      <p
+        class="text-primary-600 dark:text-primary-400 mb-4 text-sm sm:mb-6 sm:text-base"
+      >
+        We'll need a few details first.
+      </p>
+      <form class="space-y-4 sm:space-y-6">
+        <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
+          <div>
+            <label
+              for="firstName"
+              class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+              >First Name *</label
+            >
+            <input
+              type="text"
+              id="firstName"
+              required=""
+              class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+              placeholder="Richard"
+            />
+          </div>
+          <div>
+            <label
+              for="lastName"
+              class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+              >Last Name *</label
+            >
+            <input
+              type="text"
+              id="lastName"
+              required=""
+              class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+              placeholder="Hendricks"
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            for="email"
+            class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+            >Work Email *</label
+          >
+          <input
+            type="email"
+            id="email"
+            required=""
+            class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+            placeholder="richard@piedpiper.com"
+          />
+        </div>
+        <div>
+          <label
+            for="company"
+            class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+            >Company *</label
+          >
+          <input
+            type="text"
+            id="company"
+            required=""
+            class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+            placeholder="Pied Piper"
+          />
+        </div>
+        <div>
+          <label
+            for="companySize"
+            class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+            >Company Size *</label
+          >
+          <select
+            id="companySize"
+            required=""
+            class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+          >
+            <option value="1-10">1-10</option>
+            <option value="11-50">11-50</option>
+            <option value="51-200">51-200</option>
+            <option value="201-500">201-500</option>
+            <option value="501-1000">501-1000</option>
+            <option value="1000+">1000+</option>
+            <!---->
+          </select>
+        </div>
+        <div>
+          <label
+            for="useCase"
+            class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+            >Use case *</label
+          >
+          <select
+            id="useCase"
+            required=""
+            class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+          >
+            <option value="I want to collaborate with my team">
+              I want to collaborate with my team
+            </option>
+            <option value="I want API access">I want API access</option>
+            <option value="I want to train a model">
+              I want to train a model
+            </option>
+            <option value="I want to deploy Krea on my own servers">
+              I want to deploy Krea on my own servers
+            </option>
+            <option
+              value="I need an exclusive license for the content I create"
+            >
+              I need an exclusive license for the content I create
+            </option>
+            <option value="I need more compute units">
+              I need more compute units
+            </option>
+            <option value="I have certain security requirements">
+              I have certain security requirements
+            </option>
+            <option value="I want to integrate Krea with my existing systems">
+              I want to integrate Krea with my existing systems
+            </option>
+            <option value="I have a complicated custom use case">
+              I have a complicated custom use case
+            </option>
+            <option value="I want affordable pricing">
+              I want affordable pricing
+            </option>
+            <option value="Other">Other</option>
+            <!---->
+          </select>
+        </div>
+        <div>
+          <label
+            for="message"
+            class="text-primary-700 dark:text-primary-300 mb-1.5 block text-xs font-medium sm:mb-2 sm:text-sm"
+            >Tell us more about your needs</label
+          >
+          <textarea
+            id="message"
+            rows="3"
+            class="border-primary-300 dark:border-primary-700 bg-primary-0 dark:bg-primary-800 text-primary-900 dark:text-primary-100 w-full resize-none rounded-lg border px-3 py-2 text-sm transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:px-4 sm:py-3 sm:text-base dark:focus:ring-blue-800"
+            placeholder="Tell us about your team size, current workflow, and specific requirements..."
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="bg-primary-900 hover:bg-primary-800 disabled:bg-primary-400 dark:bg-primary-100 dark:hover:bg-primary-200 dark:text-primary-900 w-full rounded-lg px-4 py-3 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed sm:px-6 sm:py-4 sm:text-base"
+        >
+          Submit Inquiry<!---->
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

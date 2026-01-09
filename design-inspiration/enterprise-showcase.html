@@ -1,0 +1,123 @@
+<section class="my-12 sm:my-16 lg:my-20">
+  <h2
+    class="text-primary-900 dark:text-primary-100 mb-2 text-center text-2xl font-semibold sm:text-3xl md:text-4xl"
+  >
+    All the best models in one interface.
+  </h2>
+  <p
+    class="text-primary-600 dark:text-primary-400 mx-auto mb-6 max-w-3xl text-center text-sm sm:mb-10 sm:text-base"
+  >
+    Get complete creative control with access to over 50 AI models across image,
+    video, and 3D.
+  </p>
+  <div
+    class="mx-auto mb-6 flex max-w-3xl flex-wrap items-center justify-center gap-2"
+  >
+    <button
+      class="rounded-full px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm bg-primary-900 dark:bg-primary-100 dark:text-primary-900 text-white"
+    >
+      Image
+    </button>
+    <button
+      class="rounded-full px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-900 dark:text-primary-100"
+    >
+      Video
+    </button>
+    <button
+      class="rounded-full px-3 py-1 text-xs font-medium sm:px-4 sm:text-sm bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-900 dark:text-primary-100"
+    >
+      Next&nbsp;Gen
+    </button>
+  </div>
+  <div class="grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
+    <div class="order-2 lg:order-1">
+      <h3
+        class="text-primary-900 dark:text-primary-100 mb-3 text-xl font-semibold sm:mb-4 sm:text-2xl"
+      >
+        Edit, Transform and Generate Images
+      </h3>
+      <p
+        class="text-primary-600 dark:text-primary-400 mb-4 text-sm sm:mb-6 sm:text-base"
+      >
+        Perfect for product placement, image enhancement, editing, and more.
+      </p>
+      <div class="flex flex-wrap gap-2 sm:gap-3">
+        <button
+          class="rounded-full px-3 py-1 text-xs font-medium transition-colors sm:text-sm bg-primary-900 dark:bg-primary-100 dark:text-primary-900 text-white"
+        >
+          Product Placement</button
+        ><button
+          class="rounded-full px-3 py-1 text-xs font-medium transition-colors sm:text-sm bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-900 dark:text-primary-100"
+        >
+          Enhance</button
+        ><button
+          class="rounded-full px-3 py-1 text-xs font-medium transition-colors sm:text-sm bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-900 dark:text-primary-100"
+        >
+          Realtime
+        </button>
+      </div>
+    </div>
+    <div class="order-1 lg:order-2">
+      <div class="rounded-2xl bg-black/5 p-1.5 sm:p-2 dark:bg-white/5">
+        <!---->
+        <div
+          role="slider"
+          aria-label="Image comparison slider"
+          tabindex="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          class="text-primary-0 relative h-full w-full overflow-hidden select-none h-[280px] w-full rounded-xl sm:h-[360px] md:h-[420px] lg:h-[480px] svelte-1miz3vm"
+          aria-valuenow="50"
+        >
+          <div class="relative h-full w-full">
+            <div
+              class="relative h-full w-full overflow-hidden transition-transform duration-1000 ease-in-out"
+            >
+              <img
+                class="h-full w-full object-contain object-center"
+                draggable="false"
+                src="https://www.krea.ai/_app/b94edb9695cfef9c/immutable/assets/hold-product-after.cxlg4tC1.webp"
+                alt="After"
+              />
+            </div>
+            <div
+              class="absolute inset-0 overflow-hidden transition-[clip-path] duration-1000 ease-in-out"
+              style="clip-path: polygon(0px 0px, 50% 0px, 50% 100%, 0px 100%)"
+            >
+              <div
+                class="relative h-full w-full overflow-hidden transition-transform duration-1000 ease-in-out"
+              >
+                <img
+                  class="h-full w-full object-contain object-center"
+                  draggable="false"
+                  src="https://www.krea.ai/_app/b94edb9695cfef9c/immutable/assets/hold-product-before.ChmX39Ew.webp"
+                  alt="Before"
+                />
+              </div>
+            </div>
+            <div
+              class="absolute top-0 bottom-0 h-full w-4 transition-[left] duration-1000 ease-in-out"
+              style="left: calc(50% - 8px)"
+            >
+              <div
+                class="absolute left-1/2 h-full -translate-x-1/2 bg-white transition-[width] duration-300 ease-out w-[1px]"
+              ></div>
+            </div>
+          </div>
+          <div
+            class="bg-primary-1000/40 pointer-events-none absolute top-3 left-3 rounded-md px-2 py-1 text-xs font-medium backdrop-blur-lg sm:rounded-lg"
+          >
+            Before
+          </div>
+          <div
+            class="bg-primary-1000/40 pointer-events-none absolute top-3 right-3 rounded-md px-2 py-1 text-xs font-medium backdrop-blur-lg sm:rounded-lg"
+          >
+            After
+          </div>
+          <!---->
+        </div>
+        <!---->
+      </div>
+    </div>
+  </div>
+</section>

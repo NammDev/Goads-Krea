@@ -1,0 +1,473 @@
+@import "tailwindcss";
+
+/* Krea Design System - Tailwind CSS v4 Theme Configuration */
+@theme inline {
+  /* Colors - Primary Scale (Gray tones) */
+  --color-primary-0: #ffffff;
+  --color-primary-50: #f9fafb;
+  --color-primary-100: #f5f5f5;
+  --color-primary-150: #ebebeb;
+  --color-primary-200: #e5e5e5;
+  --color-primary-300: #d4d4d4;
+  --color-primary-400: #a3a3a3;
+  --color-primary-500: #737373;
+  --color-primary-600: #525252;
+  --color-primary-700: #404040;
+  --color-primary-800: #262626;
+  --color-primary-850: #1f1f1f;
+  --color-primary-900: #171717;
+  --color-primary-950: #0a0a0a;
+  --color-primary-1000: #000000;
+
+  /* Accent Colors */
+  --color-accent-600: #2563eb;
+  --color-accent-700: #1d4ed8;
+
+  /* Typography */
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Font sizes with line-height */
+  --font-size-xsm: 13px;
+  --font-size-xsm--line-height: 1;
+  --font-size-xsm--letter-spacing: 0.1em;
+
+  --font-size-xbase: 15px;
+  --font-size-xbase--line-height: 1.5;
+  --font-size-xbase--letter-spacing: 0.01em;
+
+  /* Spacing */
+  --spacing-header: 68px;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+
+  /* Container sizes (rem-based) */
+  --container-3xs: 16rem;
+  --container-2xs: 18rem;
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+  --container-2xl: 42rem;
+  --container-3xl: 48rem;
+  --container-4xl: 56rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --container-7xl: 80rem;
+
+  /* Container sizes (px-based for screen widths) */
+  --container-ssm: 640px;
+  --container-smd: 768px;
+  --container-slg: 1024px;
+  --container-sxl: 1280px;
+  --container-s2xl: 1536px;
+  --container-s3xl: 1792px;
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-primary-1000);
+  color: var(--color-primary-0);
+  margin: 0;
+  padding: 0;
+}
+
+/* Text Selection */
+::selection {
+  background-color: var(--color-primary-1000);
+  color: var(--color-primary-0);
+}
+
+/* Scrollbar hide utility - use .no-scrollbar class */
+/* Note: .scrollbar-hide kept for backwards compatibility with HTML templates */
+.scrollbar-hide,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Text gradient utility */
+.text-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #737373 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button active scale */
+.active-scale-95:active {
+  transform: scale(0.95);
+}
+
+/* Thin border utility */
+.thin-border {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation hover effect */
+.nav-link-hover:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Feature dropdown shadow */
+.dropdown-shadow {
+  box-shadow: 0px 20px 39px -20px rgba(0, 0, 0, 0.25);
+}
+
+/* App window shadow */
+.app-window-shadow {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom max-width utilities matching Krea's design system */
+.max-w-ssm {
+  max-width: var(--container-ssm);
+}
+.max-w-smd {
+  max-width: var(--container-smd);
+}
+.max-w-slg {
+  max-width: var(--container-slg);
+}
+.max-w-sxl {
+  max-width: var(--container-sxl);
+}
+.max-w-s2xl {
+  max-width: var(--container-s2xl);
+}
+.max-w-s3xl {
+  max-width: var(--container-s3xl);
+}
+
+/* Custom border radius utilities */
+.rounded-3xl {
+  border-radius: var(--radius-3xl);
+}
+.rounded-4xl {
+  border-radius: var(--radius-4xl);
+}
+
+/* Section container - horizontal padding matching Krea's layout */
+.section-container {
+  padding-left: 1.25rem;  /* px-5 = 20px */
+  padding-right: 1.25rem;
+}
+@media (min-width: 768px) {
+  .section-container {
+    padding-left: 4rem;   /* md:px-16 = 64px */
+    padding-right: 4rem;
+  }
+}
+
+/* Header utilities */
+.header-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-inverted {
+  background-color: transparent;
+}
+
+/* Mobile menu utilities */
+.mobile-menu-inverted {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* 3D transform utilities */
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Perspective container */
+.perspective-10 {
+  perspective: 10px;
+}
+
+/* Marquee animation for model showcase */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left var(--duration, 32s) linear infinite;
+}
+
+/* Marquee gap variable */
+.models-marquee {
+  --gap: 2.5rem; /* gap-10 = 40px */
+}
+
+/* Bento Grid Layout - Desktop: 16 columns x 14 rows (pixel perfect) */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(14, minmax(50px, auto));
+  grid-template-areas:
+    "speed speed speed speed speed speed speed upscaling upscaling upscaling train train train train train train"
+    "speed speed speed speed speed speed speed upscaling upscaling upscaling train train train train train train"
+    "speed speed speed speed speed speed speed upscaling upscaling upscaling train train train train train train"
+    "speed speed speed speed speed speed speed upscaling upscaling upscaling train train train train train train"
+    "fourk fourk fourk fourk k1 k1 k1 k1 k1 k1 k1 k1 k1 donottrain donottrain donottrain"
+    "fourk fourk fourk fourk k1 k1 k1 k1 k1 k1 k1 k1 k1 donottrain donottrain donottrain"
+    "fourk fourk fourk fourk k1 k1 k1 k1 k1 k1 k1 k1 k1 models models models"
+    "minimalist minimalist minimalist minimalist k1 k1 k1 k1 k1 k1 k1 k1 k1 models models models"
+    "minimalist minimalist minimalist minimalist k1 k1 k1 k1 k1 k1 k1 k1 k1 models models models"
+    "minimalist minimalist minimalist minimalist k1 k1 k1 k1 k1 k1 k1 k1 k1 models models models"
+    "assetmanager assetmanager assetmanager bleedingedge bleedingedge bleedingedge styles styles editor editor editor lipsync lipsync threed threed threed"
+    "assetmanager assetmanager assetmanager bleedingedge bleedingedge bleedingedge styles styles editor editor editor lipsync lipsync threed threed threed"
+    "assetmanager assetmanager assetmanager bleedingedge bleedingedge bleedingedge styles styles editor editor editor lipsync lipsync threed threed threed"
+    "assetmanager assetmanager assetmanager bleedingedge bleedingedge bleedingedge styles styles editor editor editor lipsync lipsync threed threed threed";
+}
+
+/* Tablet/Mobile bento grid (4 columns) */
+@media (max-width: 1024px) {
+  .bento {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(21, minmax(80px, auto));
+    grid-template-areas:
+      "speed speed speed speed"
+      "speed speed speed speed"
+      "upscaling upscaling fourk fourk"
+      "upscaling upscaling fourk fourk"
+      "train train train train"
+      "train train train train"
+      "k1 k1 k1 k1"
+      "k1 k1 k1 k1"
+      "k1 k1 k1 k1"
+      "k1 k1 k1 k1"
+      "bleedingedge bleedingedge bleedingedge bleedingedge"
+      "bleedingedge bleedingedge bleedingedge bleedingedge"
+      "donottrain donottrain donottrain donottrain"
+      "models models assetmanager assetmanager"
+      "models models assetmanager assetmanager"
+      "minimalist minimalist minimalist minimalist"
+      "minimalist minimalist minimalist minimalist"
+      "styles editor editor editor"
+      "styles editor editor editor"
+      "lipsync threed threed threed"
+      "lipsync threed threed threed";
+  }
+}
+
+/* Gradient header text - matching original Krea */
+.gradient-header {
+  background: linear-gradient(200deg, #646464, #000);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Wave animation for Lipsync */
+#waveContainer .wave-bar {
+  animation: audio-wave 1s ease-in-out infinite;
+  --height: var(--total-height);
+}
+
+@media screen and (max-width: 640px) {
+  #waveContainer .wave-bar {
+    --height: calc(var(--total-height) * 0.7);
+  }
+}
+
+#waveContainer .bar-1 { animation-delay: 0.1s; }
+#waveContainer .bar-2 { animation-delay: 0.2s; }
+#waveContainer .bar-3 { animation-delay: 0.3s; }
+#waveContainer .bar-4 { animation-delay: 0.4s; }
+#waveContainer .bar-5 { animation-delay: 0.5s; }
+#waveContainer .bar-6 { animation-delay: 0.6s; }
+
+@keyframes audio-wave {
+  0%, 100% {
+    height: calc(var(--height) * 0.5);
+  }
+  50% {
+    height: calc(var(--height) * 1);
+  }
+}
+
+/* Snug letter spacing */
+.tracking-snug {
+  letter-spacing: -0.025em;
+}
+
+/* Scale 220% utility for image zoom effect */
+.scale-220 {
+  transform: scale(2.2);
+}
+
+/* Button gradient animation for CTA buttons */
+.button-gradient-primary {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.button-gradient-secondary {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+@keyframes translate-x-66 {
+  0% {
+    transform: translateX(-66.666%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Button gradient transition utility */
+.button-gradient-transition {
+  transition: all 0.2s ease-out;
+}
+
+/* ============================================
+   Creator Plan Slider - Pixel Perfect Match
+   ============================================ */
+
+/* Slider Track - White bg with border, 1rem height */
+.creator-plan-slider [data-slot=slider-track] {
+  height: 1rem !important;
+  background-color: #fff !important;
+  border: 1px solid rgb(229 231 235) !important;
+  cursor: grab !important;
+}
+
+/* Slider Range - Dark fill */
+.creator-plan-slider [data-slot=slider-range] {
+  background-color: #171717 !important;
+  cursor: grab !important;
+}
+
+/* Slider Thumb - Large rounded square with shadow */
+.creator-plan-slider [data-slot=slider-thumb] {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-width: 2px !important;
+  border-color: #d2d2d2ca !important;
+  background-color: #fff !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 9px 8px #0003, 0 6px 4px -1px #0003 !important;
+  cursor: grab !important;
+}
+
+.creator-plan-slider [data-slot=slider-thumb]:active {
+  cursor: grabbing !important;
+}
+
+.creator-plan-slider [data-slot=slider-thumb]:hover {
+  box-shadow: 0 9px 8px #00000040, 0 6px 4px -1px #00000040 !important;
+  transition: box-shadow 0.2s ease-in-out !important;
+}
+
+/* Dark mode variants */
+.dark .creator-plan-slider [data-slot=slider-track] {
+  background-color: #0a0a0a !important;
+  border: 1px solid rgb(38 38 38) !important;
+}
+
+.dark .creator-plan-slider [data-slot=slider-range] {
+  background-color: #fff !important;
+}
+
+.dark .creator-plan-slider [data-slot=slider-thumb] {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-color: #262626 !important;
+  background-color: #fff !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 9px 8px #0006, 0 6px 4px -1px #0006 !important;
+}
+
+.dark .creator-plan-slider [data-slot=slider-thumb]:active {
+  cursor: grabbing !important;
+}
+
+.dark .creator-plan-slider [data-slot=slider-thumb]:hover {
+  box-shadow: 0 9px 8px #00000073, 0 6px 4px -1px #00000073 !important;
+  transition: box-shadow 0.2s ease-in-out !important;
+}
+
+/* Price flow suffix styling */
+.price-flow::part(suffix) {
+  margin-left: 0.125em;
+  font-weight: 500;
+  font-size: 0.4em;
+  opacity: 0.6;
+}
+
+/* Compute flow suffix styling */
+.compute-flow::part(suffix) {
+  margin-left: 0.25em;
+  font-weight: 500;
+  font-size: 0.65em;
+  opacity: 0.8;
+}
+
+/* ============================================
+   CTA Banner Section - Cross Pattern & Gradient
+   ============================================ */
+
+/* Cross pattern background for dark sections */
+.cross-pattern {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.15) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+/* Ellipse gradient overlay for banner */
+.ellipse-gradient {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(60, 60, 60, 0.4) 0%,
+    transparent 50%
+  );
+}
+
+/* Tertiary button gradient (dark on white bg) */
+.button-gradient-tertiary {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}

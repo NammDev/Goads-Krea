@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(chrome-devtools)",
+      "Bash(SKILL_DIR=\"$HOME/.claude/skills/chrome-devtools/scripts\")",
+      "Bash(node:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(wc:*)"
+    ]
+  }
+}

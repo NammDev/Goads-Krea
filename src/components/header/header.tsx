@@ -73,24 +73,42 @@ export function Header() {
                   isInverted ? "text-black" : "text-white"
                 )}
               >
-                <NavLink href="/app" inverted={isInverted}>App</NavLink>
+                <NavLink href="/app" inverted={isInverted}>
+                  App
+                </NavLink>
                 <FeaturesDropdown
                   isOpen={isFeaturesOpen}
                   onOpenChange={setIsFeaturesOpen}
                   inverted={isInverted}
                 />
-                <NavLink href="/features/ai-image-generator" inverted={isInverted}>
+                <NavLink
+                  href="/features/ai-image-generator"
+                  inverted={isInverted}
+                >
                   Image
                 </NavLink>
-                <NavLink href="/features/ai-video-generator" inverted={isInverted}>
+                <NavLink
+                  href="/features/ai-video-generator"
+                  inverted={isInverted}
+                >
                   Video
                 </NavLink>
-                <NavLink href="/features/ai-upscaler" inverted={isInverted}>Upscaler</NavLink>
-                <NavLink href="https://docs.krea.ai" external inverted={isInverted}>
+                <NavLink href="/features/ai-upscaler" inverted={isInverted}>
+                  Upscaler
+                </NavLink>
+                <NavLink
+                  href="https://docs.krea.ai"
+                  external
+                  inverted={isInverted}
+                >
                   API
                 </NavLink>
-                <NavLink href="/pricing" inverted={isInverted}>Pricing</NavLink>
-                <NavLink href="/enterprise" inverted={isInverted}>Enterprise</NavLink>
+                <NavLink href="/pricing" inverted={isInverted}>
+                  Pricing
+                </NavLink>
+                <NavLink href="/enterprise" inverted={isInverted}>
+                  Enterprise
+                </NavLink>
               </nav>
             </div>
           </div>

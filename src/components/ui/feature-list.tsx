@@ -60,7 +60,7 @@ export function FeatureList({
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 text-sm sm:text-base",
+        "flex flex-col gap-3 text-sm",
         spacing === "sm" && "mb-5",
         spacing === "md" && "mb-8",
         spacing === "none" && "mb-0",
@@ -73,10 +73,10 @@ export function FeatureList({
       {features.map((feature) => {
         const { text, badge } = normalizeFeature(feature);
         return (
-          <div key={text} className="flex items-start gap-2">
+          <div key={text} className="flex items-center gap-3">
             <CheckIcon
               className={cn(
-                "mt-0.5 h-4 w-4 shrink-0",
+                "h-4 w-4 shrink-0",
                 variant === "default" && "text-primary-500",
                 variant === "dark" && "text-primary-400",
                 variant === "enterprise" && "text-green-500"

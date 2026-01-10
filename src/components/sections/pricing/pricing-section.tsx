@@ -1,30 +1,31 @@
 "use client";
 
+import { AnimatedText } from "@/components/ui/animated-text";
 import { FreePricingCard } from "./free-pricing-card";
 import { IndividualPricingCard } from "./individual-pricing-card";
 import { BusinessPricingCard } from "./business-pricing-card";
 import { EnterprisePricingCard } from "./enterprise-pricing-card";
 
-/** Heading lines for the pricing section */
+/** Heading lines for the pricing section with cumulative letter counts for stagger */
 const HEADING_LINES = [
-  "Trusted by over 30,000,000 users",
-  "From 191 countries.",
-  "We've got a plan for everybody...",
+  { text: "Trusted by over 30,000,000 users", baseDelay: 0 },
+  { text: "From 191 countries.", baseDelay: 640 }, // ~32 letters * 20ms
+  { text: "We've got a plan for everybody...", baseDelay: 1020 }, // +19 letters
 ] as const;
 
 /**
- * Pricing section heading
- * Simple rendering without per-character animation overhead
+ * Pricing section heading with letter-by-letter reveal animation
+ * Each line staggers from the previous line's end
  */
 function PricingHeading() {
   return (
     <h2
       className="flex flex-col gap-6 text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-      aria-label={HEADING_LINES.join(" ")}
+      aria-label={HEADING_LINES.map((l) => l.text).join(" ")}
     >
       {HEADING_LINES.map((line) => (
-        <span key={line} className="block">
-          {line}
+        <span key={line.text} className="block">
+          <AnimatedText text={line.text} baseDelay={line.baseDelay} />
         </span>
       ))}
     </h2>

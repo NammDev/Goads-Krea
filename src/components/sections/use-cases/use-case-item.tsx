@@ -27,7 +27,7 @@ export function UseCaseItem({
         onKeyDown={(e) => e.key === "Enter" && onClick()}
         className={`group flex w-full cursor-pointer select-none flex-col gap-2.5 rounded-xl p-5 text-left transition duration-300 ease-out active:scale-[0.98] ${
           isActive
-            ? "text-primary-600"
+            ? "bg-primary-100 text-primary-600"
             : "text-primary-400 sm:hover:text-primary-600"
         }`}
       >

@@ -35,14 +35,16 @@ export function EnterprisePricingCard() {
         <div className="text-primary-500 mb-4 text-sm font-medium">
           Everything in Business, plus:
         </div>
-        <FeatureList features={ENTERPRISE_FEATURES} variant="dark" className="mb-0" />
+        <FeatureList
+          features={ENTERPRISE_FEATURES}
+          variant="dark"
+          className="mb-0"
+        />
       </div>
 
       {/* CTA */}
       <div className="mt-auto">
-        <PricingButton href="/enterprise" variant="white">
-          Contact sales
-        </PricingButton>
+        <PricingButton href="/enterprise">Contact sales</PricingButton>
       </div>
     </PricingCardBase>
   );

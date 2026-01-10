@@ -83,8 +83,12 @@ export function FeatureCard({
                   )}
                   style={{ willChange: "transform" }}
                 >
-                  {/* Button gradient overlay */}
-                  <span className="absolute top-0 left-0 z-[-1] block h-full w-[300%] rounded-md button-gradient-secondary dark:hidden" />
+                  {/* Button gradient overlay - animated diagonal glass sweep */}
+                  <span
+                    data-button-gradient=""
+                    className="absolute top-0 left-0 z-[-1] block h-full w-[300%] rounded-md button-gradient-secondary dark:hidden"
+                    style={{ animation: "translate-x-66 1.25s ease-in-out infinite" }}
+                  />
                   {actionLabel}
                 </Link>
               </div>

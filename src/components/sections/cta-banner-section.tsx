@@ -2,11 +2,71 @@ import { GradientButton } from "@/components/ui/gradient-button";
 
 /**
  * CtaBannerSection - Full-width CTA banner with cross pattern background
- * Dark background with ellipse gradient overlay and centered content
+ * Dark background with ellipse gradient overlay and floating images
  */
 export function CtaBannerSection() {
   return (
     <section className="cross-pattern bg-primary-1000 relative flex justify-center overflow-hidden py-20">
+      {/* Floating images background - blurred decoration */}
+      <div className="absolute inset-0 flex h-full w-full items-center justify-center opacity-30 blur-sm">
+        <div className="max-w-sxl relative h-[500px] w-full min-w-[500px] md:h-[600px]">
+          <div className="absolute top-0 left-0 h-full w-full">
+            {/* Top left image */}
+            <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute top-10 left-20 rotate-12 overflow-hidden rounded-xl shadow-lg">
+              <div className="h-full w-full">
+                <img
+                  className="h-full w-full object-cover select-none"
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  src="https://s.krea.ai/free-access-img1.webp"
+                  alt="Professional architectural render showcasing modern design"
+                />
+              </div>
+            </div>
+            {/* Top right image */}
+            <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute top-10 right-10 -rotate-12 overflow-hidden rounded-xl shadow-lg">
+              <div className="h-full w-full">
+                <img
+                  className="h-full w-full object-cover select-none"
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  src="https://s.krea.ai/free-access-img2.webp"
+                  alt="Architectural visualization of building exterior"
+                />
+              </div>
+            </div>
+            {/* Bottom left image */}
+            <div className="will-change-transform w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] md:w-[190px] md:h-[190px] aspect-square absolute bottom-10 left-10 -rotate-[19deg] overflow-hidden rounded-xl shadow-lg">
+              <div className="h-full w-full">
+                <img
+                  className="h-full w-full object-cover select-none"
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  src="https://s.krea.ai/free-access-img3.webp"
+                  alt="Interior architectural rendering with natural light"
+                />
+              </div>
+            </div>
+            {/* Bottom right image */}
+            <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute bottom-10 right-10 rotate-[11deg] overflow-hidden rounded-xl shadow-lg">
+              <div className="h-full w-full">
+                <img
+                  className="h-full w-full object-cover select-none"
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  src="https://s.krea.ai/free-access-img4.webp"
+                  alt="Landscape architecture visualization"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Ellipse gradient overlay */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="ellipse-gradient max-w-s2xl absolute top-1/2 left-1/2 h-[100vh] w-[150vw] -translate-x-1/2 -translate-y-1/2" />

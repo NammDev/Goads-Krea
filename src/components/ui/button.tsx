@@ -16,7 +16,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           // Base styles
           "inline-flex shrink-0 items-center justify-center gap-2",
           "text-sm font-medium whitespace-nowrap",
-          "rounded-md outline-none",
+          "rounded-md outline-none cursor-pointer",
           // Krea's exact transition
           "transition-[opacity,scale,transform,background-color] duration-400 ease-out",
           // Active scale with smooth 150ms transition

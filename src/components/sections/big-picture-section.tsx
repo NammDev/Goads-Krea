@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/ui/section-header";
 
@@ -16,14 +15,6 @@ const SLIDES: readonly SlideData[] = [
   {
     image: "https://s.krea.ai/krea-1/skinTexture.webp",
     title: "Photorealistic skin textures and color science",
-  },
-  {
-    image: "https://s.krea.ai/krea-1/cameraAngles.webp",
-    title: "Dynamic camera angles and perspectives",
-  },
-  {
-    image: "https://s.krea.ai/krea-1/expressiveStyles.webp",
-    title: "Expressive artistic styles and aesthetics",
   },
   {
     image: "https://s.krea.ai/krea-1/carCloseup.webp",
@@ -88,45 +79,28 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 
 /**
  * Big Picture Section - Krea 1 model showcase
- * Features: Embla carousel with progress bar and navigation
+ * Features: Simple fade carousel with progress bar and navigation
  */
 export function BigPictureSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Update selected index and progress on scroll
-  const onScroll = useCallback(() => {
-    if (!emblaApi) return;
-    const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
-    setScrollProgress(progress);
-  }, [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
+  // Preload all images on mount for instant transitions
   useEffect(() => {
-    if (!emblaApi) return;
+    SLIDES.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
 
-    onSelect();
-    onScroll();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("scroll", onScroll);
-    emblaApi.on("reInit", onSelect);
+  const scrollPrev = useCallback(() => {
+    setSelectedIndex((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+  }, []);
 
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("scroll", onScroll);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi, onSelect, onScroll]);
+  const scrollNext = useCallback(() => {
+    setSelectedIndex((prev) => (prev + 1) % SLIDES.length);
+  }, []);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  // Calculate progress for the vertical bar (based on selected slide)
+  // Calculate progress for the vertical bar
   const progressPercent = (selectedIndex + 1) / SLIDES.length;
 
   return (
@@ -140,66 +114,55 @@ export function BigPictureSection() {
           darkSubtitle
         />
         <p className="text-primary-500 max-w-2xl text-lg font-normal md:text-xl lg:text-end">
-          Krea 1 is our proprietary image model. Unlike traditional models, it offers accurate skin
-          textures, dynamic camera angles, and expressive styles. Discover an exceptionally artistic
-          latent space.
+          Krea 1 is our proprietary image model. Unlike traditional models, it
+          offers accurate skin textures, dynamic camera angles, and expressive
+          styles. Discover an exceptionally artistic latent space.
         </p>
       </div>
 
       {/* Carousel Container */}
-      <div className="embla bg-primary-200 relative h-[30rem] w-full overflow-hidden rounded-3xl">
-        {/* Embla Viewport */}
-        <div className="embla__viewport absolute z-0 h-full w-full" ref={emblaRef}>
-          <div className="embla__container relative h-full w-full">
-            {SLIDES.map((slide, index) => (
-              <div
-                key={slide.image}
-                className={cn(
-                  "embla__slide absolute top-0 left-0 h-full w-full transition-opacity duration-300",
-                  index === selectedIndex
-                    ? "opacity-100 pointer-events-auto"
-                    : "opacity-0 pointer-events-none"
-                )}
-                style={{
-                  transform: `translateX(${(index - selectedIndex) * 100}%)`,
-                }}
-              >
-                {/* Slide Image */}
-                <img
-                  className="embla__slide__img relative z-0 h-full w-full object-cover"
-                  alt={slide.title}
-                  loading="lazy"
-                  src={slide.image}
-                />
+      <div className="relative h-[30rem] w-full overflow-hidden rounded-3xl">
+        {/* Slides - stacked with fade transition */}
+        {SLIDES.map((slide, index) => (
+          <div
+            key={slide.image}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-500 ease-out",
+              index === selectedIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+            )}
+          >
+            {/* Slide Image - use background-image for instant display */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${slide.image})` }}
+            />
 
-                {/* Gradient Overlay */}
-                <div
-                  className="absolute bottom-0 left-0 h-[50%] w-full"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, rgba(0, 0, 0, 0.5) 100%)",
-                  }}
-                />
+            {/* Gradient Overlay */}
+            <div
+              className="absolute bottom-0 left-0 h-[50%] w-full"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, rgba(0, 0, 0, 0.5) 100%)",
+              }}
+            />
 
-                {/* Text Overlay */}
-                <div className="absolute bottom-0 left-0 z-10 flex w-full p-5 md:p-12">
-                  <p className="text-primary-0 -tracking-snug max-w-sm text-2xl font-semibold md:text-3xl">
-                    {slide.title}
-                  </p>
-                  <div className="block w-32 shrink-0" />
-                </div>
-              </div>
-            ))}
+            {/* Text Overlay */}
+            <div className="absolute bottom-0 left-0 z-10 flex w-full p-5 md:p-12">
+              <p className="text-primary-0 -tracking-snug max-w-sm text-2xl font-semibold md:text-3xl">
+                {slide.title}
+              </p>
+              <div className="block w-32 shrink-0" />
+            </div>
           </div>
-        </div>
+        ))}
 
         {/* Controls Overlay */}
         <div className="absolute top-0 left-0 z-20 flex h-full w-full flex-col p-5 md:p-12">
           {/* Progress Bar */}
           <div className="flex flex-1 flex-col md:justify-center">
-            <div className="embla__progress bg-primary-500 relative h-24 w-1.5 overflow-hidden rounded-full">
+            <div className="bg-primary-500 relative h-24 w-1.5 overflow-hidden rounded-full">
               <div
-                className="embla__progress__bar bg-primary-0 absolute bottom-0 left-0 h-full w-full origin-bottom transition-transform duration-300"
+                className="bg-primary-0 absolute bottom-0 left-0 h-full w-full origin-bottom transition-transform duration-300"
                 style={{ transform: `scaleY(${progressPercent})` }}
               />
             </div>
@@ -212,7 +175,7 @@ export function BigPictureSection() {
               <button
                 name="Show previous slide"
                 onClick={scrollPrev}
-                className="bg-primary-200 hover-supported:hover:opacity-85 flex h-12 w-12 items-center justify-center rounded-full transition-opacity duration-300 ease-in-out"
+                className="bg-primary-200 hover-supported:hover:opacity-85 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full transition-opacity duration-300 ease-in-out"
                 aria-label="Previous slide"
               >
                 <ArrowIcon direction="left" />
@@ -220,7 +183,7 @@ export function BigPictureSection() {
               <button
                 name="Show next slide"
                 onClick={scrollNext}
-                className="bg-primary-200 hover-supported:hover:opacity-75 flex h-12 w-12 items-center justify-center rounded-full transition-opacity duration-300 ease-in-out"
+                className="bg-primary-200 hover-supported:hover:opacity-75 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full transition-opacity duration-300 ease-in-out"
                 aria-label="Next slide"
               >
                 <ArrowIcon direction="right" />

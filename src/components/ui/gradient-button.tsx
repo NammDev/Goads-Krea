@@ -57,6 +57,7 @@ const GradientButton = forwardRef<
 
   const gradientSpan = (
     <span
+      data-button-gradient=""
       className={cn(
         "absolute top-0 left-0 z-[-1] block h-full w-[300%] dark:hidden",
         variant === "primary" && "rounded-md button-gradient-primary",
@@ -64,7 +65,7 @@ const GradientButton = forwardRef<
         variant === "tertiary" && "rounded-full button-gradient-tertiary"
       )}
       style={{
-        animation: "1.25s ease-in-out 0s infinite normal none running translate-x-66",
+        animation: "translate-x-66 1.25s ease-in-out infinite",
       }}
     />
   );

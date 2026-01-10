@@ -284,47 +284,12 @@ hover: background-color: rgba(255, 255, 255, 0.1);
 
 ## Carousel Navigation Buttons
 
-### Container
-
-| Property | Value | Tailwind |
-|----------|-------|----------|
-| Margin Top | `40px` | `mt-10` |
-| Alignment | right | `flex justify-end` |
-| Padding X | `20px / 64px` | `px-5 md:px-16` |
-| Button Gap | `12px` | `gap-3` |
-
-### Navigation Button
-
-| Property | Value | Tailwind |
-|----------|-------|----------|
-| Size | `48px × 48px` | `h-12 w-12` |
-| Shape | circle | `rounded-full` |
-| Background | `#e5e5e5` | `bg-primary-200` |
-| Text Color | black | `text-black` |
-| Cursor | pointer | `cursor-pointer` |
-| Transition | opacity 300ms ease-in-out | `transition-opacity duration-300 ease-in-out` |
-| Hover (Left) | opacity 85% | `hover:opacity-85` |
-| Hover (Right) | opacity 75% | `hover:opacity-75` |
-
-### Arrow Icons (SVG)
-
-| Property | Value |
-|----------|-------|
-| ViewBox | `0 0 10 17` |
-| Size | `10px × 17px` |
-| Fill | `currentColor` |
-| Left Arrow Offset | `-translate-x-px` |
-| Right Arrow Offset | `translate-x-px` |
-
-#### Left Arrow SVG Path
-```svg
-<path d="M0.370118 8.8457C0.370118 8.66992 0.405274 8.50293 0.475587 8.34473C0.54004 8.19238 0.645509 8.0459 0.791993 7.90527L7.55078 1.28711C7.7793 1.06445 8.05762 0.953125 8.38574 0.953125C8.59668 0.953125 8.79297 1.00586 8.97461 1.11133C9.15625 1.2168 9.30274 1.35742 9.41406 1.5332C9.51953 1.70898 9.57227 1.9082 9.57227 2.13086C9.57227 2.45312 9.44922 2.74023 9.20313 2.99219L3.18262 8.8457L9.20313 14.6992C9.44922 14.9453 9.57227 15.2324 9.57227 15.5605C9.57227 15.7773 9.51953 15.9736 9.41406 16.1494C9.30273 16.3311 9.15625 16.4746 8.97461 16.5801C8.79297 16.6855 8.59668 16.7383 8.38574 16.7383C8.05762 16.7383 7.7793 16.627 7.55078 16.4043L0.791993 9.78613C0.651368 9.64551 0.545899 9.49902 0.475587 9.34668C0.405274 9.19433 0.370118 9.02734 0.370118 8.8457Z" fill="currentColor"/>
-```
-
-#### Right Arrow SVG Path
-```svg
-<path d="M9.62988 8.1543C9.62988 8.33008 9.59473 8.49707 9.52441 8.65527C9.45996 8.80762 9.35449 8.9541 9.20801 9.09473L2.44922 15.7129C2.2207 15.9355 1.94238 16.0469 1.61426 16.0469C1.40332 16.0469 1.20703 15.9941 1.02539 15.8887C0.84375 15.7832 0.697266 15.6426 0.585938 15.4668C0.480469 15.291 0.427734 15.0918 0.427734 14.8691C0.427734 14.5469 0.550781 14.2598 0.796875 14.0078L6.81738 8.1543L0.796875 2.30078C0.550781 2.05469 0.427734 1.76758 0.427734 1.43945C0.427734 1.22266 0.480469 1.02637 0.585938 0.850586C0.697266 0.668945 0.84375 0.525391 1.02539 0.419922C1.20703 0.314453 1.40332 0.261719 1.61426 0.261719C1.94238 0.261719 2.2207 0.373047 2.44922 0.595703L9.20801 7.21387C9.34863 7.35449 9.4541 7.50098 9.52441 7.65332C9.59473 7.80566 9.62988 7.97266 9.62988 8.1543Z" fill="currentColor"/>
-```
+| Property | Value | Details |
+|----------|-------|---------|
+| Container | `mt-10 flex justify-end px-5 md:px-16` | Right-aligned, responsive padding |
+| Button | `h-12 w-12 rounded-full bg-primary-200` | 48px circle button |
+| Arrow | `10px × 17px SVG, currentColor` | Directional icons |
+| Hover | opacity 75-85%, transition 300ms | Fade effect |
 
 ---
 
@@ -338,26 +303,21 @@ hover: background-color: rgba(255, 255, 255, 0.1);
 
 ---
 
-## Shadows
+## Shadows & Transitions
 
-| Usage | Value |
-|-------|-------|
-| Button | `0 1px 2px rgba(0, 0, 0, 0.05)` |
-| Card | `0 4px 6px -1px rgba(0, 0, 0, 0.1)` |
-| App Window | `0 25px 50px -12px rgba(0, 0, 0, 0.5)` |
-| Dropdown | `0 25px 50px -12px rgba(0, 0, 0, 0.25)` |
-
----
-
-## Transitions
-
-| Type | Value |
-|------|-------|
-| Fast | `0.1s ease-out` |
-| Base | `0.2s ease-out` |
-| Slow | `0.3s ease-out` |
-| Button Opacity | `opacity 0.3s ease-in-out` |
-| Image Hover | `transform 0.7s` |
+| Type | Value | Usage |
+|------|-------|-------|
+| **Shadows:** | | |
+| Button | `0 1px 2px rgba(0, 0, 0, 0.05)` | Light shadow |
+| Card | `0 4px 6px -1px rgba(0, 0, 0, 0.1)` | Subtle depth |
+| App Window | `0 25px 50px -12px rgba(0, 0, 0, 0.5)` | Heavy depth |
+| Dropdown | `0 25px 50px -12px rgba(0, 0, 0, 0.25)` | Medium depth |
+| **Transitions:** | | |
+| Fast | `0.1s ease-out` | Rapid feedback |
+| Base | `0.2s ease-out` | Standard animation |
+| Slow | `0.3s ease-out` | Emphasis effect |
+| Button Opacity | `opacity 0.3s ease-in-out` | Gradient visibility |
+| Image Hover | `transform 0.7s` | Zoom effect |
 
 ---
 
@@ -371,99 +331,36 @@ hover: background-color: rgba(255, 255, 255, 0.1);
 
 ---
 
-## File Structure
 
-```
-src/
-├── app/
-│   └── globals.css          # Theme + utilities
-├── components/
-│   ├── features/
-│   │   ├── feature-card.tsx   # Individual card
-│   │   └── feature-cards.tsx  # Carousel section
-│   ├── header/
-│   │   ├── header.tsx
-│   │   ├── features-dropdown.tsx
-│   │   └── nav-link.tsx
-│   └── hero/
-│       ├── hero-section.tsx
-│       └── app-preview.tsx
-└── lib/
-    └── utils.ts              # cn() helper
-```
+## Page Layout & Section Pattern
 
----
-
-## Page Layout Structure
-
-### Main Container (page.tsx)
-```
-<main perspective="10px" overflowY="auto">
-  ├─ Sticky Header Container (h-0, z-30)
-  │  ├─ Header (fixed, z-100)
-  │  └─ Mobile Menu (overlay, z-30)
-  │
-  ├─ Content Wrapper (transform-style: preserve-3d)
-  │  │
-  │  ├─ Hero Section (transform-style: preserve-3d)
-  │  │  └─ Min-height: 100vh, background: black, 3D depth
-  │  │
-  │  └─ White Background Container (bg-primary-0)
-  │     └─ Max-width: 1536px (max-w-s2xl), centered (mx-auto)
-  │        ├─ Feature Cards Section
-  │        ├─ Model Showcase Section
-  │        ├─ Bento Section
-  │        ├─ Logo Partners Section
-  │        ├─ Use Cases Section
-  │        └─ Pricing Section
-  │
-  ├─ App Showcase Section (bg-primary-100, full-width)
-  │  └─ Full viewport width, no max-width constraint
-  │
-  ├─ Big Picture + Investor Sections (max-w-s2xl, mx-auto)
-  │  ├─ BigPictureSection
-  │  └─ InvestorShowcaseSection
-  │
-  └─ Footer (bg-primary-100, full-width)
-     └─ Light gray background, full viewport width
-```
-
-### Section Component Pattern
-All section components follow this structure:
+**Section Component Pattern:**
 ```tsx
 export function SectionName() {
   return (
     <section className="bg-primary-0 py-16 lg:py-24">
-      <div className="max-w-s2xl mx-auto">
-        <div className="section-container">
-          {/* Section content */}
-        </div>
+      <div className="max-w-s2xl mx-auto section-container">
+        {/* Content */}
       </div>
     </section>
   );
 }
 ```
 
-### Responsive Padding Strategy
-- **Mobile** (`< 768px`): `section-container` → 20px horizontal padding
-- **Desktop** (`≥ 768px`): `section-container` → 64px horizontal padding
-- **Max Width**: 1536px (`max-w-s2xl`) - Krea standard content width
+**Padding Strategy:**
+- Mobile (`< 768px`): 20px horizontal
+- Desktop (`≥ 768px`): 64px horizontal
+- Max Width: 1536px (`max-w-s2xl`)
 
-### Background Color Zones
+**Background Zones:**
 | Zone | Background | Purpose |
 |------|-----------|---------|
-| Hero | Black (`primary-1000`) | High contrast, immersive |
-| Content Sections | White (`primary-0`) | Standard content area |
-| App Showcase | Light Gray (`primary-100`) | Distinct zone emphasis |
-| Footer | Light Gray (`primary-100`) | Closing section |
+| Hero | `primary-1000` (black) | High contrast |
+| Content | `primary-0` (white) | Standard area |
+| Showcase | `primary-100` (light gray) | Emphasis zone |
+| Footer | `primary-100` | Closing section |
 
-### Z-Index Stacking
-| Layer | Z-Index | Component | Usage |
-|-------|---------|-----------|-------|
-| Header | 100 | Header (fixed) | Always visible, topmost |
-| Sticky | 30 | Sticky header container | Supports sticky behavior |
-| Content | 10 | Main wrapper, sections | Standard content flow |
-| Default | auto | Footer, sections | Normal document flow |
+**Z-Index Stack:** Header (100) → Sticky (30) → Content (10) → Default (auto)
 
 ---
 
@@ -507,32 +404,9 @@ grid-template-areas:
   "assetmanager assetmanager assetmanager bleedingedge bleedingedge bleedingedge styles styles editor editor editor lipsync lipsync threed threed threed";
 ```
 
-### Mobile/Tablet Layout (4 columns × 21 rows)
-```css
-@media (max-width: 1024px) {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(21, minmax(80px, auto));
-}
-```
+**Mobile/Tablet:** `grid-cols-4 grid-rows-21`
 
-### Bento Card Specifications
-
-| Card | Grid Area | Background | Content Style |
-|------|-----------|------------|---------------|
-| Speed | `speed` | Image + dark overlay | White text, centered |
-| 22K Upscaling | `upscaling` | `primary-100` | GradientText + label |
-| Train | `train` | `primary-100` | GradientText + label |
-| 4K | `fourk` | Image background | White text overlay |
-| Krea 1 | `k1` | Image + radial gradient | Large title + subtitle |
-| Minimalist UI | `minimalist` | Image (`primary-1000`) | White text + reflection |
-| Do Not Train | `donottrain` | `primary-100` | GradientText + description |
-| 64+ Models | `models` | `primary-100` | GradientText + label |
-| Asset Manager | `assetmanager` | Image + top gradient | White text, top-left |
-| Bleeding Edge | `bleedingedge` | `primary-100` | Clock component + text |
-| 1000+ Styles | `styles` | Image background | White text, top-left |
-| Image Editor | `editor` | Image + gradient | White text, centered |
-| Lipsync | `lipsync` | `primary-100` | Title + wave animation |
-| Realtime + 3D | `threed` | Split card | Two nested cards |
+**Card Specs:** Speed (image, white text) | Upscaling (primary-100, gradient) | Train (primary-100) | 4K (image) | Krea 1 (radial gradient) | Minimalist (dark) | Models (gradient) | Asset Manager (top gradient) | Bleeding Edge (clock) | 1000+ Styles (image) | Editor (centered) | Lipsync (wave) | 3D (nested)
 
 ### Gradient Header (Bento Text)
 ```css
@@ -565,15 +439,7 @@ grid-template-areas:
 }
 ```
 
-### BleedingEdgeClock Component
-| Property | Value | Details |
-|----------|-------|---------|
-| SVG ViewBox | `0 0 200 200` | Fixed coordinate system |
-| Default Size | `140px` | Configurable via prop |
-| Tick Marks | 60 total | Every 5th skipped for numbers |
-| Hour Numbers | Pre-computed | Fixed precision strings |
-| Animations | CSS transforms | Hour/minute/second hands |
-| Update Interval | 1000ms | Client-side only |
+**BleedingEdgeClock:** ViewBox `0 0 200 200`, 140px size, 60 ticks, CSS animations, 1000ms update
 
 ---
 
@@ -581,36 +447,9 @@ grid-template-areas:
 
 ### SectionHeader Component
 
-**File:** `src/components/ui/section-header.tsx` (60 lines)
-
-**Purpose:** Reusable section header with optional subtitle and title for consistent styling across sections.
-
-**Props:**
-```tsx
-interface SectionHeaderProps {
-  subtitle?: string;           // Smaller text above the title
-  title: string;               // Main heading text
-  ariaLabel?: string;          // Accessibility label (defaults to title)
-  size?: "default" | "large";  // Size variant
-  className?: string;          // Additional classes
-  darkSubtitle?: boolean;      // Dark mode subtitle variant
-}
-```
-
-**Size Variants:**
-- `default`: `text-2xl sm:text-3xl`
-- `large`: `text-2xl sm:text-3xl md:text-5xl` (for hero-like sections)
+**File:** `section-header.tsx` | **Props:** subtitle, title, size ("default"/"large"), darkSubtitle
 
 **Used in:** LogoPartnersSection, BigPictureSection, UseCasesSection, InvestorShowcaseSection
-
-**Example:**
-```tsx
-<SectionHeader
-  subtitle="A tool suite for pros and beginners alike"
-  title="Krea powers millions of creatives worldwide"
-  size="default"
-/>
-```
 
 ---
 
@@ -623,26 +462,42 @@ interface SectionHeaderProps {
 **Props:**
 ```tsx
 type GradientButtonProps = {
-  variant?: "primary" | "secondary";  // Button style variant
-  children: React.ReactNode;          // Button text
-  className?: string;                 // Additional classes
-  as?: "button" | "a";                // HTML element type
-  href?: string;                      // Link href (required if as="a")
+  variant?: "primary" | "secondary" | "tertiary";  // Button style variant
+  children: React.ReactNode;                        // Button text
+  className?: string;                               // Additional classes
+  as?: "button" | "a";                              // HTML element type
+  href?: string;                                    // Link href (required if as="a")
 }
 ```
 
 **Variants:**
-- `primary`: Dark background (#000), white text, gradient animation
-- `secondary`: Light background (#ebebeb), dark text, subtle gradient
+- `primary`: Dark background (#000), white text, gradient animation (120.49deg black→gray→black)
+- `secondary`: Light background (#ebebeb), dark text, subtle gradient (transparent→dark→transparent)
+- `tertiary`: Rounded-full white background, gradient animation (minimal 90deg black→transparent)
+
+**Gradient Implementation:**
+- Uses `data-button-gradient` attribute for gradient span
+- Gradient hidden by default (opacity: 0)
+- Visible on parent hover (`.button-gradient-transition:hover`)
+- Animates with `translate-x-66` keyframe (1.25s, infinite)
 
 **Styling:**
 | Property | Value | Notes |
 |----------|-------|-------|
 | Padding | px-5 py-3 | 20px × 12px |
 | Font Size | 13px | Medium weight |
-| Border Radius | rounded-md | 8px |
+| Border Radius | rounded-md | 8px, tertiary uses rounded-full |
 | Hover | scale-[1.025] | 2.5% growth, 200ms |
-| Animation | 1.25s gradient sweep | Infinite loop |
+| Animation | 1.25s gradient sweep | Infinite loop, 120.49deg diagonal |
+| Gradient Span | `data-button-gradient` | Child element with gradient effect |
+
+**HTML Structure:**
+```tsx
+<button class="button-gradient-transition">
+  <span data-button-gradient class="button-gradient-primary"></span>
+  Button Text
+</button>
+```
 
 **Used in:** LogoPartnersSection, InvestorShowcaseSection, CTAButtonGroup
 
@@ -716,46 +571,13 @@ interface FeatureListProps {
 
 ---
 
-## ModelShowcaseSection & LogoPartnersSection Components
+## ModelShowcaseSection & LogoPartnersSection
 
-### Rotating Cylinder (3D Text Animation)
-**Used in:** ModelShowcaseSection title
+**Rotating Cylinder:** 2000ms rotation (6 words: Generative, Image, Video, 3D, Creative, AI), 700ms transition, 1000px perspective
 
-| Property | Value | Details |
-|----------|-------|---------|
-| Rotation Interval | 2000ms | Auto-cycle through 6 words |
-| Words | Generative, Image, Video, 3D, Creative, AI | Cycling text |
-| Transform Transition | 700ms, ease-in-out | Smooth rotation effect |
-| 3D Perspective | 1000px | Cylinder depth |
-| Spacing Calculation | Dynamic (vw-based) | Responsive to font size |
+**ModelMarquee:** 7 platforms, 32s duration, 48px fade, seamless loop, 28px icons, primary-700 65% opacity text
 
-### ModelMarquee Component
-**Reusable marquee slider with model logos & fade effects**
-
-| Property | Value | Details |
-|----------|-------|---------|
-| Models | 7 AI platforms | Krea, Veo, Ideogram, Runway, Luma, Flux, Gemini |
-| Animation Duration | 32s (default) | Configurable via props |
-| Gap Between Items | `--gap` CSS var | Consistent spacing |
-| Fade Gradients | 48px (L/R) | White to transparent |
-| Loop Type | Seamless | Duplicated row for continuous scroll |
-| Icon Size | size-7 (28px) | Responsive via Tailwind |
-| Text Color | primary-700 at 65% opacity | Gray tone, semi-transparent |
-
-### LogoPartnersSection Layout
-| Element | Style | Details |
-|---------|-------|---------|
-| Subtitle | text-base/primary-400 | "A tool suite for pros..." |
-| Heading | text-2xl/primary-1000 | "Krea powers millions..." |
-| Top Padding | pt-24 (mobile), pt-40 (desktop) | Responsive spacing |
-| CTA Buttons | Two-button row | Sign up (dark), Contact Sales (light) |
-| Button Spacing | gap-2.5 | Close together alignment |
-
-### Button Variants (ModelMarquee sections)
-| Button | Background | Text | Hover Effect |
-|--------|-----------|------|--------------|
-| Primary (Sign up) | primary-1000 (black) | primary-0 (white) | scale-[1.025] 200ms |
-| Secondary (Contact) | primary-150 (light gray) | primary-1000 (black) | scale-[1.025] 200ms |
+**LogoPartnersSection:** Two-button CTA (dark primary + light secondary), responsive pt-24 to pt-40, gap-2.5 spacing
 
 ---
 
@@ -833,27 +655,71 @@ interface FeatureListProps {
 
 ### Button Gradient Animation
 
+**Primary Gradient** (Dark buttons with shine effect):
 ```css
 .button-gradient-primary {
   background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0) 100%
+    120.49deg,
+    #000 41.45%,
+    #b2b2b2e6 50%,
+    #000 60.74%
   );
 }
+```
 
+**Secondary Gradient** (Light buttons with subtle effect):
+```css
+.button-gradient-secondary {
+  background: linear-gradient(
+    120.49deg,
+    transparent 41.45%,
+    rgba(0, 0, 0, 0.12) 50%,
+    transparent 60.74%
+  );
+}
+```
+
+**Tertiary Gradient** (Minimal dark shade):
+```css
+.button-gradient-tertiary {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+```
+
+**Animation Keyframes:**
+```css
 @keyframes translate-x-66 {
   0% { transform: translateX(-66.666%); }
   100% { transform: translateX(0%); }
 }
 ```
 
+**Visibility Control (Hover-only):**
+```css
+[data-button-gradient] {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.button-gradient-transition:hover [data-button-gradient] {
+  opacity: 1;
+}
+
+.button-gradient-transition {
+  transition: all 0.2s ease-out;
+}
+```
+
 **Animation:** `animate-[translate-x-66_1.25s_ease-in-out_infinite]`
-- Duration: 1.25s
-- Timing: ease-in-out
-- Loop: infinite
-- Effect: Sweeping white gradient across button
+- Angle: 120.49deg (diagonal sweep)
+- Effect: Black → gray → black shine that sweeps right-to-left
+- Duration: 1.25s, ease-in-out, infinite loop
+- Visibility: Hidden by default, visible on hover via opacity transition
 
 ### Plan Slider (Interactive)
 
@@ -876,38 +742,12 @@ interface FeatureListProps {
 
 ### Pricing Card Variants
 
-#### Free Card
-- **Icon:** None
-- **Plans:** Single tier only
-- **Price:** $0/month
-- **Features:** 4 features (Pay-as-you-go, Free daily generations, Basic models, 4 concurrent jobs)
-- **CTA:** "Get started free" → `/login`
-
-#### Individual Basic Card
-- **Icon:** 24px image from Krea CDN (https://s.krea.ai/pricing_basic.png)
-- **Plans:** 6 tiers (Basic $9 → Max 4 $96) with PlanSlider
-- **Price Display:** Dynamic price + compute units (5K-75K)
-- **Features:** 4 features (Premium models, 8 concurrent jobs, Commercial license, Credit rollovers)
-- **CTA:** "Choose Individual" → `/pricing`
-- **State:** Slider for tier selection, price updates on selection
-
-#### Business Card
-- **Icon:** None
-- **Plans:** 10 tiers (20K $50 → 1.5M $2500) with compute unit slider
-- **Visible Labels:** Only indices 0, 5, 9 shown (20k, 400k, 1.5M)
-- **All Tiers:** Clickable but labels hidden (invisible)
-- **Price Display:** Dynamic price + compute units (20K-1.5M)
-- **Features:** 6 features (Up to 100 members, 16 concurrent jobs, Credit rollovers, Usage limits, Priority support, Volume discounts)
-- **CTA:** "Choose Business" → `/pricing`
-- **State:** Slider with selective label visibility
-
-#### Enterprise Card
-- **Theme:** Dark (black background, white/gray text)
-- **Plans:** Single "Custom" tier (no slider)
-- **Price Display:** "Custom" (no pricing shown)
-- **Header:** "Everything in Business, plus:"
-- **Features:** 6 enterprise-specific features (Priority SLA support, Advanced security, Custom integrations, No-train policy, MSA legal, Onboarding & training)
-- **CTA:** "Contact sales" (white variant) → `/enterprise`
+| Card | Tiers | Price Range | Features | CTA |
+|------|-------|-------------|----------|-----|
+| Free | 1 | $0/month | 4 (pay-as-you-go, daily free) | Get started free |
+| Individual | 6 | $9-$96/month | 4 (premium, commercial) | Choose Individual |
+| Business | 10 | $50-$2500 | 6 (team, priority) | Choose Business |
+| Enterprise | 1 | Custom | 6 (SLA, security) | Contact sales |
 
 ### Pricing Heading
 
@@ -923,14 +763,18 @@ interface FeatureListProps {
 
 ---
 
-*Updated: 2026-01-08 16:27 | Source: krea.ai pixel-perfect recreation*
+*Updated: 2026-01-10 12:57 | Source: krea.ai pixel-perfect recreation*
 
 **See Also:** [Icon System Reference](./icon-system.md) - Consolidated 35-icon reference guide
 
 **Recent Updates:**
+- Fixed button gradient to diagonal 120.49deg sweep (black → #b2b2b2e6 gray → black)
+- Added tertiary button gradient variant (minimal 90deg black shade)
+- Added hover-only gradient visibility (opacity transition, data-button-gradient attribute)
+- Updated GradientButton component docs with gradient implementation details
+- Added button gradient animation CSS specifications
 - Added Pricing Section with 4-card layout (Free, Individual, Business, Enterprise)
 - Added interactive PlanSlider component specifications with accessibility
-- Added button gradient animation CSS specifications
 - Added Bento Grid Section with 16-column desktop layout
 - Added Lipsync wave animation CSS specifications
 - Added BleedingEdgeClock component hydration-safe implementation

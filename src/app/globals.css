@@ -302,7 +302,7 @@ body {
 
 /* Marquee gap variable */
 .models-marquee {
-  --gap: 2.5rem; /* gap-10 = 40px */
+  --gap: 6rem; /* 96px - matching Krea's logo spacing */
 }
 
 /* Bento Grid Layout - Desktop: 16 columns x 14 rows (pixel perfect) */
@@ -395,7 +395,32 @@ body {
 
 /* Snug letter spacing */
 .tracking-snug {
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
+}
+
+/* ============================================
+   Hover-supported utilities
+   Only applies on devices with hover capability (desktop)
+   ============================================ */
+@media (hover: hover) and (pointer: fine) {
+  .hover-supported\:translate-y-\[53px\] {
+    --tw-translate-y: 53px;
+    translate: var(--tw-translate-x, 0) var(--tw-translate-y);
+  }
+
+  .hover-supported\:translate-y-\[calc\(100\%\+16px\)\] {
+    --tw-translate-y: calc(100% + 16px);
+    translate: var(--tw-translate-x, 0) var(--tw-translate-y);
+  }
+
+  .group:hover .hover-supported\:group-hover\:translate-y-0 {
+    --tw-translate-y: 0;
+    translate: var(--tw-translate-x, 0) var(--tw-translate-y);
+  }
+
+  .group:hover .hover-supported\:group-hover\:scale-110 {
+    transform: scale(1.1);
+  }
 }
 
 /* Scale 220% utility for image zoom effect */

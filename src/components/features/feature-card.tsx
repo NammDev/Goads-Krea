@@ -1,106 +1,97 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { getBadgeIcon, type BadgeIconType } from "@/components/icons";
+import { Krea1Logo } from "@/components/icons";
+import {
+  MediaCard,
+  MediaCardHeader,
+  MediaCardContent,
+  MediaCardPrompt,
+} from "@/components/ui/media-card";
 
 interface FeatureCardProps {
   badge: string;
-  badgeIcon?: BadgeIconType;
   imageSrc: string;
   videoSrc?: string;
   prompt?: string;
   promptLabel?: string;
   actionLabel?: string;
+  actionHref?: string;
   isUpscaler?: boolean;
-  isVideo?: boolean;
   className?: string;
 }
 
+/**
+ * FeatureCard - Pixel-perfect match of Krea's feature card design
+ *
+ * Structure:
+ * - Card container with aspect-[4/5], responsive sizing
+ * - Background image/video with hover zoom (desktop only)
+ * - Gradient overlay for text readability
+ * - Top: Krea1 logo (consistent across all cards)
+ * - Bottom: Prompt text with hover animation, CTA button
+ */
 export function FeatureCard({
   badge,
-  badgeIcon = "krea",
   imageSrc,
   videoSrc,
   prompt,
-  promptLabel = "PROMPT",
-  actionLabel,
+  promptLabel = "Prompt",
+  actionLabel = "Generate image",
+  actionHref = "/image",
   isUpscaler = false,
-  isVideo = false,
   className,
 }: FeatureCardProps) {
+  // Determine default prompt for upscaler cards
+  const displayPrompt = isUpscaler ? "Upscale image 512px → 8K" : prompt;
+
   return (
-    <div
-      className={cn(
-        "relative flex-shrink-0",
-        // Fixed size matching Krea's exact dimensions: 400px × 500px
-        "w-[300px] h-[375px] md:w-[400px] md:h-[500px]",
-        "rounded-2xl sm:rounded-[2rem] overflow-hidden",
-        "group cursor-pointer",
-        className
-      )}
+    <MediaCard
+      imageSrc={imageSrc}
+      videoSrc={videoSrc}
+      alt={displayPrompt || badge}
+      size="feature"
+      hoverZoom={!videoSrc}
+      className={className}
     >
-      {/* Background Image or Video */}
-      {videoSrc ? (
-        <iframe
-          src={videoSrc}
-          className="absolute inset-0 w-full h-full object-cover"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-        />
-      ) : (
-        <img
-          src={imageSrc}
-          alt={prompt || badge}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-      )}
+      {/* Top: Krea1 Logo - consistent across all cards */}
+      <MediaCardHeader>
+        <Krea1Logo />
+      </MediaCardHeader>
 
-      {/* Gradient Overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      {/* Bottom: Prompt and CTA - same structure for all cards */}
+      <MediaCardContent>
+        {displayPrompt && (
+          <>
+            {/* Prompt section - slides up on hover (desktop only) */}
+            <MediaCardPrompt label={promptLabel} text={displayPrompt} />
 
-      {/* Badge - Top Left */}
-      <div
-        className={cn(
-          "absolute top-4 left-4",
-          "flex items-center gap-2",
-          "px-3 py-2",
-          "bg-black/80 backdrop-blur-sm rounded-lg",
-          "text-white text-sm font-semibold"
+            {/* CTA Button - slides up on hover (desktop only) */}
+            <div style={{ willChange: "height" }}>
+              <div className="hover-supported:translate-y-[calc(100%+16px)] hover-supported:group-hover:translate-y-0 pt-4 transition-transform duration-500 ease-out">
+                <Link
+                  href={actionHref}
+                  className={cn(
+                    "flex items-center justify-center relative",
+                    "font-medium leading-[100%] overflow-hidden",
+                    "transition-all hover:scale-[1.025] duration-200 ease-out",
+                    "rounded-md px-5 py-3 text-xsm",
+                    "bg-primary-150 dark:bg-primary-800",
+                    "text-primary-1000 dark:text-white",
+                    "w-fit active-scale-95"
+                  )}
+                  style={{ willChange: "transform" }}
+                >
+                  {/* Button gradient overlay */}
+                  <span className="absolute top-0 left-0 z-[-1] block h-full w-[300%] rounded-md button-gradient-secondary dark:hidden" />
+                  {actionLabel}
+                </Link>
+              </div>
+            </div>
+          </>
         )}
-      >
-        {getBadgeIcon(badgeIcon)}
-        {badge}
-      </div>
-
-      {/* Content - Bottom */}
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        {isUpscaler ? (
-          // Upscaler card content
-          <div>
-            <p className="text-2xl font-medium text-white leading-tight">
-              Upscale image
-            </p>
-            <p className="text-2xl font-medium text-white leading-tight">
-              512px → 8K
-            </p>
-          </div>
-        ) : prompt ? (
-          // Regular card with prompt
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-neutral-400 mb-2">
-              {promptLabel}
-            </p>
-            <p className="text-xl font-medium text-white leading-snug mb-4">
-              "{prompt}"
-            </p>
-            {actionLabel && (
-              <button className="px-5 py-2.5 bg-white text-black text-sm font-medium rounded-lg hover:bg-neutral-100 transition-colors">
-                {actionLabel}
-              </button>
-            )}
-          </div>
-        ) : null}
-      </div>
-    </div>
+      </MediaCardContent>
+    </MediaCard>
   );
 }

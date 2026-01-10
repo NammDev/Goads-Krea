@@ -1,4 +1,5 @@
 export { KreaLogo } from "./krea-logo";
+export { Krea1Logo } from "./krea1-logo";
 export { ChevronIcon } from "./chevron-icon";
 export {
   ImageIcon,

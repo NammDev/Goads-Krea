@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   ChevronIcon,
-  KreaIcon,
+  Krea1Logo,
   ImageGenIcon,
   VideoGenIcon,
   ThreeDGenIcon,
@@ -13,6 +13,12 @@ import {
   FinetuneIcon,
   FileIcon,
 } from "@/components/icons";
+import {
+  MediaCard,
+  MediaCardHeader,
+  MediaCardContent,
+  MediaCardPrompt,
+} from "@/components/ui/media-card";
 
 /** Feature data matching original Krea layout */
 interface FeatureItem {
@@ -160,50 +166,34 @@ function FeatureItemCard({ item }: { item: FeatureItem }) {
 function PromoCard() {
   return (
     <div className="hidden h-full xl:block">
-      <div
-        className="bg-primary-200 relative flex aspect-[4/5] h-[375px] max-h-[375px] shrink-0 overflow-hidden rounded-2xl bg-cover bg-center md:h-[500px] md:max-h-[500px] md:w-auto"
-        role="figure"
-        aria-labelledby="promo-caption"
+      <MediaCard
+        imageSrc="https://s.krea.ai/krea-1/skinTexture.webp"
+        alt="Cinematic photo of a person in a linen jacket"
+        size="promo"
+        hoverZoom={false}
+        className="rounded-2xl"
       >
-        <img
-          loading="lazy"
-          src="https://s.krea.ai/krea-1/skinTexture.webp"
-          alt="Cinematic photo of a person in a linen jacket"
-          className="absolute inset-0 z-0 h-full w-full object-cover"
-        />
-        <div
-          className="relative z-20 flex h-full w-full flex-col justify-between p-5 sm:p-6 md:p-7"
-          style={{
-            backgroundImage:
-              "linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%)",
-          }}
-        >
-          {/* Krea 1 Logo */}
-          <div>
-            <KreaIcon size="lg" className="h-4 text-white md:h-6" />
-          </div>
-          {/* Prompt and CTA */}
-          <div>
-            <div
-              className="text-primary-0/60 pb-2 text-xs font-medium uppercase tracking-widest"
-              id="promo-caption"
+        {/* Krea 1 Logo */}
+        <MediaCardHeader>
+          <Krea1Logo />
+        </MediaCardHeader>
+
+        {/* Prompt and CTA */}
+        <MediaCardContent>
+          <MediaCardPrompt
+            text="Cinematic photo of a person in a linen jacket"
+            animated={false}
+          />
+          <div className="pt-4">
+            <Link
+              href="/image?model=k1"
+              className="bg-primary-150 text-primary-1000 text-xsm active-scale-95 flex w-fit items-center justify-center rounded-md px-5 py-3 font-medium leading-[100%] transition-all duration-200 ease-out hover:scale-[1.025]"
             >
-              Prompt
-            </div>
-            <p className="text-base font-medium leading-tight tracking-tight text-white md:text-3xl">
-              "Cinematic photo of a person in a linen jacket"
-            </p>
-            <div className="pt-4">
-              <Link
-                href="/image?model=k1"
-                className="bg-primary-150 text-primary-1000 text-xsm active-scale-95 flex w-fit items-center justify-center rounded-md px-5 py-3 font-medium leading-[100%] transition-all duration-200 ease-out hover:scale-[1.025]"
-              >
-                Generate image
-              </Link>
-            </div>
+              Generate image
+            </Link>
           </div>
-        </div>
-      </div>
+        </MediaCardContent>
+      </MediaCard>
     </div>
   );
 }
@@ -241,13 +231,7 @@ export function FeaturesTrigger({
       }}
     >
       Features
-      <ChevronIcon
-        direction="down"
-        className={cn(
-          "translate-y-[1px] transition-transform duration-200",
-          isOpen && "rotate-180"
-        )}
-      />
+      <ChevronIcon direction="down" className="translate-y-[1px]" />
     </button>
   );
 }
@@ -264,60 +248,49 @@ export function FeaturesDropdownPanel({
 }: FeaturesDropdownPanelProps) {
   return (
     <div
+      role="menu"
       className={cn(
-        "absolute bottom-0 left-1/2 hidden -translate-x-1/2 translate-y-full pt-2.5 lg:block",
-        // Pointer events only when open to prevent blocking clicks during close animation
+        "absolute bottom-0 left-1/2 hidden lg:block",
+        "bg-primary-0 border-primary-200 rounded-2xl border",
         isOpen ? "pointer-events-auto" : "pointer-events-none"
       )}
       onMouseEnter={() => onOpenChange(true)}
       onMouseLeave={() => onOpenChange(false)}
       style={{
-        // Use visibility with delay for closing animation (200ms matches close duration)
+        // Use GPU-accelerated properties only
+        // calc(100% + 10px) adds spacing between header and dropdown
+        transform: isOpen
+          ? "translate(-50%, calc(100% + 16px)) scale(1)"
+          : "translate(-50%, calc(100% + 16px)) scale(0.98) translateY(-4px)",
+        opacity: isOpen ? 1 : 0,
         visibility: isOpen ? "visible" : "hidden",
-        transition: isOpen ? "visibility 0s" : "visibility 0s 200ms",
+        transition:
+          "opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear " +
+          (isOpen ? "0s" : "150ms"),
+        transformOrigin: "50% top",
+        willChange: "transform, opacity",
+        boxShadow: "rgba(0, 0, 0, 0.25) 0px 20px 39px -20px",
       }}
     >
-      <div
-        role="menu"
-        tabIndex={0}
-        className={cn(
-          "bg-primary-0 border-primary-200 rounded-2xl border",
-          // Open: slower (300ms) with custom ease-out curve
-          // Close: faster (200ms) with ease-in for quick retraction
-          isOpen
-            ? "scale-100 translate-y-0 opacity-100"
-            : "scale-95 -translate-y-2 opacity-0"
-        )}
-        style={{
-          boxShadow: "rgba(0, 0, 0, 0.25) 0px 20px 39px -20px",
-          // Transform origin aligned with trigger button (15% from left, top)
-          transformOrigin: "15% top",
-          // Different transition timing for open vs close
-          transition: isOpen
-            ? "opacity 300ms cubic-bezier(0.2, 0, 0, 1), transform 300ms cubic-bezier(0.2, 0, 0, 1)"
-            : "opacity 200ms ease-in, transform 200ms ease-in",
-        }}
-      >
-        {/* Main content container */}
-        <div className="flex w-fit max-w-[90vw] gap-11 p-11">
-          {/* Feature Categories Grid */}
-          <div className="grid auto-cols-max grid-flow-col gap-x-11">
-            {featureCategories.map((category) => (
-              <div key={category.title}>
-                {/* Category Title */}
-                <p className="text-primary-400 text-base">{category.title}</p>
-                {/* Category Items */}
-                <div className="mt-8 flex flex-col gap-10">
-                  {category.items.map((item) => (
-                    <FeatureItemCard key={item.name} item={item} />
-                  ))}
-                </div>
+      {/* Main content container */}
+      <div className="flex w-fit max-w-[90vw] gap-11 p-11">
+        {/* Feature Categories Grid */}
+        <div className="grid auto-cols-max grid-flow-col gap-x-11">
+          {featureCategories.map((category) => (
+            <div key={category.title}>
+              {/* Category Title */}
+              <p className="text-primary-400 text-base">{category.title}</p>
+              {/* Category Items */}
+              <div className="mt-8 flex flex-col gap-10">
+                {category.items.map((item) => (
+                  <FeatureItemCard key={item.name} item={item} />
+                ))}
               </div>
-            ))}
-          </div>
-          {/* Promo Card */}
-          <PromoCard />
+            </div>
+          ))}
         </div>
+        {/* Promo Card */}
+        <PromoCard />
       </div>
     </div>
   );

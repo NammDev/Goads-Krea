@@ -25,6 +25,30 @@ const SLIDES: readonly SlideData[] = [
     image: "https://s.krea.ai/krea-1/expressiveStyles.webp",
     title: "Expressive artistic styles and aesthetics",
   },
+  {
+    image: "https://s.krea.ai/krea-1/carCloseup.webp",
+    title: "Discover new perspectives with extreme camera angles",
+  },
+  {
+    image: "https://s.krea.ai/krea-1/swordBloom.webp",
+    title: "Perfect imperfection. Grain, bloom, blur",
+  },
+  {
+    image: "https://s.krea.ai/krea-1/catSf.webp",
+    title: "Engineered for high visual complexity",
+  },
+  {
+    image: "https://s.krea.ai/krea-1/guitarPlayer.webp",
+    title: "Dreamy, vivid, weird. Artistic and expressive rendering",
+  },
+  {
+    image: "https://s.krea.ai/krea-1/catSleeping.webp",
+    title: "Dali paintings or cat memes. Ultra realistic surrealism",
+  },
+  {
+    image: "https://s.krea.ai/krea-1/carIllu.webp",
+    title: "Simple prompts, strong visuals",
+  },
 ] as const;
 
 /** Arrow icon for navigation buttons */

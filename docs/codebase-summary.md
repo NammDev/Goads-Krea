@@ -1,8 +1,8 @@
 # Krea.ai Layout Recreation - Codebase Summary
 
-**Project:** Pixel-perfect recreation of krea.ai website layout
-**Status:** Core layout + UI component library complete
-**Updated:** 2026-01-08
+**Project:** Krea.ai SEO-ready multi-page website
+**Status:** Multi-page architecture complete with SEO infrastructure
+**Updated:** 2026-01-11
 
 ---
 
@@ -33,74 +33,94 @@ This project implements the full page layout structure of krea.ai, a cutting-edg
 ```
 src/
 ├── app/
-│   ├── page.tsx              # Main layout with 3D perspective
-│   ├── layout.tsx            # Root layout wrapper
-│   └── globals.css           # Theme + utility classes (209 lines)
+│   ├── layout.tsx              # Root layout (html, body, fonts)
+│   ├── sitemap.ts              # Auto-generated sitemap
+│   ├── robots.ts               # Robots.txt config
+│   ├── globals.css             # Theme + utility classes
+│   │
+│   ├── (marketing)/            # Marketing route group
+│   │   ├── layout.tsx          # PageLayout (Header + Footer)
+│   │   ├── page.tsx            # / (homepage)
+│   │   ├── features/page.tsx   # /features
+│   │   ├── pricing/page.tsx    # /pricing
+│   │   ├── enterprise/page.tsx # /enterprise
+│   │   └── about/page.tsx      # /about
+│   │
+│   ├── (blog)/                 # Blog route group
+│   │   ├── layout.tsx          # Blog layout
+│   │   └── blog/page.tsx       # /blog
+│   │
+│   └── (docs)/                 # Docs route group
+│       ├── layout.tsx          # Docs layout
+│       └── docs/page.tsx       # /docs
 │
 ├── components/
-│   ├── header/               # Navigation & sticky header
-│   │   ├── header.tsx        # Main header (68px, fixed, z-100)
-│   │   ├── nav-link.tsx      # Navigation links
-│   │   ├── features-dropdown.tsx # Features dropdown menu
-│   │   ├── mobile-menu.tsx   # Mobile menu (placeholder)
+│   ├── layouts/                # Layout components (NEW)
+│   │   ├── page-layout.tsx     # PageLayout with Header/Footer
 │   │   └── index.ts
 │   │
-│   ├── hero/                 # Hero section area
-│   │   ├── hero-section.tsx  # Main hero (100vh min-height)
-│   │   ├── app-preview.tsx   # App preview window component
+│   ├── header/                 # Navigation & sticky header
+│   │   ├── header.tsx          # Main header (68px, fixed, z-100)
+│   │   ├── nav-link.tsx        # Navigation links (with active state)
+│   │   ├── features-dropdown.tsx
+│   │   ├── mobile-menu.tsx
 │   │   └── index.ts
 │   │
-│   ├── features/             # Feature cards carousel
-│   │   ├── feature-cards.tsx # Carousel container (scrollable)
-│   │   ├── feature-card.tsx  # Individual card (300/400px)
+│   ├── hero/                   # Hero section area
+│   │   ├── hero-section.tsx
+│   │   ├── app-preview.tsx
 │   │   └── index.ts
 │   │
-│   ├── sections/             # Content sections (8 components)
-│   │   ├── model-showcase-section.tsx    # Model slider area
-│   │   ├── bento-section.tsx             # Bento grid layout
-│   │   ├── logo-partners-section.tsx     # Partner logos carousel
-│   │   ├── use-cases-section.tsx         # Use case showcase
-│   │   ├── pricing-section.tsx           # Pricing table
-│   │   ├── app-showcase-section.tsx      # Full-width app layout
-│   │   ├── big-picture-section.tsx       # Large showcase section
-│   │   ├── investor-showcase-section.tsx # Investor highlights
+│   ├── features/               # Feature cards carousel
+│   │   ├── feature-cards.tsx
+│   │   ├── feature-card.tsx
 │   │   └── index.ts
 │   │
-│   ├── footer/               # Footer
-│   │   ├── footer.tsx        # Footer with links/info
+│   ├── sections/               # Content sections (13 components)
+│   │   ├── model-showcase-section.tsx
+│   │   ├── bento-section.tsx
+│   │   ├── logo-partners-section.tsx
+│   │   ├── use-cases-section.tsx
+│   │   ├── pricing/            # Pricing sub-components
+│   │   │   ├── pricing-section.tsx
+│   │   │   ├── free-pricing-card.tsx
+│   │   │   ├── individual-pricing-card.tsx
+│   │   │   ├── business-pricing-card.tsx
+│   │   │   └── enterprise-pricing-card.tsx
+│   │   ├── app-showcase-section.tsx
+│   │   ├── big-picture-section.tsx
+│   │   ├── investor-showcase-section.tsx
+│   │   ├── enterprise-*-section.tsx  # Enterprise sections (4)
+│   │   ├── cta-banner-section.tsx
 │   │   └── index.ts
 │   │
-│   ├── icons/                # SVG icon components (35 total)
-│   │   ├── krea-logo.tsx     # Krea brand logo
-│   │   ├── chevron-icon.tsx  # Chevron navigation
-│   │   ├── feature-icons.tsx # Feature navigation icons (6)
-│   │   ├── badge-icons.tsx   # Badge icons: Krea, Veo, Topaz, Hailuo
-│   │   ├── arrow-icons.tsx   # Carousel arrows (left/right)
-│   │   ├── feature-category-icons.tsx # Dropdown category icons (7)
-│   │   ├── model-logo-icons.tsx # Model logos (7): Krea, Veo, Ideogram, Runway, Luma, Flux, Gemini
-│   │   └── index.ts          # Barrel export (all 35 icons)
+│   ├── footer/
+│   │   ├── footer.tsx
+│   │   └── index.ts
 │   │
-│   └── ui/                   # UI primitives
-│       ├── button.tsx        # Reusable button component
-│       ├── section.tsx       # Reusable section wrapper
-│       ├── section-header.tsx # Section header (subtitle + title) (60 lines)
-│       ├── gradient-button.tsx # Animated CTA button (99 lines)
-│       ├── cta-button-group.tsx # Button pair component (65 lines)
-│       ├── feature-list.tsx  # Feature list with icons (74 lines)
-│       ├── model-marquee.tsx # Marquee slider for model logos (93 lines)
-│       ├── bento/            # Bento grid components
-│       │   ├── gradient-text.tsx
-│       │   ├── text-3d-cube.tsx
-│       │   ├── bleeding-edge-clock.tsx
-│       │   └── lipsync-wave.tsx
-│       └── index.ts          # UI barrel export
+│   ├── icons/                  # SVG icons (35 total)
+│   │   └── index.ts
+│   │
+│   └── ui/                     # UI primitives (CVA-based)
+│       ├── button.tsx          # Button with CVA variants
+│       ├── gradient-button.tsx # Polymorphic CTA (as="link")
+│       ├── section.tsx
+│       ├── section-header.tsx
+│       ├── feature-list.tsx
+│       ├── model-marquee.tsx
+│       ├── bento/              # Bento grid components
+│       └── index.ts
 │
-├── lib/
-│   └── utils.ts              # Helper utilities (cn() for Tailwind)
+├── config/
+│   └── navigation.ts           # Navigation configuration (NEW)
 │
-public/                        # Static assets
-content/                       # Content markdown files
-design-inspiration/            # Reference HTML/CSS from original Krea
+└── lib/
+    ├── utils.ts                # Utilities (cn())
+    └── seo/                    # SEO utilities (NEW)
+        ├── site-config.ts      # Site configuration
+        ├── metadata.ts         # generatePageMetadata
+        ├── json-ld.tsx         # JSON-LD components
+        └── index.ts
 ```
 
 ---
@@ -361,68 +381,57 @@ Defined in `globals.css` within `@theme inline {}`:
 
 ---
 
-## Implementation Status (Updated: 2026-01-08)
+## Implementation Status (Updated: 2026-01-11)
 
 ### Completed
 
-- ✅ Main page layout structure (page.tsx, 84 lines)
-  - 3D perspective: 10px
-  - Sticky header container (h-0, z-30)
-  - Responsive layout with proper nesting
-  - Hero section with 3D transform preserve
-  - White background sections container (bg-primary-0, max-w-s2xl)
-  - Full-width app showcase section (bg-primary-100)
-  - Big picture & investor sections (max-w-s2xl)
-  - Footer (bg-primary-100)
-- ✅ CSS theme system (globals.css, 209+ lines)
-  - Full Tailwind CSS v4 theme configuration
-  - Color palette (primary-0 to primary-1000, accent colors)
-  - Typography scale and utilities
-  - Custom utilities: section-container, max-w-s\*, scrollbar-hide, 3D effects
-  - CSS custom properties for colors, spacing, containers
-- ✅ Header component (sticky, responsive, z-100)
-- ✅ Hero section with 3D perspective (100vh min-height)
-- ✅ Feature cards carousel (5 cards, smooth scroll, 43% per click)
-- ✅ 8 section components fully created:
-  1. ModelShowcaseSection - Model/version slider
-  2. BentoSection - Bento grid showcase
-  3. LogoPartnersSection - Partner logos carousel
-  4. UseCasesSection - Use case examples
-  5. PricingSection - Pricing tiers table
-  6. AppShowcaseSection - Full-width app layout (bg-primary-100)
-  7. BigPictureSection - Large feature showcase
-  8. InvestorShowcaseSection - Investor/stats highlight
-- ✅ Footer component (bg-primary-100, full-width, responsive grid)
-- ✅ Mobile menu component (placeholder with structure, ARIA labels)
-- ✅ Icon components (35 total, consolidated icon system)
-  - Badge icons (Krea, Veo, Topaz, Hailuo) with size prop
-  - Arrow icons for carousel navigation
-  - Feature category icons for dropdown (7 icons)
-  - Model logo icons (7 icons: Krea, Veo, Ideogram, Runway, Luma, Flux, Gemini)
-- ✅ Button component with variants
-- ✅ Section wrapper component with spacing variants
-- ✅ ModelMarquee UI component (93 lines, reusable marquee with fade effects)
-- ✅ SectionHeader component (60 lines, reusable title + subtitle pattern)
-- ✅ GradientButton component (99 lines, animated CTA button with variants)
-- ✅ CTAButtonGroup component (65 lines, button pair with spacing variants)
-- ✅ FeatureList component (74 lines, check icon + feature list)
-- ✅ UI barrel exports for clean component imports
-- ✅ Responsive design system (mobile, tablet, desktop breakpoints)
+**Phase 1: Component Consolidation**
+- ✅ Button component with CVA variants
+- ✅ GradientButton polymorphic (`as="link"` support)
+- ✅ PricingButton deleted (uses GradientButton)
+- ✅ All pricing cards use unified GradientButton
 
-### In Progress / Placeholders
+**Phase 2: Layout Architecture**
+- ✅ PageLayout component (Header + Footer encapsulation)
+- ✅ Route groups: `(marketing)`, `(blog)`, `(docs)`
+- ✅ Navigation config centralized (`src/config/navigation.ts`)
 
-- 🔲 Section content implementation (8 sections are structural placeholders)
-- 🔲 Mobile menu interactivity (toggle state, close on click)
-- 🔲 Responsive testing across all devices
-- 🔲 Animation/transition polish (hover states, scroll effects)
+**Phase 3: SEO Infrastructure**
+- ✅ SEO lib (`src/lib/seo/`) with siteConfig, metadata, JSON-LD
+- ✅ sitemap.ts auto-generates `/sitemap.xml`
+- ✅ robots.ts generates `/robots.txt`
+- ✅ JSON-LD on homepage (Organization, SoftwareApplication)
+- ✅ Root metadata with title template
 
-### Not Started
+**Phase 4: Multi-Page Setup**
+- ✅ `/features` page with FeatureCards, ModelShowcase, Bento
+- ✅ `/pricing` page with PricingSection, FAQ
+- ✅ `/enterprise` page with enterprise sections
+- ✅ `/about` page with BigPicture, Investors, Partners
+- ✅ NavLink active state with `usePathname`
+- ✅ BreadcrumbJsonLd on all pages
 
-- 🔲 Dynamic content loading (API integration)
-- 🔲 Form interactions (newsletter signup, contact)
-- 🔲 Dark mode toggle (if needed)
-- 🔲 Accessibility enhancements (additional ARIA labels, keyboard navigation)
-- 🔲 Performance optimization (image lazy loading, code splitting)
+**Phase 5: Documentation**
+- ✅ architecture.md - Routing, SEO, layouts
+- ✅ design-system.md - Tokens, colors, typography
+- ✅ component-api.md - UI component reference
+- ✅ codebase-summary.md - Updated structure
+- ✅ README.md - Navigation index
+
+### Existing (Pre-refactor)
+- ✅ 13 section components
+- ✅ 35 SVG icons consolidated
+- ✅ CSS theme system (Tailwind v4)
+- ✅ 3D perspective layout
+- ✅ Feature cards carousel
+- ✅ Responsive design system
+
+### Deferred
+
+- 🔲 GenericPricingCard abstraction (card structures differ)
+- 🔲 Section wrapper adoption (visual preservation priority)
+- 🔲 Dark mode toggle
+- 🔲 Blog/Docs MDX content (future phases)
 
 ---
 

@@ -15,15 +15,17 @@ import {
   EnterpriseFaqSection,
   CtaBannerSection,
 } from "@/components/sections";
+import { OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/lib/seo";
 
 export default function Home() {
   return (
     <>
+      {/* Structured Data */}
+      <OrganizationJsonLd />
+      <SoftwareApplicationJsonLd />
+
       {/* Hero Section & Other Sections with 3D transform */}
-      <div
-        className="relative z-10"
-        style={{ transformStyle: "preserve-3d" }}
-      >
+      <div className="relative z-10" style={{ transformStyle: "preserve-3d" }}>
         {/* Hero Section */}
         <div style={{ transformStyle: "preserve-3d" }}>
           <HeroSection />

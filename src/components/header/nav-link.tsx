@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface NavLinkProps {
@@ -16,11 +19,22 @@ export function NavLink({
   external,
   inverted,
 }: NavLinkProps) {
+  const pathname = usePathname();
+  // Check if current path matches link (exact or starts with for nested routes)
+  const isActive = !external && (pathname === href || pathname.startsWith(`${href}/`));
+
   const baseClasses = cn(
     "rounded-md px-4 py-3 xl:px-5",
     "text-[15px] font-normal leading-[1.5] tracking-[0.01em]",
     "transition-colors duration-200",
-    inverted ? "hover:bg-black/10" : "hover:bg-white/10",
+    // Active state styling
+    isActive
+      ? inverted
+        ? "bg-black/10 font-medium"
+        : "bg-white/10 font-medium"
+      : inverted
+        ? "hover:bg-black/10"
+        : "hover:bg-white/10",
     className
   );
 

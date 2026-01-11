@@ -2,6 +2,11 @@
 
 Design system for pixel-perfect krea.ai recreation. **Source of truth for all implementations.**
 
+> **See also:**
+> - [Design System](./design-system.md) - Tokens, colors, typography reference
+> - [Component API](./component-api.md) - Component usage reference
+> - [Architecture](./architecture.md) - Routing and SEO structure
+
 ---
 
 ## CSS Variables & Theme Configuration

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/lib/seo/site-config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,44 +16,52 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Krea: AI Creative Suite for Images, Video & 3D",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name}: AI Creative Suite for Images, Video & 3D`,
+    template: `%s | ${siteConfig.name}`,
+  },
   description:
     "Generate, edit, and enhance images, videos, and 3D assets with Krea's creative AI suite. Start for free with real-time tools, powerful models, and collaborative workflows.",
-  keywords: [
-    "AI",
-    "image generation",
-    "video generation",
-    "3D generation",
-    "creative AI",
-    "Krea",
-  ],
-  authors: [{ name: "Krea" }],
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.author }],
   openGraph: {
-    title: "Krea: AI Creative Suite for Images, Video & 3D",
+    title: `${siteConfig.name}: AI Creative Suite for Images, Video & 3D`,
     description:
       "Generate, edit, and enhance images, videos, and 3D assets with Krea's creative AI suite.",
     type: "website",
-    url: "https://www.krea.ai/",
+    locale: "en_US",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "https://s.krea.ai/opengraph.webp",
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Krea – AI Creative Suite",
+        alt: `${siteConfig.name} – AI Creative Suite`,
       },
     ],
-    siteName: "Krea",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Krea: AI Creative Suite for Images, Video, & 3D",
+    title: `${siteConfig.name}: AI Creative Suite for Images, Video & 3D`,
     description:
       "Generate, edit, and enhance images, videos, and 3D assets with Krea's creative AI suite.",
-    images: ["https://s.krea.ai/opengraph.webp"],
-    site: "@krea_ai",
-    creator: "@krea_ai",
+    images: [siteConfig.ogImage],
+    site: siteConfig.twitter.site,
+    creator: siteConfig.twitter.handle,
   },
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -62,7 +71,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} no-scrollbar`}>
-      <body className="bg-primary-0 dark:bg-primary-950 h-full min-h-full">{children}</body>
+      <body className="bg-primary-0 dark:bg-primary-950 h-full min-h-full">
+        {children}
+      </body>
     </html>
   );
 }

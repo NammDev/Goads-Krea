@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { AppPreview } from "./app-preview";
-import { UserPlus, LogIn } from "lucide-react";
+import { ArrowRight, Tag } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -32,18 +32,25 @@ export function HeroSection() {
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-[1536px] mx-auto text-center">
+          {/* Trust Badge */}
+          <div className="mb-6 animate-fade-in">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary-800/50 border border-primary-700 text-[11px] uppercase tracking-wider text-primary-300 font-medium">
+              Trusted by +1,750 businesses globally
+            </span>
+          </div>
+
           {/* Hero Title */}
           <h1
-            aria-label="Krea.ai is a powerful AI suite for Creatives."
+            aria-label="Stop Losing Accounts. Start Scaling with GoAds."
             className={cn(
               "text-4xl sm:text-5xl md:text-7xl",
               "font-semibold leading-[1.05]",
               "text-balance text-white header-fancy"
             )}
           >
-            The most powerful AI
+            Stop Losing Accounts.
             <br />
-            suite for Creatives.
+            Start Scaling.
           </h1>
 
           {/* Hero Subtitle */}
@@ -54,8 +61,8 @@ export function HeroSection() {
               "text-center text-xl"
             )}
           >
-            Generate, enhance, and edit images, videos, or 3D meshes for free
-            with AI.
+            Make sure your ads are compliant and running with our agency ad
+            accounts for Meta, TikTok and Google.
           </h2>
 
           {/* CTA Buttons - animate in from left with stagger */}
@@ -66,8 +73,8 @@ export function HeroSection() {
               className="w-36 animate-slide-in-left"
               style={{ animationDelay: "400ms" }}
             >
-              <UserPlus className="w-4 h-4" />
-              Sign Up
+              <ArrowRight className="w-4 h-4" />
+              Get Started
             </Button>
             <Button
               variant="secondary"
@@ -75,16 +82,13 @@ export function HeroSection() {
               className="w-42 animate-slide-in-left"
               style={{ animationDelay: "500ms" }}
             >
-              <LogIn className="w-4 h-4" />
-              Launch App
+              <Tag className="w-4 h-4" />
+              See Pricing
             </Button>
           </div>
 
           {/* App Preview - zoom in animation */}
-          <div
-            className="animate-zoom-in"
-            style={{ animationDelay: "500ms" }}
-          >
+          <div className="animate-zoom-in" style={{ animationDelay: "500ms" }}>
             <AppPreview />
           </div>
         </div>

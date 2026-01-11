@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { PricingCardBase } from "./pricing-card-base";
-import { PricingButton } from "./pricing-button";
+import { GradientButton } from "@/components/ui/gradient-button";
 import { PlanSlider } from "./plan-slider";
 import { FeatureList } from "@/components/ui/feature-list";
 
@@ -89,7 +89,7 @@ export function BusinessPricingCard() {
 
       {/* CTA */}
       <div className="mt-auto">
-        <PricingButton href="/pricing">Choose Business</PricingButton>
+        <GradientButton as="link" href="/pricing">Choose Business</GradientButton>
       </div>
     </PricingCardBase>
   );

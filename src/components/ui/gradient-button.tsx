@@ -1,8 +1,46 @@
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import Link from "next/link";
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef } from "react";
 
-type BaseProps = {
-  variant?: "primary" | "secondary" | "tertiary";
+/**
+ * GradientButton variants using CVA for type-safe variant management
+ * Preserves exact Krea CTA button styling with gradient animation
+ */
+const gradientButtonVariants = cva(
+  // Base styles - preserved exactly from original
+  [
+    "button-gradient-transition relative flex items-center justify-center overflow-hidden",
+    "px-5 py-3 text-[13px] font-medium leading-[100%]",
+    "transition-all duration-200 ease-out hover:scale-[1.025]",
+  ],
+  {
+    variants: {
+      variant: {
+        // Primary variant (dark) - rounded-md
+        primary: [
+          "rounded-md bg-primary-1000 text-primary-0",
+          "dark:bg-white dark:text-black",
+        ],
+        // Secondary variant (light) - rounded-md
+        secondary: [
+          "rounded-md bg-primary-150 text-primary-1000",
+          "dark:bg-primary-800 dark:text-white",
+        ],
+        // Tertiary variant (white on dark) - rounded-full
+        tertiary: [
+          "rounded-full bg-primary-0 text-primary-1000",
+          "dark:bg-primary-900 dark:text-white",
+        ],
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+    },
+  }
+);
+
+type BaseProps = VariantProps<typeof gradientButtonVariants> & {
   children: React.ReactNode;
   className?: string;
 };
@@ -18,11 +56,16 @@ type ButtonAsAnchor = BaseProps &
     href: string;
   };
 
-export type GradientButtonProps = ButtonAsButton | ButtonAsAnchor;
+type ButtonAsLink = BaseProps & {
+  as: "link";
+  href: string;
+};
+
+export type GradientButtonProps = ButtonAsButton | ButtonAsAnchor | ButtonAsLink;
 
 /**
  * GradientButton - Reusable CTA button with gradient animation
- * Used in: LogoPartnersSection, InvestorShowcaseSection, CtaBannerSection
+ * Used in: LogoPartnersSection, InvestorShowcaseSection, CtaBannerSection, PricingCards
  *
  * Variants:
  * - primary: Dark bg (black), white text, gradient-primary animation
@@ -33,28 +76,9 @@ const GradientButton = forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   GradientButtonProps
 >(({ variant = "primary", className, children, ...props }, ref) => {
-  const baseStyles = cn(
-    "button-gradient-transition relative flex items-center justify-center overflow-hidden",
-    "px-5 py-3 text-[13px] font-medium leading-[100%]",
-    "transition-all duration-200 ease-out hover:scale-[1.025]",
-    // Primary variant (dark) - rounded-md
-    variant === "primary" && [
-      "rounded-md bg-primary-1000 text-primary-0",
-      "dark:bg-white dark:text-black",
-    ],
-    // Secondary variant (light) - rounded-md
-    variant === "secondary" && [
-      "rounded-md bg-primary-150 text-primary-1000",
-      "dark:bg-primary-800 dark:text-white",
-    ],
-    // Tertiary variant (white on dark) - rounded-full
-    variant === "tertiary" && [
-      "rounded-full bg-primary-0 text-primary-1000",
-      "dark:bg-primary-900 dark:text-white",
-    ],
-    className
-  );
+  const styles = cn(gradientButtonVariants({ variant }), className);
 
+  // Gradient span for animation effect
   const gradientSpan = (
     <span
       data-button-gradient=""
@@ -70,13 +94,29 @@ const GradientButton = forwardRef<
     />
   );
 
+  // Render as Next.js Link if `as="link"`
+  if (props.as === "link") {
+    const { as, href, ...linkProps } = props as ButtonAsLink;
+    return (
+      <Link
+        href={href}
+        className={styles}
+        style={{ willChange: "transform" }}
+        {...linkProps}
+      >
+        {gradientSpan}
+        {children}
+      </Link>
+    );
+  }
+
   // Render as anchor if `as="a"`
   if (props.as === "a") {
     const { as, ...anchorProps } = props as ButtonAsAnchor;
     return (
       <a
         ref={ref as React.Ref<HTMLAnchorElement>}
-        className={baseStyles}
+        className={styles}
         style={{ willChange: "transform" }}
         {...anchorProps}
       >
@@ -91,7 +131,7 @@ const GradientButton = forwardRef<
   return (
     <button
       ref={ref as React.Ref<HTMLButtonElement>}
-      className={baseStyles}
+      className={styles}
       style={{ willChange: "transform" }}
       {...buttonProps}
     >
@@ -103,4 +143,4 @@ const GradientButton = forwardRef<
 
 GradientButton.displayName = "GradientButton";
 
-export { GradientButton };
+export { GradientButton, gradientButtonVariants };

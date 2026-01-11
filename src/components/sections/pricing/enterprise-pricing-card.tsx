@@ -1,5 +1,5 @@
 import { PricingCardBase } from "./pricing-card-base";
-import { PricingButton } from "./pricing-button";
+import { GradientButton } from "@/components/ui/gradient-button";
 import { FeatureList } from "@/components/ui/feature-list";
 
 const ENTERPRISE_FEATURES = [
@@ -44,7 +44,7 @@ export function EnterprisePricingCard() {
 
       {/* CTA */}
       <div className="mt-auto">
-        <PricingButton href="/enterprise">Contact sales</PricingButton>
+        <GradientButton as="link" href="/enterprise">Contact sales</GradientButton>
       </div>
     </PricingCardBase>
   );

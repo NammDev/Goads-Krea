@@ -1,5 +1,5 @@
 import { PricingCardBase } from "./pricing-card-base";
-import { PricingButton } from "./pricing-button";
+import { GradientButton } from "@/components/ui/gradient-button";
 import { FeatureList } from "@/components/ui/feature-list";
 
 const FREE_FEATURES = [
@@ -29,7 +29,7 @@ export function FreePricingCard() {
 
       {/* CTA */}
       <div className="mt-auto">
-        <PricingButton href="/login">Get started free</PricingButton>
+        <GradientButton as="link" href="/login">Get started free</GradientButton>
       </div>
     </PricingCardBase>
   );

@@ -1,13 +1,14 @@
 import { HeroSection } from "@/components/hero";
 import { FeatureCards } from "@/components/features";
 import {
-  ModelShowcaseSection,
+  ProductShowcaseSection,
   BentoSection,
   LogoPartnersSection,
   UseCasesSection,
   PricingSection,
-  AppShowcaseSection,
+  ProcessSection,
   BigPictureSection,
+  ClientShowcaseSection,
   EnterpriseContactSection,
   EnterpriseFaqSection,
   CtaBannerSection,
@@ -15,7 +16,6 @@ import {
   TestimonialsBentoSection,
   MetaAssetsSection,
   CompareSection,
-  InvestorShowcaseSection,
 } from "@/components/sections";
 import { OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/lib/seo";
 
@@ -41,8 +41,8 @@ export default function Home() {
               <FeatureCards />
             </section>
 
-            {/* Model Showcase Slider Section */}
-            <ModelShowcaseSection />
+            {/* Product Showcase Slider Section */}
+            <ProductShowcaseSection />
 
             {/* Bento Section */}
             <BentoSection />
@@ -59,14 +59,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* App Layout Showcase - GREY BREAK #1: How It Works */}
-      <AppShowcaseSection />
+      {/* Process Section - GREY BREAK #1: How It Works */}
+      <ProcessSection />
 
       {/* WHITE BLOCK 2: Social Proof */}
       <div className="bg-primary-0">
         <div className="max-w-s2xl relative z-10 mx-auto">
           <BigPictureSection />
-          <InvestorShowcaseSection />
+          <ClientShowcaseSection />
           <TestimonialsBentoSection />
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="max-w-s2xl relative z-10 mx-auto">
           {/* <GuaranteeSection /> */}
           <MetaAssetsSection />
-          <CompareSection />
+          {/* <CompareSection /> */}
           <EnterpriseContactSection />
           <EnterpriseFaqSection />
         </div>

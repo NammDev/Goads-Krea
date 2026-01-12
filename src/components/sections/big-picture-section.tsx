@@ -10,31 +10,23 @@ interface SlideData {
   title: string;
 }
 
-/** Carousel slides configuration - GoAds milestones */
+/** Carousel slides configuration - GoAds milestones with event photos */
 const SLIDES: readonly SlideData[] = [
   {
-    image: "https://s.krea.ai/krea-1/skinTexture.webp",
+    image: "/images/events/event-1.jpeg",
     title: "500+ Active Clients — Advertisers trust us with infrastructure",
   },
   {
-    image: "https://s.krea.ai/krea-1/carCloseup.webp",
+    image: "/images/events/event-2.jpeg",
     title: "5,000+ Assets Sold — BMs, Profiles, Pages delivered",
   },
   {
-    image: "https://s.krea.ai/krea-1/swordBloom.webp",
-    title: "10x Revenue Growth — From $3k to $32k monthly in 12 months",
-  },
-  {
-    image: "https://s.krea.ai/krea-1/catSf.webp",
+    image: "/images/events/event-3.jpeg",
     title: "50+ Countries — Serving advertisers worldwide",
   },
   {
-    image: "https://s.krea.ai/krea-1/guitarPlayer.webp",
+    image: "/images/events/event-4.jpeg",
     title: "<2h Support Speed — Average response time",
-  },
-  {
-    image: "https://s.krea.ai/krea-1/catSleeping.webp",
-    title: "95%+ Warranty Rate — Claims honored within policy",
   },
 ] as const;
 
@@ -74,8 +66,9 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 }
 
 /**
- * Big Picture Section - Krea 1 model showcase
+ * Big Picture Section - GoAds milestones showcase
  * Features: Simple fade carousel with progress bar and navigation
+ * Design: 100% original Krea design, only content changed for GoAds
  */
 export function BigPictureSection() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -104,15 +97,15 @@ export function BigPictureSection() {
       {/* Header */}
       <div className="flex w-full flex-col gap-8 pt-24 md:gap-12 md:pt-40 lg:flex-row lg:items-end lg:gap-10">
         <SectionHeader
-          subtitle="Growing alongside our clients"
-          title="Built for Scale. Proven by Numbers."
+          subtitle="The team behind GoAds"
+          title="Real Humans. Real Accountability."
           size="large"
           darkSubtitle
         />
         <p className="text-primary-500 max-w-2xl text-lg font-normal md:text-xl lg:text-end">
-          From a small team to serving advertisers worldwide. Our numbers speak
-          for themselves — consistent growth, reliable service, and a commitment
-          to quality that agencies depend on.
+          We&apos;re not a faceless provider. Our team attends industry events,
+          speaks at conferences, and builds real relationships with our clients.
+          When you work with GoAds, you work with people who care.
         </p>
       </div>
 
@@ -121,7 +114,7 @@ export function BigPictureSection() {
         {/* Slides - stacked with fade transition */}
         {SLIDES.map((slide, index) => (
           <div
-            key={slide.image}
+            key={`${slide.image}-${index}`}
             className={cn(
               "absolute inset-0 transition-opacity duration-500 ease-out",
               index === selectedIndex ? "opacity-100 z-10" : "opacity-0 z-0"

@@ -1,11 +1,11 @@
-export { ModelShowcaseSection } from "./model-showcase-section";
+export { ProductShowcaseSection } from "./product-showcase-section";
 export { BentoSection } from "./bento-section";
 export { LogoPartnersSection } from "./logo-partners-section";
 export { UseCasesSection } from "./use-cases-section";
 export { PricingSection } from "./pricing-section";
-export { AppShowcaseSection } from "./app-showcase-section";
+export { ProcessSection } from "./process-section";
 export { BigPictureSection } from "./big-picture-section";
-export { InvestorShowcaseSection } from "./investor-showcase-section";
+export { ClientShowcaseSection } from "./client-showcase-section";
 export { EnterpriseAdvantageSection } from "./enterprise-advantage-section";
 export { EnterpriseShowcaseSection } from "./enterprise-showcase-section";
 export { EnterpriseContactSection } from "./enterprise-contact-section";

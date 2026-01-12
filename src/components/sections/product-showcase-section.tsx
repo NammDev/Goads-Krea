@@ -92,8 +92,8 @@ function RotatingCylinder() {
   );
 }
 
-/** Model Showcase Section with 3D rotating title and marquee */
-export function ModelShowcaseSection() {
+/** Product Showcase Section with 3D rotating title and marquee */
+export function ProductShowcaseSection() {
   return (
     <section className="section-container overflow-hidden pt-24">
       {/* Large heading with 3D rotating cylinder */}

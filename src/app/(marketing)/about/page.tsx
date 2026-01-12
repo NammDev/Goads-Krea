@@ -2,14 +2,14 @@ import { Metadata } from "next";
 import { generatePageMetadata, BreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import {
   BigPictureSection,
-  InvestorShowcaseSection,
+  ClientShowcaseSection,
   LogoPartnersSection,
 } from "@/components/sections";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "About",
   description:
-    "Learn about Krea - the AI creative platform backed by top investors. Our mission is to democratize creative AI.",
+    "Learn about GoAds - the trusted provider of Meta, TikTok, and Google ad accounts. Real humans, real accountability.",
 });
 
 export default function AboutPage() {
@@ -26,10 +26,10 @@ export default function AboutPage() {
       <section className="bg-primary-0 pb-12 pt-32">
         <div className="max-w-s2xl mx-auto section-container text-center">
           <h1 className="text-5xl font-semibold leading-tight text-primary-900 md:text-6xl lg:text-7xl">
-            About Krea
+            About GoAds
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-xl text-primary-500">
-            We&apos;re building the future of creative AI
+            Real humans. Real accountability. The team you can trust.
           </p>
         </div>
       </section>
@@ -37,7 +37,7 @@ export default function AboutPage() {
       {/* Company Sections */}
       <div className="max-w-s2xl mx-auto">
         <BigPictureSection />
-        <InvestorShowcaseSection />
+        <ClientShowcaseSection />
         <LogoPartnersSection />
       </div>
     </>

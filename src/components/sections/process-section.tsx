@@ -193,10 +193,10 @@ function SidebarPanel() {
 }
 
 /**
- * AppShowcaseSection - Full screen section showcasing the process
+ * ProcessSection - Full screen section showcasing the GoAds process
  * Features: Title, subtitle, prompt card with actions, sidebar panel
  */
-export function AppShowcaseSection() {
+export function ProcessSection() {
   return (
     <section className="bg-primary-100 relative z-10">
       <div className="flex flex-col items-center gap-12 py-24 md:py-48">

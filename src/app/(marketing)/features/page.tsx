@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { generatePageMetadata, BreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { FeatureCards } from "@/components/features";
-import { ModelShowcaseSection, BentoSection } from "@/components/sections";
+import { ProductShowcaseSection, BentoSection } from "@/components/sections";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Features",
@@ -38,8 +38,8 @@ export default function FeaturesPage() {
             <FeatureCards />
           </section>
 
-          {/* Model Showcase */}
-          <ModelShowcaseSection />
+          {/* Product Showcase */}
+          <ProductShowcaseSection />
 
           {/* Bento Grid */}
           <BentoSection />

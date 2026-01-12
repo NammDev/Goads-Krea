@@ -78,7 +78,7 @@ export default function Home() {
       {/* WHITE BLOCK 3: Trust Building */}
       <div className="bg-primary-0">
         <div className="max-w-s2xl relative z-10 mx-auto">
-          {/* <GuaranteeSection /> */}
+          <GuaranteeSection />
           {/* <CompareSection /> */}
           <EnterpriseFaqSection />
         </div>

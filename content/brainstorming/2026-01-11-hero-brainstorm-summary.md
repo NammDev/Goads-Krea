@@ -102,8 +102,50 @@ Get Started
 See Pricing
 ```
 
-### Visual
-Abstract gradient animation (keeping Krea design)
+### Visual ✅ APPROVED (2026-01-12) - REVISED
+
+**Concept:** Product Cards Showcase (Option A)
+
+**Reason for change:** Dashboard concept rejected - GoAds doesn't have a dashboard, ships through docs. Product cards show real products honestly.
+
+**Style:** Dark & Premium (keeps Krea app chrome)
+
+**Animation:** Keeps `animate-zoom-in` with 500ms delay after headline
+
+**Background:** Black gradient fading to lighter gray at bottom
+
+**Product Cards Elements:**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 🔷 GoAds Products                        ● In stock    │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐                │
+│  │   [M]   │  │   [G]   │  │   [T]   │                │
+│  │  Meta   │  │  Google │  │ TikTok  │                │
+│  │ Agency  │  │ Agency  │  │ Agency  │                │
+│  │  $150   │  │  $180   │  │  $120   │                │
+│  │ ✓ ✓ ✓  │  │ ✓ ✓ ✓  │  │ ✓ ✓ ✓  │                │
+│  └─────────┘  └─────────┘  └─────────┘                │
+│                                                         │
+│  🛡️ 7-Day Warranty  ⚡ 24h Delivery  ✓ Verified       │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Why Product Cards:**
+- Honest (shows real products they sell)
+- No fake features implied
+- Clear value proposition
+- E-commerce familiar pattern
+
+**Competitor Visual Analysis:**
+| Competitor | Visual | Why Not Copy |
+|------------|--------|--------------|
+| Uproas | Cosmic globe + icons | Too abstract |
+| Proads | 3D Facebook logo | Too playful |
+| Aurora | Feature mockups | Would imply dashboard |
+| GCG | Abstract spheres | Too vague |
+| EcomParkour | Floating icons | Too simple |
 
 ---
 

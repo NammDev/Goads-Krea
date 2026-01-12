@@ -14,13 +14,12 @@ export function HeroSection() {
       <section
         className={cn(
           "section-container relative w-full",
-          "bg-black",
           "flex flex-col items-center overflow-hidden",
           "pt-[10vh] sm:min-h-[calc(100dvh)] sm:justify-center",
-          "pb-16 px-8 lg:px-16"
+          "px-8 lg:px-16"
         )}
       >
-        {/* Background radial gradient overlay - matches original */}
+        {/* Background radial gradient overlay */}
         <div
           className="pointer-events-none absolute inset-0 -z-10 origin-top will-change-transform transition-transform delay-[200ms] duration-[1.5s] ease-[cubic-bezier(.22,.61,.36,1)]"
           style={{

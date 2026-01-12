@@ -7,9 +7,13 @@ import { KreaLogo, HamburgerIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "./nav-link";
 import { FeaturesTrigger, FeaturesDropdownPanel } from "./features-dropdown";
+import { ResourcesTrigger, ResourcesDropdownPanel } from "./resources-dropdown";
+import { ServicesTrigger, ServicesDropdownPanel } from "./services-dropdown";
 
 export function Header() {
-  const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isInverted, setIsInverted] = useState(false);
 
   // Detect scroll position to invert header colors over white sections
@@ -33,6 +37,31 @@ export function Header() {
     return () => mainElement.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
+  // Close other dropdowns when one opens
+  const handleProductsOpen = (open: boolean) => {
+    setIsProductsOpen(open);
+    if (open) {
+      setIsResourcesOpen(false);
+      setIsServicesOpen(false);
+    }
+  };
+
+  const handleResourcesOpen = (open: boolean) => {
+    setIsResourcesOpen(open);
+    if (open) {
+      setIsProductsOpen(false);
+      setIsServicesOpen(false);
+    }
+  };
+
+  const handleServicesOpen = (open: boolean) => {
+    setIsServicesOpen(open);
+    if (open) {
+      setIsProductsOpen(false);
+      setIsResourcesOpen(false);
+    }
+  };
+
   return (
     <header
       className={cn(
@@ -53,7 +82,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-full max-w-[1536px] items-center">
         <div className="grid w-full grid-cols-2 items-center lg:grid-cols-3">
-          {/* Logo */}
+          {/* Logo - Keep Krea Logo */}
           <div className="w-fit">
             <Link
               href="/"
@@ -72,45 +101,39 @@ export function Header() {
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <nav
                 className={cn(
-                  "flex items-center gap-0 2xl:gap-2 transition-colors duration-300",
+                  "flex items-center gap-0 2xl:gap-2",
+                  // Match header transition timing exactly
+                  "transition-[color] duration-200 ease-out",
                   isInverted ? "text-black" : "text-white"
                 )}
               >
-                <NavLink href="/app" inverted={isInverted}>
-                  App
-                </NavLink>
+                {/* Products Dropdown */}
                 <FeaturesTrigger
-                  isOpen={isFeaturesOpen}
-                  onOpenChange={setIsFeaturesOpen}
+                  isOpen={isProductsOpen}
+                  onOpenChange={handleProductsOpen}
                   inverted={isInverted}
                 />
-                <NavLink
-                  href="/features/ai-image-generator"
+                {/* Services Dropdown */}
+                <ServicesTrigger
+                  isOpen={isServicesOpen}
+                  onOpenChange={handleServicesOpen}
                   inverted={isInverted}
-                >
-                  Image
-                </NavLink>
-                <NavLink
-                  href="/features/ai-video-generator"
-                  inverted={isInverted}
-                >
-                  Video
-                </NavLink>
-                <NavLink href="/features/ai-upscaler" inverted={isInverted}>
-                  Upscaler
-                </NavLink>
-                <NavLink
-                  href="https://docs.krea.ai"
-                  external
-                  inverted={isInverted}
-                >
-                  API
-                </NavLink>
+                />
                 <NavLink href="/pricing" inverted={isInverted}>
                   Pricing
                 </NavLink>
-                <NavLink href="/enterprise" inverted={isInverted}>
-                  Enterprise
+                {/* Resources Dropdown */}
+                <ResourcesTrigger
+                  isOpen={isResourcesOpen}
+                  onOpenChange={handleResourcesOpen}
+                  inverted={isInverted}
+                />
+                <NavLink
+                  href="https://docs.goads.agency"
+                  external
+                  inverted={isInverted}
+                >
+                  Docs
                 </NavLink>
               </nav>
             </div>
@@ -124,10 +147,10 @@ export function Header() {
                 size="sm"
                 className="hidden lg:inline-flex"
               >
-                Sign up for free
+                Get Started
               </Button>
               <Button variant={isInverted ? "light" : "dark"} size="sm">
-                Log in
+                Chat
               </Button>
               {/* Mobile hamburger */}
               <div className="flex items-center justify-center lg:hidden">
@@ -149,10 +172,18 @@ export function Header() {
         </div>
       </div>
 
-      {/* Dropdown panel - positioned from header bottom */}
+      {/* Dropdown panels - positioned from header bottom */}
       <FeaturesDropdownPanel
-        isOpen={isFeaturesOpen}
-        onOpenChange={setIsFeaturesOpen}
+        isOpen={isProductsOpen}
+        onOpenChange={handleProductsOpen}
+      />
+      <ServicesDropdownPanel
+        isOpen={isServicesOpen}
+        onOpenChange={handleServicesOpen}
+      />
+      <ResourcesDropdownPanel
+        isOpen={isResourcesOpen}
+        onOpenChange={handleResourcesOpen}
       />
     </header>
   );

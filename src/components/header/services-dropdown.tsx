@@ -10,37 +10,28 @@ import {
   MediaCardPrompt,
 } from "@/components/ui/media-card";
 
-/** Feature data matching original Krea layout - adapted for GoAds */
-interface FeatureItem {
+/** Service item - same structure as Products dropdown */
+interface ServiceItem {
   icon: React.ReactNode;
   name: string;
   links: { label: string; href: string }[];
 }
 
-interface FeatureCategory {
+interface ServiceCategory {
   title: string;
-  items: FeatureItem[];
+  items: ServiceItem[];
 }
 
-// GoAds product icons as inline SVGs
-const MetaIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.19 2.24.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z" />
+// Service icons
+const BMIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
   </svg>
 );
 
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-  </svg>
-);
-
-const GoogleIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+const AdAccountIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
   </svg>
 );
 
@@ -50,85 +41,87 @@ const ProfileIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const BMIcon = ({ className }: { className?: string }) => (
+const BadgeIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
   </svg>
 );
 
-const PageIcon = ({ className }: { className?: string }) => (
+const SpyIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
   </svg>
 );
 
-const featureCategories: FeatureCategory[] = [
+const serviceCategories: ServiceCategory[] = [
   {
-    title: "Agency Accounts",
+    title: "Unban Services",
     items: [
-      {
-        icon: <MetaIcon className="w-[18px]" />,
-        name: "Meta Agency Accounts",
-        links: [
-          { label: "BM5 DSK (Most Stable)", href: "/products/meta-bm5" },
-          { label: "BM1 Standard", href: "/products/meta-bm1" },
-        ],
-      },
-      {
-        icon: <TikTokIcon className="w-[18px]" />,
-        name: "TikTok Agency Accounts",
-        links: [
-          { label: "TikTok Business Center", href: "/products/tiktok" },
-          { label: "TikTok Ad Accounts", href: "/products/tiktok-ads" },
-        ],
-      },
-      {
-        icon: <GoogleIcon className="w-[18px]" />,
-        name: "Google Agency Accounts",
-        links: [
-          { label: "Google Ads MCC", href: "/products/google-mcc" },
-          { label: "Google Ad Accounts", href: "/products/google-ads" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Meta Assets",
-    items: [
-      {
-        icon: <ProfileIcon className="w-[18px]" />,
-        name: "Advertising Profiles",
-        links: [
-          { label: "Verified Profiles", href: "/products/profiles-verified" },
-          { label: "Aged Profiles", href: "/products/profiles-aged" },
-        ],
-      },
       {
         icon: <BMIcon className="w-[18px]" />,
-        name: "Business Managers",
+        name: "Unban BM",
         links: [
-          { label: "Verified BMs", href: "/products/bm-verified" },
-          { label: "Unverified BMs", href: "/products/bm-standard" },
+          { label: "With Request Review Button", href: "/services/unban-bm-request-review" },
+          { label: "No Request Review Button", href: "/services/unban-bm-no-button" },
+        ],
+      },
+      {
+        icon: <AdAccountIcon className="w-[18px]" />,
+        name: "Unban Ad Account",
+        links: [
+          { label: "With Request Review", href: "/services/unban-ad-request-review" },
+          { label: "Without Request Review", href: "/services/unban-ad-no-review" },
+        ],
+      },
+      {
+        icon: <ProfileIcon className="w-[18px]" />,
+        name: "Unban Profile",
+        links: [
+          { label: "Video Selfie Required", href: "/services/unban-profile-video" },
+          { label: "FAQ Method", href: "/services/unban-profile-faq" },
         ],
       },
     ],
   },
   {
-    title: "Add-ons",
+    title: "Verification",
     items: [
       {
-        icon: <PageIcon className="w-[18px]" />,
-        name: "Pages & Pixels",
+        icon: <BMIcon className="w-[18px]" />,
+        name: "Business Verification",
         links: [
-          { label: "Facebook Pages", href: "/products/pages" },
-          { label: "Pixels Setup", href: "/products/pixels" },
+          { label: "BM Verification Service", href: "/services/bm-verification" },
+        ],
+      },
+      {
+        icon: <BadgeIcon className="w-[18px]" />,
+        name: "Blue Badge",
+        links: [
+          { label: "Facebook Page", href: "/services/blue-badge-page" },
+          { label: "WhatsApp Business", href: "/services/blue-badge-whatsapp" },
+          { label: "Instagram", href: "/services/blue-badge-instagram" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Intelligence",
+    items: [
+      {
+        icon: <SpyIcon className="w-[18px]" />,
+        name: "Competitor Spy",
+        links: [
+          { label: "BM Spy Service", href: "/services/bm-spy" },
+          { label: "Google Ads Spy", href: "/services/google-ads-spy" },
+          { label: "Shopify Spy", href: "/services/shopify-spy" },
         ],
       },
     ],
   },
 ];
 
-/** Chevron arrow icon for feature links */
+/** Chevron arrow icon for service links */
 function LinkArrow({ className }: { className?: string }) {
   return (
     <svg
@@ -146,8 +139,8 @@ function LinkArrow({ className }: { className?: string }) {
   );
 }
 
-/** Reusable feature link component */
-function FeatureLink({ href, label }: { href: string; label: string }) {
+/** Reusable service link component */
+function ServiceLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
@@ -159,10 +152,10 @@ function FeatureLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-/** Reusable feature item component */
-function FeatureItemCard({ item }: { item: FeatureItem }) {
+/** Reusable service item component */
+function ServiceItemCard({ item }: { item: ServiceItem }) {
   return (
-    <div className="flex h-[130px] w-full flex-col items-start gap-4.5">
+    <div className="flex min-h-[130px] w-full flex-col items-start gap-4.5">
       {/* Icon + Title */}
       <div className="flex items-center gap-2.5">
         <div className="bg-primary-100 flex aspect-square h-9 w-9 shrink-0 items-center justify-center rounded-sm text-black/75">
@@ -176,7 +169,7 @@ function FeatureItemCard({ item }: { item: FeatureItem }) {
       <ul className="flex flex-col gap-2">
         {item.links.map((link) => (
           <li key={link.label}>
-            <FeatureLink href={link.href} label={link.label} />
+            <ServiceLink href={link.href} label={link.label} />
           </li>
         ))}
       </ul>
@@ -189,8 +182,8 @@ function PromoCard() {
   return (
     <div className="hidden h-full xl:block">
       <MediaCard
-        imageSrc="https://s.krea.ai/krea1-example.webp"
-        alt="Professional advertising creative showcase"
+        imageSrc="https://s.krea.ai/landingPageTruckKrea1.webp"
+        alt="Professional service showcase"
         size="promo"
         hoverZoom={false}
         className="rounded-2xl"
@@ -203,12 +196,12 @@ function PromoCard() {
         {/* Prompt and CTA - Keep original structure */}
         <MediaCardContent>
           <MediaCardPrompt
-            text="Scale your ads with verified agency accounts"
+            text="Unlock your accounts with expert recovery services"
             animated={false}
           />
           <div className="pt-4">
             <Link
-              href="/products"
+              href="/services"
               className={cn(
                 "inline-flex shrink-0 items-center justify-center gap-2",
                 "text-sm font-medium whitespace-nowrap",
@@ -219,7 +212,7 @@ function PromoCard() {
                 "h-9 px-5 py-2"
               )}
             >
-              Browse products
+              View all services
             </Link>
           </div>
         </MediaCardContent>
@@ -228,32 +221,30 @@ function PromoCard() {
   );
 }
 
-interface FeaturesTriggerProps {
+interface ServicesTriggerProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   inverted?: boolean;
 }
 
-/** Trigger button for Products dropdown - rendered in nav */
-export function FeaturesTrigger({
+/** Trigger button for Services dropdown */
+export function ServicesTrigger({
   isOpen,
   onOpenChange,
   inverted,
-}: FeaturesTriggerProps) {
+}: ServicesTriggerProps) {
   return (
     <button
       className={cn(
         "flex cursor-pointer items-center gap-1",
         "rounded-lg bg-transparent px-4 py-3 xl:px-5",
         "text-xbase font-normal leading-[1.5] tracking-[0.01em]",
-        // Match header transition timing exactly
         "transition-[color,background-color] duration-200 ease-out",
         inverted ? "hover:bg-black/10" : "hover:bg-white/10",
         isOpen && (inverted ? "bg-black/10" : "bg-white/10")
       )}
       onMouseEnter={() => onOpenChange(true)}
       onMouseLeave={(e) => {
-        // Only close if not moving to dropdown panel
         const rect = e.currentTarget.getBoundingClientRect();
         const isMovingDown = e.clientY >= rect.bottom - 5;
         if (!isMovingDown) {
@@ -261,22 +252,22 @@ export function FeaturesTrigger({
         }
       }}
     >
-      Products
+      Services
       <ChevronIcon direction="down" className="translate-y-[1px]" />
     </button>
   );
 }
 
-interface FeaturesDropdownPanelProps {
+interface ServicesDropdownPanelProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-/** Dropdown panel for Products - rendered at header level */
-export function FeaturesDropdownPanel({
+/** Dropdown panel for Services */
+export function ServicesDropdownPanel({
   isOpen,
   onOpenChange,
-}: FeaturesDropdownPanelProps) {
+}: ServicesDropdownPanelProps) {
   return (
     <div
       role="menu"
@@ -303,16 +294,16 @@ export function FeaturesDropdownPanel({
     >
       {/* Main content container */}
       <div className="flex w-fit max-w-[90vw] gap-11 p-11">
-        {/* Feature Categories Grid */}
+        {/* Service Categories Grid - 2 columns */}
         <div className="grid auto-cols-max grid-flow-col gap-x-11">
-          {featureCategories.map((category) => (
+          {serviceCategories.map((category) => (
             <div key={category.title}>
               {/* Category Title */}
               <p className="text-primary-400 text-base">{category.title}</p>
               {/* Category Items */}
               <div className="mt-8 flex flex-col gap-10">
                 {category.items.map((item) => (
-                  <FeatureItemCard key={item.name} item={item} />
+                  <ServiceItemCard key={item.name} item={item} />
                 ))}
               </div>
             </div>

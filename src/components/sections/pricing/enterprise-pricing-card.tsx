@@ -2,41 +2,42 @@ import { PricingCardBase } from "./pricing-card-base";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { FeatureList } from "@/components/ui/feature-list";
 
-const ENTERPRISE_FEATURES = [
-  "Priority support with SLA",
-  "Advanced security & compliance",
-  "Custom integrations",
-  "No-train policy",
-  "MSA legal support",
-  "Onboarding & training",
+const ELITE_FEATURES = [
+  "BM5 Verified $250 DSL (Running Campaign)",
+  "BM5 Verified $250 DSL (Pixel Bank)",
+  "Premium Aged Reinstated Profiles (6x)",
+  "+2 more products",
+  "7-Day Warranty",
+  "Priority Support",
 ];
 
-/** Enterprise pricing card with dark theme */
+/** Elite Bulletproof Setup pricing card with dark theme */
 export function EnterprisePricingCard() {
   return (
     <PricingCardBase variant="dark">
       {/* Title */}
-      <h3 className="text-2xl font-medium text-white">Enterprise</h3>
+      <h3 className="text-2xl font-medium text-white">Elite Bulletproof</h3>
 
       {/* Description */}
       <p className="text-primary-400 mt-2 text-sm">
-        For large enterprises and organizations
+        Enterprise-grade setup
       </p>
 
       {/* Price */}
       <div className="mb-5 mt-4">
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-semibold text-white">Custom</span>
+          <span className="text-4xl font-semibold text-white">$890</span>
+          <span className="text-primary-400 text-sm font-medium">one-time</span>
+        </div>
+        <div className="text-primary-500 mt-1 text-base font-medium">
+          $1,100+ value
         </div>
       </div>
 
       {/* Features */}
       <div className="mb-5">
-        <div className="text-primary-500 mb-4 text-sm font-medium">
-          Everything in Business, plus:
-        </div>
         <FeatureList
-          features={ENTERPRISE_FEATURES}
+          features={ELITE_FEATURES}
           variant="dark"
           className="mb-0"
         />
@@ -44,7 +45,7 @@ export function EnterprisePricingCard() {
 
       {/* CTA */}
       <div className="mt-auto">
-        <GradientButton as="link" href="/enterprise">Contact sales</GradientButton>
+        <GradientButton as="link" href="/products/elite-bulletproof">View Pack</GradientButton>
       </div>
     </PricingCardBase>
   );

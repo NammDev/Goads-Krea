@@ -10,41 +10,46 @@ import { FeatureCard } from "./feature-card";
 const features = [
   {
     platform: "meta",
-    imageSrc: "https://s.krea.ai/landingPhotorealExamplePortrait.webp",
+    imageSrc: "/images/feature-meta-agency.png",
     promptLabel: "AGENCY",
-    prompt: "Pre-established agency accounts with higher trust scores, faster approvals, and better stability",
+    prompt:
+      "Agency accounts with higher trust scores, faster approvals, and better stability",
     actionLabel: "Get Started",
     actionHref: "/products/meta-agency",
   },
   {
     platform: "google",
-    imageSrc: "https://s.krea.ai/krea1-example.webp",
+    imageSrc: "/images/feature-google-agency.png",
     promptLabel: "WHITELISTED",
-    prompt: "Whitelisted accounts for Search, Display, YouTube, and Shopping. Higher approval rates",
+    prompt:
+      "Whitelisted accounts for Search, Display, YouTube, and Shopping. Higher approval rates",
     actionLabel: "Get Started",
     actionHref: "/products/google-agency",
   },
   {
     platform: "tiktok",
-    imageSrc: "https://s.krea.ai/landingEnhancerExampleSwordBloomCentered.webp",
+    imageSrc: "/images/feature-tiktok-agency.png",
     promptLabel: "VERIFIED",
-    prompt: "Tap into TikTok's explosive reach with agency accounts designed for scale",
+    prompt:
+      "Tap into TikTok's explosive reach with agency accounts designed for scale",
     actionLabel: "Get Started",
     actionHref: "/products/tiktok-agency",
   },
   {
     platform: "meta",
-    imageSrc: "https://s.krea.ai/landingPageTruckKrea1.webp",
+    imageSrc: "/images/feature-business-managers.png",
     promptLabel: "BUSINESS MANAGERS",
-    prompt: "Verified BMs with varying DSL limits — from starter to enterprise-grade",
+    prompt:
+      "Verified BMs with varying DSL limits — from starter to enterprise-grade",
     actionLabel: "Get Started",
     actionHref: "/products/business-managers",
   },
   {
     platform: "goads",
-    imageSrc: "https://s.krea.ai/landingPhotorealExamplePortrait.webp",
+    imageSrc: "/images/feature-profiles-pages.png",
     promptLabel: "PROFILES & PAGES",
-    prompt: "Aged, verified profiles and pages built for stability. The foundation that keeps your ad accounts running",
+    prompt:
+      "Aged, verified profiles and pages built for stability. The foundation that keeps your ad accounts running",
     actionLabel: "Get Started",
     actionHref: "/products/meta-assets",
   },
@@ -114,7 +119,8 @@ export function FeatureCards() {
             ? "translate3d(0px, 0px, 0px)"
             : "translate3d(0px, 80px, 0px)",
           opacity: isVisible ? 1 : 0,
-          transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out",
+          transition:
+            "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out",
           willChange: "transform, opacity",
         }}
       >

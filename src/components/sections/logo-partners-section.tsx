@@ -9,8 +9,8 @@ export function LogoPartnersSection() {
   return (
     <section className="section-container pt-24 md:pt-40">
       <SectionHeader
-        subtitle="A tool suite for pros and beginners alike"
-        title="Krea powers millions of creatives, enterprises, and everyday people."
+        subtitle="Professional Meta infrastructure"
+        title="The Industry's Best Agency Ad Account Provider"
       />
 
       {/* Marquee Container */}
@@ -19,10 +19,10 @@ export function LogoPartnersSection() {
       </div>
 
       <CTAButtonGroup
-        primaryText="Sign up for free"
-        primaryHref="/login"
+        primaryText="Get Started"
+        primaryHref="/products"
         secondaryText="Contact Sales"
-        secondaryHref="/enterprise"
+        secondaryHref="/contact"
         secondaryNewTab
       />
     </section>

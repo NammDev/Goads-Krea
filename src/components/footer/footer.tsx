@@ -105,42 +105,41 @@ function InstagramIcon() {
   );
 }
 
-/** Footer columns configuration */
+/** Footer columns configuration - GoAds */
 const FOOTER_COLUMNS: readonly FooterColumn[] = [
-  {
-    title: "Krea",
-    links: [
-      { label: "Log In", href: "/login" },
-      { label: "Krea Teams", href: "/pricing/teams" },
-      { label: "Krea Enterprise", href: "/pricing/teams" },
-      { label: "Gallery", href: "/feed" },
-    ],
-  },
   {
     title: "Products",
     links: [
-      { label: "Image Generator", href: "/apps/image" },
-      { label: "Video Generator", href: "/apps/video" },
-      { label: "Enhancer", href: "/apps/enhancer" },
-      { label: "Realtime", href: "/apps/realtime" },
-      { label: "Edit", href: "/apps/edit" },
+      { label: "Agency Ad Accounts", href: "/products/agency" },
+      { label: "Business Managers", href: "/products/bm" },
+      { label: "Profiles & Pages", href: "/products/assets" },
+      { label: "Packs", href: "/products/packs" },
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      { label: "Feedback Score Boost", href: "/services/feedback" },
+      { label: "Account Health Assessment", href: "/services/health" },
+      { label: "Unban Service", href: "/services/unban" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Pricing", href: "/pricing" },
-      { label: "Careers", href: "/careers" },
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Documentation", href: "https://docs.krea.ai" },
+      { label: "Blog", href: "/blog" },
+      { label: "Partners", href: "/partners" },
+      { label: "Our Team", href: "/team" },
+      { label: "Reviews", href: "/reviews" },
     ],
   },
   {
-    title: "About",
+    title: "Support",
     links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Discord", href: "https://discord.gg/krea" },
+      { label: "Contact", href: "/contact" },
+      { label: "FAQ", href: "/#faq" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
 ] as const;
@@ -149,29 +148,29 @@ const FOOTER_COLUMNS: readonly FooterColumn[] = [
 const LINK_HOVER_STYLES =
   "hover:text-primary-800 dark:hover:text-primary-200 transition-colors";
 
-/** Social links configuration */
+/** Social links configuration - GoAds */
 const SOCIAL_LINKS = [
   {
     name: "Documentation",
-    href: "https://docs.krea.ai",
+    href: "https://docs.goads.agency",
     icon: DocsIcon,
     extraClass: "mr-0.5",
   },
   {
     name: "Twitter",
-    href: "https://twitter.com/krea_ai",
+    href: "https://twitter.com/goads_agency",
     icon: XIcon,
     extraClass: "mr-0.5",
   },
   {
     name: "LinkedIn",
-    href: "https://linkedin.com/company/krea-ai",
+    href: "https://linkedin.com/company/goads",
     icon: LinkedInIcon,
     extraClass: "",
   },
   {
     name: "Instagram",
-    href: "https://instagram.com/krea_ai",
+    href: "https://instagram.com/goads_agency",
     icon: InstagramIcon,
     extraClass: "",
   },
@@ -219,7 +218,7 @@ export function Footer() {
 
           {/* Footer bottom bar with border */}
           <div className="text-primary-400 border-primary-200 flex flex-wrap items-center justify-between gap-4 border-t pt-4 text-xs font-medium">
-            <p>© 2026 Krea</p>
+            <p>© 2026 GoAds — All rights reserved</p>
             <div className="flex items-center gap-4">
               {SOCIAL_LINKS.map((social) => (
                 <a

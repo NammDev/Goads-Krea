@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  KreaModelIcon,
-  VeoModelIcon,
-  IdeogramModelIcon,
-  RunwayModelIcon,
-  LumaModelIcon,
-  FluxModelIcon,
-  GeminiModelIcon,
-} from "@/components/icons";
+  Shield,
+  UserCheck,
+  FileCheck,
+  Clock,
+  Headphones,
+  BadgeCheck,
+  Zap,
+} from "lucide-react";
 
 /** Model data for the marquee slider */
 export interface ModelItem {
@@ -16,15 +16,15 @@ export interface ModelItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-/** Default models list used across showcase sections */
+/** Default items - GoAds products and features */
 export const defaultModels: ModelItem[] = [
-  { name: "Veo 3.1", icon: VeoModelIcon },
-  { name: "Ideogram", icon: IdeogramModelIcon },
-  { name: "Runway", icon: RunwayModelIcon },
-  { name: "Luma", icon: LumaModelIcon },
-  { name: "Flux", icon: FluxModelIcon },
-  { name: "Gemini", icon: GeminiModelIcon },
-  { name: "Krea 1", icon: KreaModelIcon },
+  { name: "BM Verified", icon: BadgeCheck },
+  { name: "Aged Profiles", icon: UserCheck },
+  { name: "Ready Pages", icon: FileCheck },
+  { name: "Fast Delivery", icon: Zap },
+  { name: "24/7 Support", icon: Headphones },
+  { name: "7-Day Warranty", icon: Shield },
+  { name: "Instant Setup", icon: Clock },
 ];
 
 /** Single model logo with icon and name */

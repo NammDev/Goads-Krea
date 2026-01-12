@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { ModelMarquee } from "@/components/ui/model-marquee";
 
-// Rotating words for the 3D cylinder animation (order matches HTML reference)
-const ROTATING_WORDS = ["Generative", "Image", "Video", "3D", "Creative", "AI"];
+// Rotating words for the 3D cylinder animation - GoAds product qualities
+const ROTATING_WORDS = ["Agency", "Verified", "Stable", "Trusted", "Reliable"];
 
 /** 3D Rotating Cylinder Text Component */
 function RotatingCylinder() {
@@ -84,29 +84,12 @@ function RotatingCylinder() {
         </span>
       </span>
 
-      {/* "models." text that shifts based on current word width */}
-      <span
-        className="inline-block transition-transform duration-700 ease-in-out"
-        style={{
-          transform: `translateX(${getWordOffset(ROTATING_WORDS[currentIndex], longestWord)}px)`,
-        }}
-      >
-        &nbsp;models.
+      {/* "assets." text - fixed position, no dynamic offset */}
+      <span className="inline-block ml-3">
+        assets.
       </span>
     </span>
   );
-}
-
-/** Calculate pixel offset based on word length difference - responsive to font size */
-function getWordOffset(currentWord: string, longestWord: string): number {
-  // Character width scales with viewport: text-4xl (36px) to text-7xl (72px)
-  // Using vw units approximation: ~2vw per character at large screens
-  const baseCharWidth =
-    typeof window !== "undefined"
-      ? Math.min(Math.max(window.innerWidth * 0.02, 18), 40)
-      : 28;
-  const lengthDiff = longestWord.length - currentWord.length;
-  return -(lengthDiff * baseCharWidth * 0.5);
 }
 
 /** Model Showcase Section with 3D rotating title and marquee */
@@ -120,7 +103,7 @@ export function ModelShowcaseSection() {
         </span>{" "}
         <RotatingCylinder />
         <br />
-        <span className="relative z-20 inline-block">In one subscription.</span>
+        <span className="relative z-20 inline-block">All in one place.</span>
       </h2>
 
       {/* Marquee Container */}

@@ -75,13 +75,13 @@ export function CtaBannerSection() {
       {/* Content */}
       <div className="selection:bg-primary-0! selection:text-primary-1000! relative z-10 mx-auto flex max-w-2xl flex-col items-center justify-center space-y-4 px-5 text-center md:px-16">
         <h2 className="text-primary-0 text-[40px] font-medium tracking-[-0.8px]">
-          Get started for free
+          Stop Worrying About Bans. Start Scaling.
         </h2>
         <p className="text-primary-400 mb-10 text-lg leading-normal tracking-[-0.32px] text-pretty">
-          Try out Enhancer for your architectural renders
+          7-day warranty. Real support. Agency-tested quality.
         </p>
-        <GradientButton as="a" href="/enhancer" variant="tertiary">
-          Start generating
+        <GradientButton as="a" href="/products" variant="tertiary">
+          Get Started
         </GradientButton>
       </div>
     </section>

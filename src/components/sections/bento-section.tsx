@@ -69,7 +69,7 @@ export function BentoSection() {
   return (
     <section ref={sectionRef} className="section-container pt-24 md:pt-40">
       <div className="bento gap-3.5 *:rounded-3xl">
-        {/* Speed Card - index 0 */}
+        {/* 7-Day Warranty Card - index 0 */}
         <div
           className="bg-primary-800 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "speed", ...getAnimationStyle(0) }}
@@ -88,35 +88,35 @@ export function BentoSection() {
             }}
           />
           <span className="relative z-10 text-center text-3xl leading-none font-semibold md:text-4xl">
-            Industry-leading
+            7-Day
             <br />
-            inference speed
+            Warranty
           </span>
         </div>
 
-        {/* Upscaling Card - index 1 */}
+        {/* Fast Support Card - index 1 */}
         <div
           className="bg-primary-100 flex flex-col items-center justify-center"
           style={{ gridArea: "upscaling", ...getAnimationStyle(1) }}
         >
-          <GradientText className="text-5xl xl:text-7xl">22K</GradientText>
+          <GradientText className="text-5xl xl:text-7xl">24/7</GradientText>
           <span className="text-base leading-none font-semibold xl:text-lg">
-            Pixels upscaling
+            Fast Support
           </span>
         </div>
 
-        {/* Train Card - index 2 */}
+        {/* Stable Assets Card - index 2 */}
         <div
           className="bg-primary-100 flex flex-col items-center justify-center"
           style={{ gridArea: "train", ...getAnimationStyle(2) }}
         >
-          <GradientText className="text-5xl xl:text-7xl">Train</GradientText>
+          <GradientText className="text-5xl xl:text-7xl">Stable</GradientText>
           <span className="text-base leading-none font-semibold xl:text-lg">
-            Fine-tune models with your own data
+            Pre-verified, aged, tested assets
           </span>
         </div>
 
-        {/* 4K Card - index 3 */}
+        {/* Structured Process Card - index 3 */}
         <div
           className="bg-primary-300 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "fourk", ...getAnimationStyle(3) }}
@@ -128,14 +128,14 @@ export function BentoSection() {
             loading="lazy"
           />
           <span className="relative z-10 text-5xl leading-none font-bold tracking-tight xl:text-7xl">
-            4K
+            Clear
           </span>
           <span className="relative z-10 text-center text-base leading-none font-medium xl:text-lg">
-            Native image generation
+            Structured Process
           </span>
         </div>
 
-        {/* Krea 1 Card (Large) - index 4 */}
+        {/* Agency-Tested Card (Large) - index 4 */}
         <div
           className="bg-primary-800 relative flex flex-col items-center justify-center overflow-hidden bg-cover text-white"
           style={{ gridArea: "k1", ...getAnimationStyle(4) }}
@@ -143,7 +143,7 @@ export function BentoSection() {
           <img
             src={BENTO_IMAGES.krea1Example}
             className="absolute z-0 h-full w-full object-cover"
-            alt="Krea 1 example"
+            alt="Agency tested"
             loading="lazy"
           />
           <div
@@ -154,14 +154,14 @@ export function BentoSection() {
             }}
           />
           <span className="tracking-snug relative z-10 text-6xl leading-none font-semibold xl:text-8xl">
-            Krea 1
+            Agency
           </span>
           <span className="absolute bottom-5 z-10 text-base leading-none font-medium md:text-lg">
-            Ultra-realistic flagship model
+            Tested by professionals
           </span>
         </div>
 
-        {/* Minimalist UI Card - index 5 */}
+        {/* Verified BMs Card - index 5 */}
         <div
           className="bg-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "minimalist", ...getAnimationStyle(5) }}
@@ -169,11 +169,11 @@ export function BentoSection() {
           <img
             src={BENTO_IMAGES.minimalistBase}
             className="absolute z-0 h-full w-full object-cover"
-            alt="Minimalist UI"
+            alt="Verified BMs"
             loading="lazy"
           />
           <div className="tracking-snug relative text-center text-3xl leading-none font-semibold">
-            Minimalist UI
+            Verified BMs
             {/* Reflection effect */}
             <div
               className="tracking-snug absolute -bottom-full -scale-y-100 text-3xl font-semibold opacity-50 blur-[2px]"
@@ -185,12 +185,12 @@ export function BentoSection() {
                 backgroundClip: "text",
               }}
             >
-              Minimalist UI
+              Verified BMs
             </div>
           </div>
         </div>
 
-        {/* Asset Manager Card - index 6 */}
+        {/* Scaling Ready Card - index 6 */}
         <div
           className="bg-primary-100 relative overflow-hidden bg-cover p-4 text-white"
           style={{ gridArea: "assetmanager", ...getAnimationStyle(6) }}
@@ -198,7 +198,7 @@ export function BentoSection() {
           <img
             src={BENTO_IMAGES.assetManager}
             className="absolute top-0 left-0 z-0 h-full w-full object-cover"
-            alt="Asset manager"
+            alt="Scaling ready"
             loading="lazy"
           />
           <div
@@ -209,38 +209,38 @@ export function BentoSection() {
             }}
           />
           <div className="relative z-10 text-xl leading-tight font-semibold">
-            Full-fledged asset manager
+            Built for growth, not just launch
           </div>
         </div>
 
-        {/* Bleeding Edge Card - index 7 */}
+        {/* Professional Team Card - index 7 */}
         <div
           className="bg-primary-100 flex flex-col items-center justify-start gap-2 p-4"
           style={{ gridArea: "bleedingedge", ...getAnimationStyle(7) }}
         >
           <div className="tracking-snug w-full text-center text-xl leading-tight font-semibold">
-            Bleeding Edge
+            Professional Team
           </div>
           <BleedingEdgeClock size={140} />
           <div className="text-center text-sm leading-tight font-medium">
-            Access the latest models directly on release day
+            Small team, big accountability
           </div>
         </div>
 
-        {/* Models Card - index 8 */}
+        {/* Global Service Card - index 8 */}
         <div
           className="bg-primary-100 flex flex-col items-center justify-center"
           style={{ gridArea: "models", ...getAnimationStyle(8) }}
         >
           <GradientText as="div" className="text-5xl font-semibold xl:text-7xl">
-            64+
+            50+
           </GradientText>
           <div className="text-base leading-none font-semibold xl:text-2xl">
-            Models
+            Countries
           </div>
         </div>
 
-        {/* Do Not Train Card - index 9 */}
+        {/* Peace of Mind Card - index 9 */}
         <div
           className="bg-primary-100 text-primary-1000 flex flex-col items-center justify-center"
           style={{ gridArea: "donottrain", ...getAnimationStyle(9) }}
@@ -249,14 +249,14 @@ export function BentoSection() {
             as="div"
             className="tracking-snug text-center text-2xl leading-none font-semibold xl:text-3xl"
           >
-            Do not train
+            Peace of Mind
           </GradientText>
           <div className="mt-1 text-center text-sm leading-[1.2em] font-medium">
-            Safely generate proprietary data
+            Focus on ads. We handle infrastructure.
           </div>
         </div>
 
-        {/* Styles Card - index 10 */}
+        {/* 1:1 Replacement Card - index 10 */}
         <div
           className="bg-primary-100 relative overflow-hidden bg-cover bg-center p-4 text-white"
           style={{ gridArea: "styles", ...getAnimationStyle(10) }}
@@ -264,15 +264,15 @@ export function BentoSection() {
           <img
             src={BENTO_IMAGES.styles}
             className="absolute top-0 left-0 z-0 h-full w-full object-cover"
-            alt="Styles"
+            alt="Replacement"
             loading="lazy"
           />
           <div className="relative z-10 text-lg leading-tight font-semibold md:text-2xl">
-            1000+ styles
+            1:1 Replacement
           </div>
         </div>
 
-        {/* Editor Card - index 11 */}
+        {/* Real Humans Card - index 11 */}
         <div
           className="bg-primary-100 text-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center"
           style={{ gridArea: "editor", ...getAnimationStyle(11) }}
@@ -280,7 +280,7 @@ export function BentoSection() {
           <img
             src={BENTO_IMAGES.editor}
             className="absolute top-0 left-0 z-0 h-full w-full scale-220 object-cover object-center"
-            alt="Image editor"
+            alt="Real humans"
             loading="lazy"
           />
           <div
@@ -291,53 +291,53 @@ export function BentoSection() {
             }}
           />
           <span className="tracking-snug relative z-10 text-center text-3xl font-semibold text-white md:text-4xl md:leading-12">
-            Image <br /> Editor
+            Real <br /> Humans
           </span>
         </div>
 
-        {/* 3D Section (Contains Realtime Canvas + Text to 3D) - index 12 */}
+        {/* Multi-Channel Support Card - index 12 */}
         <div
           className="flex flex-col justify-between gap-2"
           style={{ gridArea: "threed", ...getAnimationStyle(12) }}
         >
-          {/* Realtime Canvas */}
+          {/* Telegram */}
           <div className="relative h-[45%] overflow-hidden rounded-3xl bg-black bg-cover bg-center pt-4 text-white">
             <img
               src={BENTO_IMAGES.realtimeBase}
               className="absolute top-0 left-0 z-0 h-full w-full object-cover"
-              alt="Realtime Canvas"
+              alt="Multi-channel support"
               loading="lazy"
             />
             <div className="tracking-snug relative z-10 mx-auto text-center text-2xl font-semibold">
-              Realtime Canvas
+              Multi-Channel
             </div>
             <img
               className="absolute top-0 left-0 z-10 h-full w-full object-cover"
-              alt="Realtime overlay"
+              alt="Support overlay"
               loading="lazy"
               src={BENTO_IMAGES.realtimeOverlay}
             />
           </div>
 
-          {/* Text to 3D */}
+          {/* Fast Response */}
           <div className="bg-primary-100 relative flex h-[55%] flex-col items-center justify-center overflow-hidden rounded-3xl">
             <GradientText
               as="div"
               className="tracking-snug mx-auto text-center text-2xl font-semibold"
             >
-              Text to 3D
+              &lt;2h Response
             </GradientText>
             <Text3DCube size="2.5rem" />
           </div>
         </div>
 
-        {/* Lipsync Card - index 13 */}
+        {/* No Questions Asked Card - index 13 */}
         <div
           className="bg-primary-100 flex flex-col gap-6 p-5 md:gap-8"
           style={{ gridArea: "lipsync", ...getAnimationStyle(13) }}
         >
           <div className="text-base leading-tight font-semibold md:text-xl">
-            Lipsync
+            No Questions Asked
           </div>
           <LipsyncWave />
         </div>

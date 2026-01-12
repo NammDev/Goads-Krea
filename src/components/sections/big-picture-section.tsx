@@ -10,35 +10,31 @@ interface SlideData {
   title: string;
 }
 
-/** Carousel slides configuration */
+/** Carousel slides configuration - GoAds milestones */
 const SLIDES: readonly SlideData[] = [
   {
     image: "https://s.krea.ai/krea-1/skinTexture.webp",
-    title: "Photorealistic skin textures and color science",
+    title: "500+ Active Clients — Advertisers trust us with infrastructure",
   },
   {
     image: "https://s.krea.ai/krea-1/carCloseup.webp",
-    title: "Discover new perspectives with extreme camera angles",
+    title: "5,000+ Assets Sold — BMs, Profiles, Pages delivered",
   },
   {
     image: "https://s.krea.ai/krea-1/swordBloom.webp",
-    title: "Perfect imperfection. Grain, bloom, blur",
+    title: "10x Revenue Growth — From $3k to $32k monthly in 12 months",
   },
   {
     image: "https://s.krea.ai/krea-1/catSf.webp",
-    title: "Engineered for high visual complexity",
+    title: "50+ Countries — Serving advertisers worldwide",
   },
   {
     image: "https://s.krea.ai/krea-1/guitarPlayer.webp",
-    title: "Dreamy, vivid, weird. Artistic and expressive rendering",
+    title: "<2h Support Speed — Average response time",
   },
   {
     image: "https://s.krea.ai/krea-1/catSleeping.webp",
-    title: "Dali paintings or cat memes. Ultra realistic surrealism",
-  },
-  {
-    image: "https://s.krea.ai/krea-1/carIllu.webp",
-    title: "Simple prompts, strong visuals",
+    title: "95%+ Warranty Rate — Claims honored within policy",
   },
 ] as const;
 
@@ -108,15 +104,15 @@ export function BigPictureSection() {
       {/* Header */}
       <div className="flex w-full flex-col gap-8 pt-24 md:gap-12 md:pt-40 lg:flex-row lg:items-end lg:gap-10">
         <SectionHeader
-          subtitle="Powerful proprietary models"
-          title="Krea 1 - Our ultra-realistic image model"
+          subtitle="Growing alongside our clients"
+          title="Built for Scale. Proven by Numbers."
           size="large"
           darkSubtitle
         />
         <p className="text-primary-500 max-w-2xl text-lg font-normal md:text-xl lg:text-end">
-          Krea 1 is our proprietary image model. Unlike traditional models, it
-          offers accurate skin textures, dynamic camera angles, and expressive
-          styles. Discover an exceptionally artistic latent space.
+          From a small team to serving advertisers worldwide. Our numbers speak
+          for themselves — consistent growth, reliable service, and a commitment
+          to quality that agencies depend on.
         </p>
       </div>
 

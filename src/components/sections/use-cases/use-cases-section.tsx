@@ -14,60 +14,33 @@ interface UseCase {
   videoSrc: string;
 }
 
-/** Use cases data - matching krea.ai */
+/** Use cases data - GoAds use cases */
 const USE_CASES: UseCase[] = [
   {
-    id: "ai-image-generation",
-    title: "AI Image Generation",
+    id: "ecommerce-scaling",
+    title: "E-commerce Scaling",
     description:
-      "Generate images with a simple text description. Control your compositions precisely with over 1000 styles, 20 different models, native 4K, image prompts, and image style transfer through exceptionally simple interfaces. Krea offers the industry's fastest generation speeds at 3s for a 1024px Flux image at FP16.",
-    ctaText: "Try AI Image Generation",
-    ctaHref: "/apps/image",
+      "From dropshipping to established brands — the Meta infrastructure you need to scale profitably. Stable accounts, verified BMs, and support that understands your urgency.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
   },
   {
-    id: "image-upscaling",
-    title: "Image Upscaling",
+    id: "agency-operations",
+    title: "Agency Operations",
     description:
-      "Enhance and upscale images up to a 22K resolution. Make blurry photos razor-sharp, turn simple 3D renders into photo-like architecture visualizations, restore old film scans, or add ultra-fine skin textures to your portraits. A single subscription unlocks 7 different upscaling models, including Topaz Photo and Topaz Gigapixel.",
-    ctaText: "Try Image Upscaling",
-    ctaHref: "/apps/upscale",
+      "Reliable wholesale partner for your client accounts. Consistent quality, volume capacity, and the support your team needs.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
   },
   {
-    id: "real-time-rendering",
-    title: "Real-time rendering",
+    id: "affiliate-performance",
+    title: "Affiliate & Performance",
     description:
-      "Krea is the market leader in realtime image generation for Creatives. Turn easy-to-control primitives into photorealistic images in less than 50ms. Or try out the revolutionary Video Realtime with full frame consistency.",
-    ctaText: "Try Real-time Rendering",
-    ctaHref: "/apps/realtime",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
-  },
-  {
-    id: "ai-video-generation",
-    title: "AI Video Generation",
-    description:
-      "Access all of the most powerful AI video models including Veo 3, Kling, Hailuo, Wan, and Runway. Generate viral videos for social media, animate static images, or add new details to existing videos. Krea offers the world's most intuitive AI video generation interface.",
-    ctaText: "Try AI Video Generation",
-    ctaHref: "/video",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
-  },
-  {
-    id: "image-editing",
-    title: "Image Editing",
-    description:
-      "Edit any image with AI-powered tools. Remove backgrounds, extend images, inpaint objects, or transform styles. Our intuitive editor combines traditional editing tools with cutting-edge AI capabilities for seamless creative workflows.",
-    ctaText: "Try Image Editing",
-    ctaHref: "/apps/edit",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
-  },
-  {
-    id: "3d-generation",
-    title: "3D Generation",
-    description:
-      "Generate 3D models from text descriptions or images. Create game assets, product visualizations, or architectural models with state-of-the-art AI. Export in standard formats compatible with all major 3D software.",
-    ctaText: "Try 3D Generation",
-    ctaHref: "/apps/3d",
+      "The infrastructure that survives aggressive campaigns. Stable assets, fast replacement, and no judgment on your vertical.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
   },
 ];
@@ -131,7 +104,7 @@ export function UseCasesSection() {
     <section className="section-container pt-24 md:pt-40">
       <SectionHeader
         subtitle="Use cases"
-        title="Generate or edit high quality images, videos, and 3D objects with AI"
+        title="Built for How You Work"
         className="max-w-3xl"
       />
 

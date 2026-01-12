@@ -10,55 +10,49 @@ interface FaqItem {
   answer: string;
 }
 
-/** Enterprise FAQ data */
+/** GoAds FAQ data */
 const FAQ_ITEMS: readonly FaqItem[] = [
   {
-    id: "enterprise-plan",
-    question: "What is included in the Enterprise plan?",
+    id: "agency-ad-account",
+    question: "What is an agency ad account?",
     answer:
-      "The Enterprise plan includes unlimited team licenses, SSO integration, dedicated support, custom billing, usage analytics, model and compute controls, priority access to new features, and enhanced security options.",
+      "Agency accounts are pre-established advertising accounts with higher trust scores from the platform. They typically have fewer restrictions, faster approvals, and better stability than new personal accounts.",
   },
   {
-    id: "credit-based-model",
-    question: "How does the credit-based model work?",
+    id: "asset-banned",
+    question: "What happens if my asset gets banned?",
     answer:
-      "You purchase credits upfront and they get consumed when your team generates content. Admins control spending with credit caps and tool restrictions. Simple, flexible, and transparent.",
+      "We offer 7-day warranty with 1:1 replacement. If something goes wrong within the warranty period (and it's not due to policy violation on your end), we replace it free.",
   },
   {
-    id: "try-enterprise",
-    question: "Can I try Enterprise before committing?",
+    id: "goads-different",
+    question: "How is GoAds different from other providers?",
     answer:
-      "Yes, we offer a free team trial so you can explore all Enterprise features with your team before making any commitment. Contact our sales team to get started.",
+      "We operate as a professional agency, not an MMO-style vendor. That means structured processes, clear communication, real support, and accountability. Agencies trust us as their supplier — that's our quality standard.",
   },
   {
-    id: "personalized-onboarding",
-    question: "Do you offer personalized onboarding?",
+    id: "payment-methods",
+    question: "What payment methods do you accept?",
     answer:
-      "Absolutely. Every Enterprise customer receives dedicated onboarding support, including custom training sessions, workflow optimization, and ongoing guidance from our success team.",
+      "We accept Stripe, PayPal, bank transfer (Wise, IBAN), and cryptocurrency (Bitcoin, USDT).",
   },
   {
-    id: "enterprise-vs-teams",
-    question: "How is Enterprise different from a Teams plan?",
+    id: "delivery-speed",
+    question: "How fast is delivery?",
     answer:
-      "Enterprise offers advanced features like SSO, custom contracts, priority support, enhanced security controls, dedicated account management, and flexible billing options not available in Teams.",
+      "Most orders are delivered within 24 hours. Complex setups may take up to 48 hours.",
   },
   {
-    id: "support-included",
-    question: "What kind of support is included?",
+    id: "support-after-purchase",
+    question: "What support do you offer after purchase?",
     answer:
-      "Enterprise includes priority support with faster response times, dedicated account management, direct access to our engineering team for technical issues, and regular check-ins.",
+      "Fast response via Telegram, WhatsApp, or Discord. We're a small team, so you get real humans who know your order — not ticket numbers.",
   },
   {
-    id: "content-rights",
-    question: "What rights do we have over the content we create?",
+    id: "bm5-expensive",
+    question: "Why are BM5 accounts more expensive?",
     answer:
-      "You retain full ownership and rights to all content created using Krea. Enterprise customers can also request exclusive licensing options for their generated content.",
-  },
-  {
-    id: "train-on-data",
-    question: "Does Krea train models on our data?",
-    answer:
-      "No. Enterprise customers have a strict no-train policy. Your data and generated content are never used to train our models without explicit consent.",
+      "BM5 accounts have already run campaigns successfully, giving them higher trust with Meta. BM1 accounts are verified but haven't been 'proven' yet. More trust = more stability = higher price.",
   },
 ] as const;
 
@@ -152,9 +146,9 @@ export function EnterpriseFaqSection() {
           Frequently Asked Questions
         </h2>
         <p className="text-primary-500 lg:text-lg">
-          Find answers to common questions about Krea&apos;s Enterprise
-          solutions. Can&apos;t find what you&apos;re looking for? Contact our
-          sales team.
+          Find answers to common questions about GoAds products and services.
+          Can&apos;t find what you&apos;re looking for? Contact our support
+          team.
         </p>
       </div>
 

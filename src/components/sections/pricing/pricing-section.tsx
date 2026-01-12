@@ -8,9 +8,9 @@ import { EnterprisePricingCard } from "./enterprise-pricing-card";
 
 /** Heading lines for the pricing section with cumulative letter counts for stagger */
 const HEADING_LINES = [
-  { text: "Trusted by over 30,000,000 users", baseDelay: 0 },
-  { text: "From 191 countries.", baseDelay: 640 }, // ~32 letters * 20ms
-  { text: "We've got a plan for everybody...", baseDelay: 1020 }, // +19 letters
+  { text: "Simple, Transparent Pricing", baseDelay: 0 },
+  { text: "One-time purchase,", baseDelay: 540 },
+  { text: "ongoing support.", baseDelay: 920 },
 ] as const;
 
 /**

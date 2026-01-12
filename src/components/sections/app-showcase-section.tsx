@@ -193,7 +193,7 @@ function SidebarPanel() {
 }
 
 /**
- * AppShowcaseSection - Full screen section showcasing the app UI
+ * AppShowcaseSection - Full screen section showcasing the process
  * Features: Title, subtitle, prompt card with actions, sidebar panel
  */
 export function AppShowcaseSection() {
@@ -204,16 +204,16 @@ export function AppShowcaseSection() {
         <div className="mx-auto flex flex-col items-center justify-center px-5 md:px-16">
           <h2
             className="text-center text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-            aria-label="Dead simple UI. No tutorials needed."
+            aria-label="Simple. Fast. Reliable. Get started in 3 steps."
           >
-            Dead simple UI.
+            Simple. Fast. Reliable.
             <br />
-            No tutorials needed.
+            Get started in 3 steps.
           </h2>
           <p className="text-primary-700 mx-auto mt-6 max-w-2xl text-center text-base leading-tight sm:text-xl">
-            Krea offers the simplest interfaces. Skip dry tutorials and get
-            right into your creative flow with minimal distraction, even if you
-            or your team has never worked with AI tools before.
+            No complicated onboarding. No lengthy verification. Choose your
+            assets, complete payment, and receive delivery within 24 hours. Our
+            team is available 24/7 to help you get started.
           </p>
           <PromptCard />
         </div>

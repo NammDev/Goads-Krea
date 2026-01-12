@@ -331,6 +331,33 @@ body {
   --gap: 6rem; /* 96px - matching Krea's logo spacing */
 }
 
+/* Vertical marquee animations for testimonials */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 40s) linear infinite;
+}
+
 /* Bento Grid Layout - Desktop: 16 columns x 14 rows (pixel perfect) */
 .bento {
   display: grid;

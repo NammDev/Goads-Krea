@@ -2,8 +2,6 @@ import Link from "next/link";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CTAButtonGroup } from "@/components/ui/cta-button-group";
 
-
-
 /** Investor data with logo and link */
 interface Investor {
   name: string;
@@ -196,7 +194,11 @@ const INVESTORS: readonly Investor[] = [
   { name: "a16z", href: "https://a16z.com/", logo: <A16zLogo /> },
   { name: "BCV", href: "https://bcv.com/", logo: <BCVLogo /> },
   { name: "Gradient", href: "https://gradient.com/", logo: <GradientLogo /> },
-  { name: "Pebblebed", href: "https://pebblebed.com/", logo: <PebblebedLogo /> },
+  {
+    name: "Pebblebed",
+    href: "https://pebblebed.com/",
+    logo: <PebblebedLogo />,
+  },
   { name: "HF0", href: "https://hf0.com/", logo: <HF0Logo /> },
   { name: "Abstract", href: "https://abstract.com/", logo: <AbstractLogo /> },
 ] as const;
@@ -207,7 +209,7 @@ const INVESTORS: readonly Investor[] = [
  */
 export function InvestorShowcaseSection() {
   return (
-    <section className="section-container py-24 md:py-40">
+    <section className="section-container pt-24 md:pt-40">
       <SectionHeader
         subtitle="Our Investors"
         title="We are backed by world-class venture firms. And we are hiring."

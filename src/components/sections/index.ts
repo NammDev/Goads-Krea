@@ -11,3 +11,8 @@ export { EnterpriseShowcaseSection } from "./enterprise-showcase-section";
 export { EnterpriseContactSection } from "./enterprise-contact-section";
 export { EnterpriseFaqSection } from "./enterprise-faq-section";
 export { CtaBannerSection } from "./cta-banner-section";
+export { GlobalPresenceSection } from "./global-presence-section";
+export { GuaranteeSection } from "./guarantee-section";
+export { TestimonialsBentoSection } from "./testimonials-bento-section";
+export { MetaAssetsSection } from "./meta-assets-section";
+export { CompareSection } from "./compare-section";

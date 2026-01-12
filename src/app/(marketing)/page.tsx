@@ -8,12 +8,14 @@ import {
   PricingSection,
   AppShowcaseSection,
   BigPictureSection,
-  InvestorShowcaseSection,
-  EnterpriseAdvantageSection,
-  EnterpriseShowcaseSection,
   EnterpriseContactSection,
   EnterpriseFaqSection,
   CtaBannerSection,
+  GuaranteeSection,
+  TestimonialsBentoSection,
+  MetaAssetsSection,
+  CompareSection,
+  InvestorShowcaseSection,
 } from "@/components/sections";
 import { OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/lib/seo";
 
@@ -57,24 +59,27 @@ export default function Home() {
         </div>
       </div>
 
-      {/* App Layout Showcase - Full screen section */}
+      {/* App Layout Showcase - GREY BREAK #1: How It Works */}
       <AppShowcaseSection />
 
-      {/* Big Picture and Investor Sections */}
-      {/* <div className="max-w-s2xl relative z-10 mx-auto">
-        <BigPictureSection />
-        <InvestorShowcaseSection />
-      </div> */}
+      {/* WHITE BLOCK 2: Social Proof */}
+      <div className="bg-primary-0">
+        <div className="max-w-s2xl relative z-10 mx-auto">
+          <BigPictureSection />
+          <InvestorShowcaseSection />
+          <TestimonialsBentoSection />
+        </div>
+      </div>
 
-      {/* App Layout Showcase - Full screen section */}
-      {/* <AppShowcaseSection /> */}
-
-      {/* Enterprise Section */}
-      <div className="max-w-s2xl relative z-10 mx-auto">
-        {/* <EnterpriseAdvantageSection />
-        <EnterpriseShowcaseSection /> */}
-        <EnterpriseContactSection />
-        <EnterpriseFaqSection />
+      {/* WHITE BLOCK 3: Trust Building */}
+      <div className="bg-primary-0">
+        <div className="max-w-s2xl relative z-10 mx-auto">
+          {/* <GuaranteeSection /> */}
+          <MetaAssetsSection />
+          <CompareSection />
+          <EnterpriseContactSection />
+          <EnterpriseFaqSection />
+        </div>
       </div>
 
       {/* CTA Banner - Full width dark section */}

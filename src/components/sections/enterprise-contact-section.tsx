@@ -3,49 +3,27 @@
 import { useState, type FormEvent } from "react";
 import { cn } from "@/lib/utils";
 
-/** Company size options */
-const COMPANY_SIZE_OPTIONS = [
-  { value: "", label: "Select company size" },
-  { value: "1-10", label: "1-10" },
-  { value: "11-50", label: "11-50" },
-  { value: "51-200", label: "51-200" },
-  { value: "201-500", label: "201-500" },
-  { value: "501-1000", label: "501-1000" },
-  { value: "1000+", label: "1000+" },
+/** Monthly ad spend options */
+const AD_SPEND_OPTIONS = [
+  { value: "", label: "Select monthly ad spend" },
+  { value: "under-5k", label: "Under $5,000" },
+  { value: "5k-10k", label: "$5,000 - $10,000" },
+  { value: "10k-25k", label: "$10,000 - $25,000" },
+  { value: "25k-50k", label: "$25,000 - $50,000" },
+  { value: "50k-100k", label: "$50,000 - $100,000" },
+  { value: "100k+", label: "$100,000+" },
 ] as const;
 
-/** Use case options */
-const USE_CASE_OPTIONS = [
-  { value: "", label: "Select use case" },
-  {
-    value: "I want to collaborate with my team",
-    label: "I want to collaborate with my team",
-  },
-  { value: "I want API access", label: "I want API access" },
-  { value: "I want to train a model", label: "I want to train a model" },
-  {
-    value: "I want to deploy Krea on my own servers",
-    label: "I want to deploy Krea on my own servers",
-  },
-  {
-    value: "I need an exclusive license for the content I create",
-    label: "I need an exclusive license for the content I create",
-  },
-  { value: "I need more compute units", label: "I need more compute units" },
-  {
-    value: "I have certain security requirements",
-    label: "I have certain security requirements",
-  },
-  {
-    value: "I want to integrate Krea with my existing systems",
-    label: "I want to integrate Krea with my existing systems",
-  },
-  {
-    value: "I have a complicated custom use case",
-    label: "I have a complicated custom use case",
-  },
-  { value: "I want affordable pricing", label: "I want affordable pricing" },
-  { value: "Other", label: "Other" },
+/** Interest options for GoAds */
+const INTEREST_OPTIONS = [
+  { value: "", label: "What are you looking for?" },
+  { value: "agency-accounts", label: "Agency Ad Accounts (Meta/Google/TikTok)" },
+  { value: "business-managers", label: "Business Managers (BM1-BM5)" },
+  { value: "profiles-pages", label: "Profiles & Pages" },
+  { value: "bulk-order", label: "Bulk/Wholesale Order" },
+  { value: "custom-setup", label: "Custom Setup Package" },
+  { value: "reseller", label: "Reseller Partnership" },
+  { value: "other", label: "Other" },
 ] as const;
 
 /** Background image URL */
@@ -133,11 +111,11 @@ export function EnterpriseContactSection() {
                 id="contact-title"
                 className="mb-3 text-3xl font-semibold leading-tight sm:mb-4 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
               >
-                Talk to our sales team
+                Need a custom quote?
               </h2>
               <p className="text-base opacity-90 sm:text-lg md:text-xl lg:text-2xl">
-                If you&apos;re interested in learning more about Krea&apos;s
-                enterprise solutions, we can help.
+                Bulk orders, reseller partnerships, or custom setups — let&apos;s
+                talk about what you need.
               </p>
             </div>
           </div>
@@ -145,10 +123,10 @@ export function EnterpriseContactSection() {
           {/* Right: Contact form - fills to edge on desktop */}
           <div className="bg-primary-50 p-4 sm:p-6 md:p-8 rounded-2xl">
             <h3 className="text-primary-900 mb-1.5 text-lg font-semibold sm:mb-2 sm:text-xl md:text-2xl">
-              Contact sales for a free team trial
+              Get a custom quote
             </h3>
             <p className="text-primary-600 mb-4 text-sm sm:mb-6 sm:text-base">
-              We&apos;ll need a few details first.
+              Tell us what you&apos;re looking for and we&apos;ll get back within 24h.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
@@ -189,28 +167,28 @@ export function EnterpriseContactSection() {
                 />
               </FormField>
 
-              {/* Company */}
-              <FormField label="Company" htmlFor="company" required>
+              {/* Telegram/WhatsApp */}
+              <FormField label="Telegram or WhatsApp" htmlFor="contact" required>
                 <input
                   type="text"
-                  id="company"
-                  name="company"
+                  id="contact"
+                  name="contact"
                   required
-                  placeholder="Pied Piper"
+                  placeholder="@yourtelegram or +1234567890"
                   className={inputStyles}
                 />
               </FormField>
 
-              {/* Company Size */}
-              <FormField label="Company Size" htmlFor="companySize" required>
+              {/* Monthly Ad Spend */}
+              <FormField label="Monthly Ad Spend" htmlFor="adSpend" required>
                 <select
-                  id="companySize"
-                  name="companySize"
+                  id="adSpend"
+                  name="adSpend"
                   required
                   className={inputStyles}
                   defaultValue=""
                 >
-                  {COMPANY_SIZE_OPTIONS.map((option) => (
+                  {AD_SPEND_OPTIONS.map((option) => (
                     <option
                       key={option.value}
                       value={option.value}
@@ -222,16 +200,16 @@ export function EnterpriseContactSection() {
                 </select>
               </FormField>
 
-              {/* Use case */}
-              <FormField label="Use case" htmlFor="useCase" required>
+              {/* Interest */}
+              <FormField label="What are you looking for?" htmlFor="interest" required>
                 <select
-                  id="useCase"
-                  name="useCase"
+                  id="interest"
+                  name="interest"
                   required
                   className={inputStyles}
                   defaultValue=""
                 >
-                  {USE_CASE_OPTIONS.map((option) => (
+                  {INTEREST_OPTIONS.map((option) => (
                     <option
                       key={option.value}
                       value={option.value}
@@ -252,7 +230,7 @@ export function EnterpriseContactSection() {
                   id="message"
                   name="message"
                   rows={3}
-                  placeholder="Tell us about your team size, current workflow, and specific requirements..."
+                  placeholder="Quantity needed, preferred platforms, timeline, any special requirements..."
                   className={cn(inputStyles, "resize-none")}
                 />
               </FormField>
@@ -267,7 +245,7 @@ export function EnterpriseContactSection() {
                   "disabled:cursor-not-allowed disabled:bg-primary-400"
                 )}
               >
-                {isSubmitting ? "Submitting..." : "Submit Inquiry"}
+                {isSubmitting ? "Sending..." : "Get Custom Quote"}
               </button>
             </form>
           </div>

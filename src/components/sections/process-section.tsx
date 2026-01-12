@@ -206,9 +206,9 @@ export function ProcessSection() {
             className="text-center text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
             aria-label="Simple. Fast. Reliable. Get started in 3 steps."
           >
-            Simple. Fast. Reliable.
+            Simple. Fast. Reliable
             <br />
-            Get started in 3 steps.
+            Get started in 3 steps
           </h2>
           <p className="text-primary-700 mx-auto mt-6 max-w-2xl text-center text-base leading-tight sm:text-xl">
             No complicated onboarding. No lengthy verification. Choose your

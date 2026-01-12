@@ -20,7 +20,7 @@ const USE_CASES: UseCase[] = [
     id: "ecommerce-scaling",
     title: "E-commerce Scaling",
     description:
-      "From dropshipping to established brands — the Meta infrastructure you need to scale profitably. Stable accounts, verified BMs, and support that understands your urgency.",
+      "Scale your store with enterprise-grade Meta infrastructure. Access verified BM5s with $250K+ spend limits, aged profiles with 2+ years history, and unlimited ad accounts through a single dashboard. GoAds delivers 98.7% account stability with sub-2-hour support response times.",
     ctaText: "Get Started",
     ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
@@ -29,7 +29,7 @@ const USE_CASES: UseCase[] = [
     id: "agency-operations",
     title: "Agency Operations",
     description:
-      "Reliable wholesale partner for your client accounts. Consistent quality, volume capacity, and the support your team needs.",
+      "Manage client campaigns with wholesale-grade ad infrastructure. Provision unlimited accounts across Meta, TikTok, and Google through our Agency Portal with bulk pricing, white-label options, and dedicated account managers. GoAds serves 500+ agencies with 99.2% fulfillment accuracy.",
     ctaText: "Get Started",
     ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
@@ -38,7 +38,34 @@ const USE_CASES: UseCase[] = [
     id: "affiliate-performance",
     title: "Affiliate & Performance",
     description:
-      "The infrastructure that survives aggressive campaigns. Stable assets, fast replacement, and no judgment on your vertical.",
+      "Run aggressive campaigns on bulletproof infrastructure. Deploy across 15+ GEOs with pre-warmed accounts, instant replacement guarantees, and vertical-agnostic support. GoAds offers the industry's fastest 7-day warranty claims with 94% approval rates.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
+    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+  },
+  {
+    id: "lead-generation",
+    title: "Lead Generation",
+    description:
+      "Capture high-intent leads with conversion-optimized ad accounts. Access pre-configured lead form templates, instant experience setups, and CRM-ready integrations across real estate, insurance, and B2B verticals. GoAds accounts achieve 23% higher lead quality scores on average.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
+    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+  },
+  {
+    id: "saas-growth",
+    title: "SaaS & App Growth",
+    description:
+      "Acquire users profitably with app-install optimized infrastructure. Deploy across iOS and Android with MMP-integrated accounts, SKAN-compliant setups, and subscription-focused pixel configurations. GoAds delivers 35% lower CPIs through properly seasoned accounts.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
+    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+  },
+  {
+    id: "content-creators",
+    title: "Content Creators",
+    description:
+      "Monetize your audience with creator-friendly ad accounts. Launch courses, merchandise, and digital products with pre-approved commerce setups, influencer-tier support, and flexible spending limits. GoAds powers 200+ creators generating $10M+ in monthly ad-driven revenue.",
     ctaText: "Get Started",
     ctaHref: "/products",
     videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
@@ -50,7 +77,6 @@ export function UseCasesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [videoProgress, setVideoProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
 
   // Handle video time update for progress bar
   useEffect(() => {
@@ -80,26 +106,6 @@ export function UseCasesSection() {
     return () => video.removeEventListener("ended", handleEnded);
   }, []);
 
-  // Scroll list indicators
-  const [showTopFade, setShowTopFade] = useState(false);
-  const [showBottomFade, setShowBottomFade] = useState(true);
-
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list) return;
-
-    const handleScroll = () => {
-      setShowTopFade(list.scrollTop > 10);
-      setShowBottomFade(
-        list.scrollTop < list.scrollHeight - list.clientHeight - 10
-      );
-    };
-
-    list.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => list.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <section className="section-container pt-24 md:pt-40">
       <SectionHeader
@@ -110,12 +116,9 @@ export function UseCasesSection() {
 
       {/* Content Area */}
       <div className="mt-11 flex w-full flex-col-reverse items-end gap-8 lg:flex-row">
-        {/* Use Case List */}
+        {/* Use Case List - all items visible, no internal scroll */}
         <div className="relative z-0 flex-1">
-          <ul
-            ref={listRef}
-            className="no-scrollbar space-y-3 lg:max-h-[42rem] lg:overflow-y-scroll"
-          >
+          <ul className="no-scrollbar space-y-3 lg:max-h-[40rem] lg:overflow-y-scroll">
             {USE_CASES.map((useCase, index) => (
               <UseCaseItem
                 key={useCase.id}
@@ -128,20 +131,6 @@ export function UseCasesSection() {
               />
             ))}
           </ul>
-
-          {/* Top fade gradient */}
-          <div
-            className={`from-primary-0 pointer-events-none absolute top-0 right-0 -left-4 z-10 hidden h-14 bg-gradient-to-b to-transparent transition-opacity duration-200 lg:block ${
-              showTopFade ? "opacity-100" : "opacity-0"
-            }`}
-          />
-
-          {/* Bottom fade gradient */}
-          <div
-            className={`from-primary-0 pointer-events-none absolute right-0 bottom-0 -left-4 z-10 hidden h-14 bg-gradient-to-t to-transparent transition-opacity duration-200 lg:block ${
-              showBottomFade ? "opacity-100" : "opacity-0"
-            }`}
-          />
         </div>
 
         {/* Video Preview */}

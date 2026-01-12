@@ -67,6 +67,7 @@ export default function Home() {
         <div className="max-w-s2xl relative z-10 mx-auto">
           <BigPictureSection />
           <ClientShowcaseSection />
+          <EnterpriseContactSection />
           <TestimonialsBentoSection />
         </div>
       </div>
@@ -77,7 +78,6 @@ export default function Home() {
           {/* <GuaranteeSection /> */}
           <MetaAssetsSection />
           {/* <CompareSection /> */}
-          <EnterpriseContactSection />
           <EnterpriseFaqSection />
         </div>
       </div>

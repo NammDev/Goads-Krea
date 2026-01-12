@@ -43,7 +43,9 @@ const testimonials: Testimonial[] = [
     description: (
       <p>
         We completely moved from Proads to GoAds.{" "}
-        <Highlight>Better service, faster support, accounts that actually stay alive.</Highlight>{" "}
+        <Highlight>
+          Better service, faster support, accounts that actually stay alive.
+        </Highlight>{" "}
         It&apos;s a no-brainer for any serious media buyer.
       </p>
     ),
@@ -54,8 +56,11 @@ const testimonials: Testimonial[] = [
     img: "https://randomuser.me/api/portraits/women/12.jpg",
     description: (
       <p>
-        Fast and reliable support. Haven&apos;t used anyone else since we switched.{" "}
-        <Highlight>The 7-day warranty gives us complete peace of mind.</Highlight>{" "}
+        Fast and reliable support. Haven&apos;t used anyone else since we
+        switched.{" "}
+        <Highlight>
+          The 7-day warranty gives us complete peace of mind.
+        </Highlight>{" "}
         Highly recommend for any e-commerce advertiser.
       </p>
     ),
@@ -66,9 +71,9 @@ const testimonials: Testimonial[] = [
     img: "https://randomuser.me/api/portraits/men/45.jpg",
     description: (
       <p>
-        Support is way better than Proads. They actually respond within hours, not days.{" "}
-        <Highlight>Game changer for our campaigns.</Highlight>{" "}
-        Finally found a provider we can trust.
+        Support is way better than Proads. They actually respond within hours,
+        not days. <Highlight>Game changer for our campaigns.</Highlight> Finally
+        found a provider we can trust.
       </p>
     ),
   },
@@ -79,8 +84,8 @@ const testimonials: Testimonial[] = [
     description: (
       <p>
         Very good experience with GoAds. Fast delivery, reliable accounts.{" "}
-        <Highlight>The team knows what they&apos;re doing.</Highlight>{" "}
-        Essential for scaling my stores.
+        <Highlight>The team knows what they&apos;re doing.</Highlight> Essential
+        for scaling my stores.
       </p>
     ),
   },
@@ -91,8 +96,8 @@ const testimonials: Testimonial[] = [
     description: (
       <p>
         BM5s are rock solid.{" "}
-        <Highlight>No issues in 6 months of heavy spend.</Highlight>{" "}
-        Finally found a provider that delivers on promises. Worth every dollar.
+        <Highlight>No issues in 6 months of heavy spend.</Highlight> Finally
+        found a provider that delivers on promises. Worth every dollar.
       </p>
     ),
   },
@@ -139,8 +144,8 @@ const testimonials: Testimonial[] = [
     description: (
       <p>
         Spent $50k+ monthly through GoAds accounts.{" "}
-        <Highlight>Zero bans, zero issues, zero downtime.</Highlight>{" "}
-        This is what premium service looks like.
+        <Highlight>Zero bans, zero issues, zero downtime.</Highlight> This is
+        what premium service looks like.
       </p>
     ),
   },
@@ -269,7 +274,7 @@ export function TestimonialsBentoSection() {
       aria-labelledby="testimonials-title"
     >
       {/* Header */}
-      <div className="mb-12 text-center">
+      <div className="mb-10 text-center">
         <p className="text-primary-500 mb-2 text-sm font-medium uppercase tracking-wider">
           Real feedback from active advertisers
         </p>
@@ -284,7 +289,7 @@ export function TestimonialsBentoSection() {
       {/* Testimonials Marquee Grid - 4 columns like original */}
       <div
         className={cn(
-          "relative mt-6 max-h-screen overflow-hidden transition-opacity duration-500",
+          "relative max-h-screen overflow-hidden transition-opacity duration-500",
           isVisible ? "opacity-100" : "opacity-0"
         )}
       >

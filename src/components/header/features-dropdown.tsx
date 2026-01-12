@@ -189,8 +189,8 @@ function PromoCard() {
   return (
     <div className="hidden h-full xl:block">
       <MediaCard
-        imageSrc="https://s.krea.ai/krea1-example.webp"
-        alt="Professional advertising creative showcase"
+        imageSrc="/images/facebook-ads-playbook.png"
+        alt="Facebook Ads Playbook - Master Meta advertising"
         size="promo"
         hoverZoom={false}
         className="rounded-2xl"
@@ -203,12 +203,12 @@ function PromoCard() {
         {/* Prompt and CTA - Keep original structure */}
         <MediaCardContent>
           <MediaCardPrompt
-            text="Scale your ads with verified agency accounts"
+            text="Free Facebook Ads Playbook — Master Meta advertising"
             animated={false}
           />
           <div className="pt-4">
             <Link
-              href="/products"
+              href="/playbook"
               className={cn(
                 "inline-flex shrink-0 items-center justify-center gap-2",
                 "text-sm font-medium whitespace-nowrap",
@@ -219,7 +219,7 @@ function PromoCard() {
                 "h-9 px-5 py-2"
               )}
             >
-              Browse products
+              Get Free Playbook
             </Link>
           </div>
         </MediaCardContent>

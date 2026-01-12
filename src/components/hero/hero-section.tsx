@@ -40,16 +40,16 @@ export function HeroSection() {
 
           {/* Hero Title */}
           <h1
-            aria-label="Stop Losing Accounts. Start Scaling with GoAds."
+            aria-label="Stop Losing Accounts Start Scaling with GoAds."
             className={cn(
               "text-4xl sm:text-5xl md:text-7xl",
               "font-semibold leading-[1.05]",
               "text-balance text-white header-fancy"
             )}
           >
-            Stop Losing Accounts.
+            Stop Losing Accounts
             <br />
-            Start Scaling.
+            Start Scaling
           </h1>
 
           {/* Hero Subtitle */}

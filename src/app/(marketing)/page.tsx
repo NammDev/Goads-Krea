@@ -72,11 +72,13 @@ export default function Home() {
         </div>
       </div>
 
+      {/* GREY BREAK #2: Meta Assets - Full width */}
+      <MetaAssetsSection />
+
       {/* WHITE BLOCK 3: Trust Building */}
       <div className="bg-primary-0">
         <div className="max-w-s2xl relative z-10 mx-auto">
           {/* <GuaranteeSection /> */}
-          <MetaAssetsSection />
           {/* <CompareSection /> */}
           <EnterpriseFaqSection />
         </div>

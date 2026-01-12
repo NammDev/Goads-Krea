@@ -61,18 +61,18 @@ export default function Home() {
       <AppShowcaseSection />
 
       {/* Big Picture and Investor Sections */}
-      <div className="max-w-s2xl relative z-10 mx-auto">
+      {/* <div className="max-w-s2xl relative z-10 mx-auto">
         <BigPictureSection />
         <InvestorShowcaseSection />
-      </div>
+      </div> */}
 
       {/* App Layout Showcase - Full screen section */}
-      <AppShowcaseSection />
+      {/* <AppShowcaseSection /> */}
 
       {/* Enterprise Section */}
       <div className="max-w-s2xl relative z-10 mx-auto">
-        <EnterpriseAdvantageSection />
-        <EnterpriseShowcaseSection />
+        {/* <EnterpriseAdvantageSection />
+        <EnterpriseShowcaseSection /> */}
         <EnterpriseContactSection />
         <EnterpriseFaqSection />
       </div>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/media-card";
 
 interface FeatureCardProps {
-  badge: string;
+  platform?: string;
   imageSrc: string;
   videoSrc?: string;
   prompt?: string;
@@ -23,39 +23,39 @@ interface FeatureCardProps {
 }
 
 /**
- * FeatureCard - Pixel-perfect match of Krea's feature card design
- *
- * Structure:
- * - Card container with aspect-[4/5], responsive sizing
- * - Background image/video with hover zoom (desktop only)
+ * FeatureCard - GoAds Agency Ad Account Cards
+ * Following Krea's feature card design pattern:
+ * - Logo (platform icon + name) at top
+ * - Background image with hover zoom
  * - Gradient overlay for text readability
- * - Top: Krea1 logo (consistent across all cards)
- * - Bottom: Prompt text with hover animation, CTA button
+ * - Prompt label + text at bottom
+ * - CTA button with glass animation
  */
 export function FeatureCard({
-  badge,
+  // platform prop kept for future custom SVG logos
+  platform: _platform = "goads",
   imageSrc,
   videoSrc,
   prompt,
-  promptLabel = "Prompt",
-  actionLabel = "Generate image",
-  actionHref = "/image",
+  promptLabel = "FEATURED",
+  actionLabel = "Get Account",
+  actionHref = "/products",
   isUpscaler = false,
   className,
 }: FeatureCardProps) {
-  // Determine default prompt for upscaler cards
+  // Determine display prompt
   const displayPrompt = isUpscaler ? "Upscale image 512px → 8K" : prompt;
 
   return (
     <MediaCard
       imageSrc={imageSrc}
       videoSrc={videoSrc}
-      alt={displayPrompt || badge}
+      alt={displayPrompt || "Feature card"}
       size="feature"
       hoverZoom={!videoSrc}
       className={className}
     >
-      {/* Top: Krea1 Logo - consistent across all cards */}
+      {/* Top: Krea Logo */}
       <MediaCardHeader>
         <Krea1Logo />
       </MediaCardHeader>

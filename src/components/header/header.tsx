@@ -22,8 +22,9 @@ export function Header() {
     if (!mainElement) return;
 
     const scrollTop = mainElement.scrollTop;
-    // Hero section is approximately viewport height, invert when scrolled past it
-    const heroHeight = window.innerHeight - 100;
+    // Hero section is full viewport height, invert when scrolled past hero
+    // Add 100px buffer to ensure header stays dark until fully past dark section
+    const heroHeight = window.innerHeight + 280;
     setIsInverted(scrollTop > heroHeight);
   }, []);
 

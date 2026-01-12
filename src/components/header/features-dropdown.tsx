@@ -70,8 +70,8 @@ const featureCategories: FeatureCategory[] = [
         icon: <MetaIcon className="w-[18px]" />,
         name: "Meta Agency Accounts",
         links: [
-          { label: "BM5 DSK (Most Stable)", href: "/products/meta-bm5" },
-          { label: "BM1 Standard", href: "/products/meta-bm1" },
+          { label: "Agency BM2500 DSL $250", href: "/products/meta-agency-dsl-250" },
+          { label: "Agency BM2500 DSL NLM", href: "/products/meta-agency-dsl-nlm" },
         ],
       },
       {

@@ -5,42 +5,48 @@ import { cn } from "@/lib/utils";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
 import { FeatureCard } from "./feature-card";
 
-// Feature cards data matching Krea's landing page - 5 cards total
-// All cards use Krea1Logo at top for now (badges can be added later)
+// Feature cards data for GoAds Agency Ad Accounts - 5 cards total
+// Following Krea layout: Logo | Image | Prompt (grey) | Header | Button
 const features = [
   {
-    badge: "Krea 1",
+    platform: "meta",
     imageSrc: "https://s.krea.ai/landingPhotorealExamplePortrait.webp",
-    prompt: "Cinematic photo of a person in a linen jacket",
+    promptLabel: "AGENCY",
+    prompt: "Pre-established agency accounts with higher trust scores, faster approvals, and better stability",
+    actionLabel: "Get Started",
+    actionHref: "/products/meta-agency",
   },
   {
-    badge: "Veo 3",
-    imageSrc:
-      "https://customer-fz5oh80x9qirexi3.cloudflarestream.com/96c1ff6b6334070fdd26fc37f8a5d1d6/thumbnails/thumbnail.jpg?time=&height=600",
-    videoSrc:
-      "https://customer-fz5oh80x9qirexi3.cloudflarestream.com/96c1ff6b6334070fdd26fc37f8a5d1d6/iframe?muted=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-fz5oh80x9qirexi3.cloudflarestream.com%2F96c1ff6b6334070fdd26fc37f8a5d1d6%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600",
-    prompt: "An animated capybara talking about Krea.ai",
-    actionLabel: "Generate video",
+    platform: "google",
+    imageSrc: "https://s.krea.ai/krea1-example.webp",
+    promptLabel: "WHITELISTED",
+    prompt: "Whitelisted accounts for Search, Display, YouTube, and Shopping. Higher approval rates",
+    actionLabel: "Get Started",
+    actionHref: "/products/google-agency",
   },
   {
-    badge: "Topaz Upscaler",
+    platform: "tiktok",
     imageSrc: "https://s.krea.ai/landingEnhancerExampleSwordBloomCentered.webp",
-    isUpscaler: true,
-    actionLabel: "Upscale image",
+    promptLabel: "VERIFIED",
+    prompt: "Tap into TikTok's explosive reach with agency accounts designed for scale",
+    actionLabel: "Get Started",
+    actionHref: "/products/tiktok-agency",
   },
   {
-    badge: "Hailuo",
-    imageSrc:
-      "https://customer-fz5oh80x9qirexi3.cloudflarestream.com/25ea2f5507c04b1f4d5f1fa6dda573b6/thumbnails/thumbnail.jpg?time=&height=600",
-    videoSrc:
-      "https://customer-fz5oh80x9qirexi3.cloudflarestream.com/25ea2f5507c04b1f4d5f1fa6dda573b6/iframe?muted=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-fz5oh80x9qirexi3.cloudflarestream.com%2F25ea2f5507c04b1f4d5f1fa6dda573b6%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600",
-    prompt: "Advertising sandwich with exploding layers",
-    actionLabel: "Generate video",
-  },
-  {
-    badge: "Krea 1",
+    platform: "meta",
     imageSrc: "https://s.krea.ai/landingPageTruckKrea1.webp",
-    prompt: "Pick up truck with sunset",
+    promptLabel: "BUSINESS MANAGERS",
+    prompt: "Verified BMs with varying DSL limits — from starter to enterprise-grade",
+    actionLabel: "Get Started",
+    actionHref: "/products/business-managers",
+  },
+  {
+    platform: "goads",
+    imageSrc: "https://s.krea.ai/landingPhotorealExamplePortrait.webp",
+    promptLabel: "PROFILES & PAGES",
+    prompt: "Aged, verified profiles and pages built for stability. The foundation that keeps your ad accounts running",
+    actionLabel: "Get Started",
+    actionHref: "/products/meta-assets",
   },
 ];
 
@@ -128,12 +134,12 @@ export function FeatureCards() {
           {features.map((feature, index) => (
             <FeatureCard
               key={index}
-              badge={feature.badge}
+              platform={feature.platform}
               imageSrc={feature.imageSrc}
-              videoSrc={feature.videoSrc}
+              promptLabel={feature.promptLabel}
               prompt={feature.prompt}
               actionLabel={feature.actionLabel}
-              isUpscaler={feature.isUpscaler}
+              actionHref={feature.actionHref}
             />
           ))}
         </div>

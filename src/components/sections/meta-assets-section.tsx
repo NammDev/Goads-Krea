@@ -278,7 +278,7 @@ export function MetaAssetsSection() {
       className="bg-primary-100 relative z-10"
       aria-labelledby="meta-assets-title"
     >
-      <div className="flex flex-col items-center gap-12 py-24 md:py-48">
+      <div className="flex flex-col items-center gap-12 py-24 md:py-40">
         {/* Main content */}
         <div className="mx-auto flex flex-col items-center justify-center px-5 md:px-16">
           <p className="text-primary-500 mb-2 text-sm font-medium uppercase tracking-wider">

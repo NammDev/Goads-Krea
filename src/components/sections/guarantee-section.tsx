@@ -56,7 +56,7 @@ export function GuaranteeSection() {
     <section
       id="guarantee"
       aria-labelledby="guarantee-title"
-      className="section-container pt-24 md:pt-40"
+      className="section-container pt-24"
     >
       {/* Header */}
       <h2

@@ -270,7 +270,7 @@ export function TestimonialsBentoSection() {
   return (
     <section
       ref={sectionRef}
-      className="section-container pt-24 md:pt-40"
+      className="section-container py-24 md:py-40 md:pb-24"
       aria-labelledby="testimonials-title"
     >
       {/* Header */}

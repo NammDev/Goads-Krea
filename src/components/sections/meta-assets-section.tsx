@@ -266,7 +266,9 @@ export function MetaAssetsSection() {
   const getAnimationStyle = (index: number) => ({
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? "translateY(0px)" : "translateY(24px)",
-    transition: `opacity 300ms ease-out ${index * 60}ms, transform 300ms ease-out ${index * 60}ms`,
+    transition: `opacity 300ms ease-out ${
+      index * 60
+    }ms, transform 300ms ease-out ${index * 60}ms`,
     willChange: "opacity, transform",
   });
 

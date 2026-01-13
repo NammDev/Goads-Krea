@@ -27,25 +27,45 @@ const STYLES: StyleOption[] = [
     id: "anime-2",
     name: "anime",
     logo: "https://s.krea.ai/image-page/styles/v2/anime-logo.webp",
-    images: [],
+    images: [
+      "https://s.krea.ai/image-page/styles/v2/anime-cat.webp",
+      "https://s.krea.ai/image-page/styles/v2/anime-castle.webp",
+      "https://s.krea.ai/image-page/styles/v2/anime-face.webp",
+      "https://s.krea.ai/image-page/styles/v2/anime-plane.webp",
+    ],
   },
   {
     id: "abstract-sketch-3",
     name: "abstract sketch",
     logo: "https://s.krea.ai/image-page/styles/v2/abstract-sketch-logo.webp",
-    images: [],
+    images: [
+      "https://s.krea.ai/image-page/styles/v2/abstract-sketch-cat.webp",
+      "https://s.krea.ai/image-page/styles/v2/abstract-sketch-castle.webp",
+      "https://s.krea.ai/image-page/styles/v2/abstract-sketch-face.webp",
+      "https://s.krea.ai/image-page/styles/v2/abstract-sketch-plane.webp",
+    ],
   },
   {
     id: "surrealism-4",
     name: "surrealism",
     logo: "https://s.krea.ai/image-page/styles/v2/surrealism-logo.webp",
-    images: [],
+    images: [
+      "https://s.krea.ai/image-page/styles/v2/surrealism-cat.webp",
+      "https://s.krea.ai/image-page/styles/v2/surrealism-castle.webp",
+      "https://s.krea.ai/image-page/styles/v2/surrealism-face.webp",
+      "https://s.krea.ai/image-page/styles/v2/surrealism-plane.webp",
+    ],
   },
   {
     id: "cosmic-splat-5",
     name: "cosmic splat",
     logo: "https://s.krea.ai/image-page/styles/v2/cosmic-splat-logo.webp",
-    images: [],
+    images: [
+      "https://s.krea.ai/image-page/styles/v2/cosmic-splat-cat.webp",
+      "https://s.krea.ai/image-page/styles/v2/cosmic-splat-castle.webp",
+      "https://s.krea.ai/image-page/styles/v2/cosmic-splat-face.webp",
+      "https://s.krea.ai/image-page/styles/v2/cosmic-splat-plane.webp",
+    ],
   },
 ];
 
@@ -91,11 +111,14 @@ function StyleImageCard({
         >
           i
         </button>
-        {/* Tooltip */}
-        <div className="pointer-events-none absolute bottom-full left-0 mb-2 w-48 rounded-lg bg-black/80 px-3 py-2 text-left text-xs text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 sm:w-56">
+        {/* Tooltip - Krea pixel-perfect design */}
+        <div
+          data-slot="tooltip-content"
+          className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 min-w-[200px] max-w-sm rounded-xl border border-primary-0/8 bg-[rgba(44,44,44,0.65)] px-4 py-3 text-left text-sm font-medium leading-normal text-primary-0/75 text-balance opacity-0 shadow-[0_-4px_41px_0_rgba(0,0,0,0.25)] backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100"
+        >
           {alt}
           {/* Arrow */}
-          <div className="absolute top-full left-3 h-0 w-0 border-x-4 border-t-4 border-x-transparent border-t-black/80" />
+          <div className="absolute top-full left-3 size-2.5 -translate-y-1/2 rotate-45 rounded-[2px] bg-[rgba(44,44,44,0.65)]" />
         </div>
       </div>
     </div>
@@ -114,61 +137,100 @@ export function BlogsPreviewSection() {
     currentStyle.images.length > 0 ? currentStyle.images : STYLES[0].images;
 
   return (
-    <div className="max-w-s2xl section-container">
-      <div className="flex w-full flex-col items-center gap-4 text-center">
-        {/* Header */}
-        <h2 className="text-5xl font-medium tracking-[-0.48px] md:text-4xl md:tracking-[-1.12px] lg:text-[56px]">
-          Styles
-        </h2>
-        <p className="text-2xl font-medium leading-[112%] tracking-[-0.48px] text-pretty">
-          Krea Styles offer hundreds of curated and community looks.
-          <br className="hidden md:block" />
-          Apply them to prompts and quickly find the right fit
-        </p>
+    <>
+      <div className="max-w-s2xl section-container">
+        <div className="flex w-full flex-col items-center gap-4 text-center">
+          {/* Header */}
+          <h2 className="text-5xl font-medium tracking-[-0.48px] md:text-4xl md:tracking-[-1.12px] lg:text-[56px]">
+            Styles
+          </h2>
+          <p className="text-2xl font-medium leading-[112%] tracking-[-0.48px] text-pretty">
+            Krea Styles offer hundreds of curated and community looks.
+            <br className="hidden md:block" />
+            Apply them to prompts and quickly find the right fit
+          </p>
 
-        {/* Image Grid */}
-        <div className="my-8 w-full justify-center sm:w-3/4 md:w-full">
-          <div className="grid grid-cols-2 gap-2.5 self-center overflow-hidden md:grid-cols-4">
-            {images.map((img, idx) => (
-              <StyleImageCard
-                key={idx}
-                src={img}
-                alt={IMAGE_ALTS[idx] || `Style image ${idx + 1}`}
-                loading={idx === 0 ? "eager" : "lazy"}
-              />
+          {/* Image Grid */}
+          <div className="my-8 w-full justify-center sm:w-3/4 md:w-full">
+            <div className="grid grid-cols-2 gap-2.5 self-center overflow-hidden md:grid-cols-4">
+              {images.map((img, idx) => (
+                <StyleImageCard
+                  key={idx}
+                  src={img}
+                  alt={IMAGE_ALTS[idx] || `Style image ${idx + 1}`}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Style Selector Buttons */}
+          <div className="hidden w-full max-w-lg justify-between self-center md:flex">
+            {STYLES.map((style) => (
+              <button
+                key={style.id}
+                data-style-id={style.id}
+                onClick={() => setActiveStyle(style.id)}
+                className={`transition-scale flex flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
+                  activeStyle === style.id ? "opacity-100" : "opacity-50"
+                }`}
+              >
+                <div
+                  className={`relative h-[62px] w-[62px] overflow-hidden rounded-[9px] border-2 transition-transform duration-150 ease-out ${
+                    activeStyle === style.id
+                      ? "border-action -rotate-3"
+                      : "rotate-0 border-transparent"
+                  }`}
+                >
+                  <img
+                    className="h-full w-full object-cover"
+                    src={style.logo}
+                    alt={style.name}
+                  />
+                </div>
+                <p className="text-sm font-medium">{style.name}</p>
+              </button>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Style Selector Buttons */}
-        <div className="hidden w-full max-w-lg justify-between self-center md:flex">
-          {STYLES.map((style) => (
-            <button
-              key={style.id}
-              data-style-id={style.id}
-              onClick={() => setActiveStyle(style.id)}
-              className={`transition-scale flex flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
-                activeStyle === style.id ? "opacity-100" : "opacity-50"
-              }`}
-            >
-              <div
-                className={`relative h-[62px] w-[62px] overflow-hidden rounded-[9px] border-2 transition-transform duration-150 ease-out ${
-                  activeStyle === style.id
-                    ? "border-action -rotate-3"
-                    : "rotate-0 border-transparent"
+      {/* Mobile Style Selector - horizontal scroll */}
+      <div className="relative flex min-h-32 w-full justify-center md:hidden">
+        <div className="scrollbar-hide h-full w-full max-w-xl self-center overflow-x-scroll">
+          <div className="flex h-full min-w-[540px] flex-row justify-between gap-3 bg-transparent px-6">
+            {STYLES.map((style) => (
+              <button
+                key={style.id}
+                data-style-id={style.id}
+                onClick={() => setActiveStyle(style.id)}
+                className={`transition-scale flex flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
+                  activeStyle === style.id ? "opacity-100" : "opacity-50"
                 }`}
               >
-                <img
-                  className="h-full w-full object-cover"
-                  src={style.logo}
-                  alt={style.name}
-                />
-              </div>
-              <p className="text-sm font-medium">{style.name}</p>
-            </button>
-          ))}
+                <div
+                  className={`relative h-[62px] w-[62px] overflow-hidden rounded-[9px] border-2 transition-transform duration-150 ease-out ${
+                    activeStyle === style.id
+                      ? "border-action -rotate-3"
+                      : "rotate-0 border-transparent"
+                  }`}
+                >
+                  <img
+                    className="h-full w-full object-cover"
+                    src={style.logo}
+                    alt={style.name}
+                  />
+                </div>
+                <p className="text-sm font-medium">{style.name}</p>
+              </button>
+            ))}
+          </div>
         </div>
+        {/* Left gradient overlay */}
+        <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 bg-gradient-to-r from-white to-transparent" />
+        {/* Right gradient overlay */}
+        <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-8 bg-gradient-to-l from-white to-transparent" />
       </div>
-    </div>
+    </>
   );
 }

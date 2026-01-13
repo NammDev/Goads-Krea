@@ -16,3 +16,6 @@ export { GuaranteeSection } from "./guarantee-section";
 export { TestimonialsBentoSection } from "./testimonials-bento-section";
 export { MetaAssetsSection } from "./meta-assets-section";
 export { CompareSection } from "./compare-section";
+export { CustomTrainingSection } from "./custom-training-section";
+export { BlogsPreviewSection } from "./blogs-preview-section";
+export { CommunitySection } from "./community-section";

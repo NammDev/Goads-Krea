@@ -16,6 +16,9 @@ import {
   TestimonialsBentoSection,
   MetaAssetsSection,
   CompareSection,
+  CustomTrainingSection,
+  BlogsPreviewSection,
+  CommunitySection,
 } from "@/components/sections";
 import { OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/lib/seo";
 
@@ -75,11 +78,15 @@ export default function Home() {
       {/* GREY BREAK #2: Meta Assets - Full width */}
       <MetaAssetsSection />
 
-      {/* WHITE BLOCK 3: Trust Building */}
+      <section className="flex flex-col justify-center py-16 md:py-24">
+        <BlogsPreviewSection />
+        <CustomTrainingSection />
+        <CommunitySection />
+      </section>
+
+      {/* WHITE BLOCK 3: Additional Features */}
       <div className="bg-primary-0">
         <div className="max-w-s2xl relative z-10 mx-auto">
-          <GuaranteeSection />
-          {/* <CompareSection /> */}
           <EnterpriseFaqSection />
         </div>
       </div>

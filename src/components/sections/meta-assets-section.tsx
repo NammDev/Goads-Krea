@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { GradientButton } from "@/components/ui/gradient-button";
 import { Building2, User, FileText, Layers, Package, Plus } from "lucide-react";
 
 /** Asset category for sidebar navigation */
@@ -275,10 +276,15 @@ export function MetaAssetsSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-primary-100 relative z-10"
+      className="cross-pattern relative z-10 overflow-hidden"
       aria-labelledby="meta-assets-title"
     >
-      <div className="flex flex-col items-center gap-12 py-24 md:py-40">
+      {/* Ellipse gradient overlay */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="ellipse-gradient-light absolute top-1/2 left-1/2 h-[100vh] w-[150vw] -translate-x-1/2 -translate-y-1/2" />
+      </div>
+
+      <div className="relative flex flex-col items-center gap-12 py-24 md:py-40">
         {/* Main content */}
         <div className="mx-auto flex flex-col items-center justify-center px-5 md:px-16">
           <p className="text-primary-500 mb-2 text-sm font-medium uppercase tracking-wider">
@@ -311,19 +317,9 @@ export function MetaAssetsSection() {
 
           {/* CTA */}
           <div className="mt-12 text-center">
-            <Link
-              href="/products"
-              className={cn(
-                "inline-flex items-center justify-center gap-2",
-                "rounded-full px-8 py-3",
-                "bg-primary-900 text-white",
-                "text-sm font-medium",
-                "transition-all duration-200",
-                "hover:bg-primary-800"
-              )}
-            >
+            <GradientButton as="link" href="/products" variant="primary" className="rounded-full px-8 h-[44px]">
               View All Products
-            </Link>
+            </GradientButton>
           </div>
         </div>
 

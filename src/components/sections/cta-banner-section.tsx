@@ -6,7 +6,7 @@ import { GradientButton } from "@/components/ui/gradient-button";
  */
 export function CtaBannerSection() {
   return (
-    <section className="cross-pattern bg-primary-1000 relative flex justify-center overflow-hidden py-20">
+    <section className="cross-pattern-dark relative flex justify-center overflow-hidden py-20">
       {/* Floating images background - blurred decoration */}
       <div className="absolute inset-0 flex h-full w-full items-center justify-center opacity-30 blur-sm">
         <div className="max-w-sxl relative h-[500px] w-full min-w-[500px] md:h-[600px]">

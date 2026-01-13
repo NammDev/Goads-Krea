@@ -1,5 +1,4 @@
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { GradientButton } from "@/components/ui/gradient-button";
 import {
   FluxLogo,
   KreaLogo,
@@ -61,14 +60,14 @@ const FLOATING_CARDS: FloatingCardData[] = [
   },
 ];
 
-/** Model pills for center display */
+/** Model pills for center display - pixel-perfect from milestone.html */
 const MODEL_PILLS = [
-  { name: "Flux", logo: <FluxLogo className="h-4 w-4" /> },
-  { name: "Krea", logo: <KreaLogo className="h-4 w-4" /> },
-  { name: "Imagen", logo: <ImagenLogo className="h-4 w-4" /> },
-  { name: "Nano Banana", logo: <ImagenLogo className="h-4 w-4" /> },
-  { name: "ChatGPT", logo: <ChatGPTLogo className="h-4 w-4" /> },
-  { name: "Wan", logo: <WanLogo className="h-4 w-4" /> },
+  { name: "Flux", logo: <FluxLogo className="h-5 w-5" /> },
+  { name: "Krea", logo: <KreaLogo className="h-5 w-5" /> },
+  { name: "Imagen", logo: <ImagenLogo className="h-5 w-5" /> },
+  { name: "Nano Banana", logo: <ImagenLogo className="h-5 w-5" /> },
+  { name: "ChatGPT", logo: <ChatGPTLogo className="h-5 w-5" /> },
+  { name: "Wan", logo: <WanLogo className="h-5 w-5" /> },
 ];
 
 /**
@@ -78,7 +77,7 @@ const MODEL_PILLS = [
 export function ProcessSection() {
   return (
     <section
-      className="cross-pattern-light relative flex justify-center overflow-hidden py-24 md:py-48"
+      className="cross-pattern relative flex justify-center overflow-hidden py-24 md:py-48"
       aria-labelledby="process-title"
     >
       {/* Ellipse gradient overlay */}
@@ -113,45 +112,38 @@ export function ProcessSection() {
               Get access to new models on the day they&apos;re released
             </p>
 
-            {/* Heading */}
+            {/* Heading - pixel-perfect from milestone.html */}
             <h2
               id="process-title"
-              className="flex flex-col gap-0 text-center text-4xl font-medium tracking-[-1.12px] md:text-[56px]"
+              className="flex flex-col text-4xl gap-0 text-center text-[40px] font-medium tracking-[-1.12px] md:text-[56px]"
             >
               <span className="text-primary-1000 text-pretty">
                 The world&apos;s best AI image generators
               </span>
               <span className="text-action">All in one tool</span>
             </h2>
-          </div>
-
-          {/* Model pills - hidden on mobile */}
-          <div
-            className="hidden flex-wrap items-center justify-center gap-3 md:flex"
-            role="list"
-            aria-label="Supported AI models"
-          >
-            {MODEL_PILLS.map((pill) => (
-              <ModelPill key={pill.name} name={pill.name} logo={pill.logo} />
-            ))}
+            {/* Model pills - pixel-perfect from milestone.html */}
+            <div
+              className="flex flex-wrap items-center justify-center gap-3 overflow-hidden md:gap-4"
+              role="list"
+              aria-label="Supported AI models"
+            >
+              {MODEL_PILLS.map((pill) => (
+                <ModelPill key={pill.name} name={pill.name} logo={pill.logo} />
+              ))}
+            </div>
           </div>
 
           {/* CTA Button */}
           <div>
-            <Link
+            <GradientButton
+              as="link"
               href="/products"
-              className={cn(
-                "flex items-center justify-center",
-                "relative overflow-hidden",
-                "rounded-full px-6 py-3 h-[44px]",
-                "bg-primary-1000 text-primary-0",
-                "text-sm font-medium leading-none",
-                "transition-all duration-200 ease-out",
-                "hover:scale-[1.025]"
-              )}
+              variant="primary"
+              className="rounded-full px-6 h-[44px]"
             >
               Start generating
-            </Link>
+            </GradientButton>
           </div>
         </div>
       </div>

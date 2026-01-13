@@ -66,7 +66,7 @@ export function FloatingImageCard({ card }: { card: FloatingCardData }) {
   );
 }
 
-/** Model pill button */
+/** Model pill button - pixel-perfect from milestone.html */
 export function ModelPill({
   name,
   logo,
@@ -75,9 +75,9 @@ export function ModelPill({
   logo: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm">
+    <span className="text-primary-1000 bg-primary-200 inline-flex w-fit items-center gap-3 rounded-full px-4 py-2 text-xl font-medium backdrop-blur-sm">
       {logo}
-      {name}
-    </div>
+      <span className="grow">{name}</span>
+    </span>
   );
 }

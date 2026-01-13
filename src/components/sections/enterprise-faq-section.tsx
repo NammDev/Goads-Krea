@@ -135,7 +135,7 @@ export function EnterpriseFaqSection() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="section-container py-24 md:py-40"
+      className="section-container pb-24 md:pb-36"
     >
       {/* Header */}
       <div className="mx-auto flex max-w-3xl flex-col text-left md:text-center">

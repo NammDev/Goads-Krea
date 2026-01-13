@@ -3,7 +3,7 @@ export { BentoSection } from "./bento-section";
 export { LogoPartnersSection } from "./logo-partners-section";
 export { UseCasesSection } from "./use-cases-section";
 export { PricingSection } from "./pricing-section";
-export { ProcessSection } from "./process-section";
+export { ProcessSection } from "./process";
 export { BigPictureSection } from "./big-picture-section";
 export { ClientShowcaseSection } from "./client-showcase-section";
 export { EnterpriseAdvantageSection } from "./enterprise-advantage-section";

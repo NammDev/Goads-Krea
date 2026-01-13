@@ -636,6 +636,34 @@ body {
   );
 }
 
+/* Light cross pattern for process section */
+.cross-pattern-light {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+/* Ellipse gradient overlay for light sections */
+.ellipse-gradient-light {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.8) 0%,
+    transparent 60%
+  );
+}
+
+/* Parallax gradient overlay for floating cards */
+.parallax-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    transparent 60%
+  );
+}
+
 /* Tertiary button gradient (dark on white bg) - diagonal glass sweep */
 .button-gradient-tertiary {
   background: linear-gradient(

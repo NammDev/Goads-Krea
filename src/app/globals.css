@@ -636,31 +636,73 @@ body {
   );
 }
 
-/* Light cross pattern for process section */
+/**
+ * Light cross pattern for process section
+ * Source: milestone.html (pixel-perfect)
+ * Performance: 4-layer gradient, suitable for hero sections
+ * Browser support: All modern browsers (Chrome 26+, Safari 6.1+, Firefox 16+)
+ */
 .cross-pattern-light {
-  background-image: radial-gradient(
-    circle at center,
-    rgba(0, 0, 0, 0.08) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
+  background:
+    radial-gradient(circle, transparent 20%, #ffffff 20%, #ffffff 80%, transparent 80%, transparent),
+    radial-gradient(circle, transparent 20%, #ffffff 20%, #ffffff 80%, transparent 80%, transparent) 6px 6px,
+    linear-gradient(#9d9ea524 0.8px, transparent 0.8px) 0 -0.4px,
+    linear-gradient(90deg, #a9a9a924 0.8px, #fff 0.8px) -0.4px 0;
+  background-size: 12px 12px, 12px 12px, 12px 12px, 12px 12px;
 }
 
-/* Ellipse gradient overlay for light sections */
+/**
+ * Ellipse gradient overlay for light sections
+ * Source: milestone.html (pixel-perfect)
+ * Browser support: mask requires Chrome 120+, Safari 15.4+, Firefox 53+
+ * Fallback: Without mask support, gradient still displays correctly
+ */
 .ellipse-gradient-light {
   background: radial-gradient(
-    ellipse at center,
-    rgba(255, 255, 255, 0.8) 0%,
-    transparent 60%
+    ellipse,
+    rgba(247, 247, 247, 1) 0%,
+    rgba(247, 247, 247, 1) 30%,
+    rgba(247, 247, 247, 0.25) 60%,
+    rgba(247, 247, 247, 0.04) 70%,
+    transparent 90%
   );
+  border-radius: 50%;
+  opacity: 1;
 }
 
-/* Parallax gradient overlay for floating cards */
+/* Enhanced mask effect for modern browsers */
+@supports (mask: radial-gradient(black, transparent)) {
+  .ellipse-gradient-light {
+    -webkit-mask: radial-gradient(ellipse, black 0%, black 60%, transparent 100%);
+    mask: radial-gradient(ellipse, black 0%, black 60%, transparent 100%);
+  }
+}
+
+/**
+ * Parallax gradient overlay for floating cards
+ * Source: milestone.html (pixel-perfect)
+ * Performance: 16-step gradient for smooth text readability overlay
+ * Browser support: All modern browsers (linear-gradient widely supported)
+ */
 .parallax-gradient {
   background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.6) 0%,
-    transparent 60%
+    to bottom,
+    rgba(0, 0, 0, 0.02) 0%,
+    rgba(0, 0, 0, 0.13) 8.1%,
+    rgba(0, 0, 0, 0.14) 15.5%,
+    rgba(0, 0, 0, 0.15) 22.5%,
+    rgba(0, 0, 0, 0.16) 29%,
+    rgba(0, 0, 0, 0.18) 35.3%,
+    rgba(0, 0, 0, 0.13) 41%,
+    rgba(0, 0, 0, 0.15) 47.1%,
+    rgba(0, 0, 0, 0.25) 52.9%,
+    rgba(0, 0, 0, 0.19) 58%,
+    rgba(0, 0, 0, 0.20) 64.7%,
+    rgba(0, 0, 0, 0.22) 71%,
+    rgba(0, 0, 0, 0.24) 77.5%,
+    rgba(0, 0, 0, 0.25) 84.5%,
+    rgba(0, 0, 0, 0.26) 91.9%,
+    rgba(0, 0, 0, 0.4) 100%
   );
 }
 

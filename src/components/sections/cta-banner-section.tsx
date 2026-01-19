@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { GradientButton } from "@/components/ui/gradient-button";
 
 /**
@@ -13,53 +14,57 @@ export function CtaBannerSection() {
           <div className="absolute top-0 left-0 h-full w-full">
             {/* Top left image */}
             <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute top-10 left-20 rotate-12 overflow-hidden rounded-xl shadow-lg">
-              <div className="h-full w-full">
-                <img
-                  className="h-full w-full object-cover select-none"
+              <div className="relative h-full w-full">
+                <Image
+                  className="object-cover select-none"
                   draggable={false}
                   loading="lazy"
-                  decoding="async"
                   src="https://s.krea.ai/free-access-img1.webp"
                   alt="Professional architectural render showcasing modern design"
+                  fill
+                  sizes="130px"
                 />
               </div>
             </div>
             {/* Top right image */}
             <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute top-10 right-10 -rotate-12 overflow-hidden rounded-xl shadow-lg">
-              <div className="h-full w-full">
-                <img
-                  className="h-full w-full object-cover select-none"
+              <div className="relative h-full w-full">
+                <Image
+                  className="object-cover select-none"
                   draggable={false}
                   loading="lazy"
-                  decoding="async"
                   src="https://s.krea.ai/free-access-img2.webp"
                   alt="Architectural visualization of building exterior"
+                  fill
+                  sizes="130px"
                 />
               </div>
             </div>
             {/* Bottom left image */}
             <div className="will-change-transform w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] md:w-[190px] md:h-[190px] aspect-square absolute bottom-10 left-10 -rotate-[19deg] overflow-hidden rounded-xl shadow-lg">
-              <div className="h-full w-full">
-                <img
-                  className="h-full w-full object-cover select-none"
+              <div className="relative h-full w-full">
+                <Image
+                  className="object-cover select-none"
                   draggable={false}
                   loading="lazy"
-                  decoding="async"
                   src="https://s.krea.ai/free-access-img3.webp"
                   alt="Interior architectural rendering with natural light"
+                  fill
+                  sizes="190px"
                 />
               </div>
             </div>
             {/* Bottom right image */}
             <div className="will-change-transform w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[130px] md:h-[130px] aspect-square absolute bottom-10 right-10 rotate-[11deg] overflow-hidden rounded-xl shadow-lg">
-              <div className="h-full w-full">
-                <img
-                  className="h-full w-full object-cover select-none"
+              <div className="relative h-full w-full">
+                <Image
+                  className="object-cover select-none"
                   draggable={false}
                   loading="lazy"
-                  decoding="async"
                   src="https://s.krea.ai/free-access-img4.webp"
                   alt="Landscape architecture visualization"
+                  fill
+                  sizes="130px"
                 />
               </div>
             </div>

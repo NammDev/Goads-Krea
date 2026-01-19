@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Floating card data structure */
@@ -53,11 +54,13 @@ export function FloatingImageCard({ card }: { card: FloatingCardData }) {
         {hasError ? (
           <ImageFallback name={card.name} />
         ) : (
-          <img
-            className="h-full w-full object-cover"
+          <Image
+            className="object-cover"
             src={card.image}
             alt={card.name}
             loading="lazy"
+            fill
+            sizes="(max-width: 640px) 220px, (max-width: 768px) 250px, 280px"
             onError={() => setHasError(true)}
           />
         )}

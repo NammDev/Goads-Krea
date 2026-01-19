@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface MediaCardProps {
@@ -71,12 +72,14 @@ export function MediaCard({
           allowFullScreen
         />
       ) : imageSrc ? (
-        <img
+        <Image
           loading="lazy"
           src={imageSrc}
           alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={cn(
-            "absolute inset-0 z-0 h-full w-full object-cover select-none",
+            "z-0 object-cover select-none",
             "transition-[transform,opacity] duration-500",
             hoverZoom && "hover-supported:group-hover:scale-110",
             imageClassName

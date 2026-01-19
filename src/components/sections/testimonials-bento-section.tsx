@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import { Marquee } from "@/components/ui/marquee";
 import Image from "next/image";
+import { useScrollTrigger } from "@/hooks";
 
 /** Highlight component for emphasized text */
 function Highlight({
@@ -239,27 +239,7 @@ function TestimonialCard({
  * Design: 4-column layout matching original Admiral design
  */
 export function TestimonialsBentoSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Intersection Observer for section visibility
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
   // Split testimonials into 4 columns (3 per column for 12 testimonials)
   const column1 = testimonials.slice(0, 3);

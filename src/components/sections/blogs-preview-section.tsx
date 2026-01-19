@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 /** Style data for selector buttons */
 interface StyleOption {
@@ -92,12 +93,13 @@ function StyleImageCard({
       <div className="absolute inset-0">
         <div className="relative z-0 h-full w-full object-cover">
           <div className="bg-primary-100 absolute inset-0 -z-10 h-full w-full animate-pulse opacity-0 transition-opacity duration-300 ease-out" />
-          <img
+          <Image
             src={src}
             alt={alt}
             loading={loading}
-            decoding="async"
-            className="z-10 h-full w-full object-cover opacity-100 transition-opacity duration-400 ease-out"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 160px, 226px"
+            className="z-10 object-cover opacity-100 transition-opacity duration-400 ease-out"
           />
         </div>
       </div>
@@ -182,10 +184,12 @@ export function BlogsPreviewSection() {
                       : "rotate-0 border-transparent"
                   }`}
                 >
-                  <img
-                    className="h-full w-full object-cover"
+                  <Image
+                    className="object-cover"
                     src={style.logo}
                     alt={style.name}
+                    fill
+                    sizes="62px"
                   />
                 </div>
                 <p className="text-sm font-medium">{style.name}</p>
@@ -215,10 +219,12 @@ export function BlogsPreviewSection() {
                       : "rotate-0 border-transparent"
                   }`}
                 >
-                  <img
-                    className="h-full w-full object-cover"
+                  <Image
+                    className="object-cover"
                     src={style.logo}
                     alt={style.name}
+                    fill
+                    sizes="62px"
                   />
                 </div>
                 <p className="text-sm font-medium">{style.name}</p>

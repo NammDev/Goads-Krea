@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PricingCardBase } from "./pricing-card-base";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { FeatureList } from "@/components/ui/feature-list";
@@ -20,10 +21,12 @@ export function IndividualPricingCard() {
     <PricingCardBase>
       {/* Header with icon */}
       <div className="flex items-center gap-2">
-        <img
+        <Image
           alt="Advanced plan icon"
           className="h-6 w-6"
           src={ADVANCED_ICON_URL}
+          width={24}
+          height={24}
         />
         <h3 className="text-primary-900 text-2xl font-medium">
           Advanced Setup

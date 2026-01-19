@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import Image from "next/image";
 import {
   GradientText,
   BleedingEdgeClock,
   Text3DCube,
   LipsyncWave,
 } from "@/components/ui/bento";
+import { useScrollTrigger } from "@/hooks";
+import { getStaggerAnimationStyle } from "@/lib/animation-config";
 
 /** Image URLs for bento cards */
 const BENTO_IMAGES = {
@@ -32,39 +33,10 @@ const BENTO_IMAGES = {
  * - Duration: 300ms, ease-out
  */
 export function BentoSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
-  // Intersection Observer for scroll-triggered animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Stagger animation style generator
-  const getAnimationStyle = (index: number) => ({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0px)" : "translateY(24px)",
-    transition: `opacity 300ms ease-out ${index * 60}ms, transform 300ms ease-out ${index * 60}ms`,
-    willChange: "opacity, transform",
-    transformOrigin: "bottom",
-  });
+  // Use centralized animation config
+  const getAnimationStyle = (index: number) => getStaggerAnimationStyle(isVisible, index);
 
   return (
     <section ref={sectionRef} className="section-container pt-24 md:pt-40">
@@ -74,11 +46,13 @@ export function BentoSection() {
           className="bg-primary-800 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "speed", ...getAnimationStyle(0) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.lightStreak}
-            className="absolute z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             loading="lazy"
             alt="Light streak background"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div
             className="absolute top-0 left-0 z-0 h-full w-full"
@@ -121,11 +95,13 @@ export function BentoSection() {
           className="bg-primary-300 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "fourk", ...getAnimationStyle(3) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.eyeMacro}
-            className="absolute z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             alt="Eye macro"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <span className="relative z-10 text-5xl leading-none font-bold tracking-tight xl:text-7xl">
             Clear
@@ -140,11 +116,13 @@ export function BentoSection() {
           className="bg-primary-800 relative flex flex-col items-center justify-center overflow-hidden bg-cover text-white"
           style={{ gridArea: "k1", ...getAnimationStyle(4) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.krea1Example}
-            className="absolute z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             alt="Agency tested"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div
             className="absolute inset-0 top-0 left-0 z-0"
@@ -166,11 +144,13 @@ export function BentoSection() {
           className="bg-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
           style={{ gridArea: "minimalist", ...getAnimationStyle(5) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.minimalistBase}
-            className="absolute z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             alt="Verified BMs"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="tracking-snug relative text-center text-3xl leading-none font-semibold">
             Verified BMs
@@ -195,11 +175,13 @@ export function BentoSection() {
           className="bg-primary-100 relative overflow-hidden bg-cover p-4 text-white"
           style={{ gridArea: "assetmanager", ...getAnimationStyle(6) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.assetManager}
-            className="absolute top-0 left-0 z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             alt="Scaling ready"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div
             className="absolute top-0 left-0 z-0 h-full w-full"
@@ -261,11 +243,13 @@ export function BentoSection() {
           className="bg-primary-100 relative overflow-hidden bg-cover bg-center p-4 text-white"
           style={{ gridArea: "styles", ...getAnimationStyle(10) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.styles}
-            className="absolute top-0 left-0 z-0 h-full w-full object-cover"
+            className="z-0 object-cover"
             alt="Replacement"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="relative z-10 text-lg leading-tight font-semibold md:text-2xl">
             1:1 Replacement
@@ -277,11 +261,13 @@ export function BentoSection() {
           className="bg-primary-100 text-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center"
           style={{ gridArea: "editor", ...getAnimationStyle(11) }}
         >
-          <img
+          <Image
             src={BENTO_IMAGES.editor}
-            className="absolute top-0 left-0 z-0 h-full w-full scale-220 object-cover object-center"
+            className="z-0 scale-220 object-cover object-center"
             alt="Real humans"
             loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div
             className="absolute top-0 left-0 z-0 h-full w-full"
@@ -302,20 +288,24 @@ export function BentoSection() {
         >
           {/* Telegram */}
           <div className="relative h-[45%] overflow-hidden rounded-3xl bg-black bg-cover bg-center pt-4 text-white">
-            <img
+            <Image
               src={BENTO_IMAGES.realtimeBase}
-              className="absolute top-0 left-0 z-0 h-full w-full object-cover"
+              className="z-0 object-cover"
               alt="Multi-channel support"
               loading="lazy"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="tracking-snug relative z-10 mx-auto text-center text-2xl font-semibold">
               Multi-Channel
             </div>
-            <img
-              className="absolute top-0 left-0 z-10 h-full w-full object-cover"
+            <Image
+              className="z-10 object-cover"
               alt="Support overlay"
               loading="lazy"
               src={BENTO_IMAGES.realtimeOverlay}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
 

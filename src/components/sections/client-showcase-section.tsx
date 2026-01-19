@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CTAButtonGroup } from "@/components/ui/cta-button-group";
 
@@ -158,11 +159,12 @@ function PebblebedLogo() {
 function HF0Logo() {
   return (
     <span className="flex items-center">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         alt="HF0"
         className="inline-block h-10"
         src="https://www.krea.ai/_app/b94edb9695cfef9c/immutable/assets/hf0.CKtaKzTo.webp"
+        width={40}
+        height={40}
       />
       <svg
         viewBox="0 0 58 28"

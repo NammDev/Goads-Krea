@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /** Monthly ad spend options */
@@ -93,11 +94,14 @@ export function EnterpriseContactSection() {
       <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
         {/* Background image with overlay */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src={HERO_IMAGE_URL}
             alt=""
             aria-hidden="true"
-            className="h-full w-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export interface BeforeAfterSliderProps {
@@ -122,11 +123,13 @@ export function BeforeAfterSlider({
       >
         {/* After image (background) */}
         <div className="relative h-full w-full">
-          <img
+          <Image
             className="h-full w-full object-contain object-center"
             draggable={false}
             src={afterImage}
             alt={afterAlt}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, 80vw"
           />
         </div>
 
@@ -137,11 +140,13 @@ export function BeforeAfterSlider({
             clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,
           }}
         >
-          <img
+          <Image
             className="h-full w-full object-contain object-center"
             draggable={false}
             src={beforeImage}
             alt={beforeAlt}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, 80vw"
           />
         </div>
 

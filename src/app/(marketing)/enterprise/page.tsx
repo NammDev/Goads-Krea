@@ -6,6 +6,7 @@ import {
   EnterpriseContactSection,
   EnterpriseFaqSection,
 } from "@/components/sections";
+import { PageHero } from "@/components/ui";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Enterprise",
@@ -23,18 +24,11 @@ export default function EnterprisePage() {
         ]}
       />
 
-      {/* Hero */}
-      <section className="bg-primary-1000 pb-20 pt-32">
-        <div className="max-w-s2xl mx-auto section-container text-center">
-          <h1 className="text-5xl font-semibold leading-tight text-white md:text-6xl lg:text-7xl">
-            Krea for Enterprise
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-xl text-primary-400">
-            Scale your creative workflows with dedicated support and
-            enterprise-grade security
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Krea for Enterprise"
+        subtitle="Scale your creative workflows with dedicated support and enterprise-grade security"
+        variant="dark"
+      />
 
       {/* Enterprise Sections */}
       <div className="max-w-s2xl mx-auto">

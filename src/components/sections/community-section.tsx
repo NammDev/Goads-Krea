@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { GradientButton } from "@/components/ui/gradient-button";
 
 /**
@@ -18,12 +19,13 @@ export function CommunitySection() {
           style={{ height: "1065.5px", width: "1074px" }}
         >
           <div className="relative h-full w-full">
-            <img
+            <Image
               src="https://s.krea.ai/image-page/curated-styles.webp"
               alt="An image grid of curated styles output by Krea"
               loading="lazy"
-              decoding="async"
-              className="z-10 h-full w-full object-cover opacity-100 transition-opacity duration-400 ease-out"
+              fill
+              sizes="1074px"
+              className="z-10 object-cover opacity-100 transition-opacity duration-400 ease-out"
             />
           </div>
         </div>

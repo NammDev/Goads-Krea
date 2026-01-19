@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
 import { FeatureCard } from "./feature-card";
+import { useScrollTrigger } from "@/hooks";
+import { getSlideUpStyle } from "@/lib/animation-config";
 
 // Feature cards data for GoAds Agency Ad Accounts - 5 cards total
 // Following Krea layout: Logo | Image | Prompt (grey) | Header | Button
@@ -57,34 +59,7 @@ const features = [
 
 export function FeatureCards() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Intersection Observer for scroll-triggered animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Trigger animation when section enters viewport
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Unobserve after triggering (animation plays once)
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        // Trigger when 10% of section is visible
-        threshold: 0.1,
-        // Start animation slightly before section enters viewport
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
@@ -113,16 +88,7 @@ export function FeatureCards() {
       */}
       <div
         className="max-w-s2xl mx-auto"
-        style={{
-          // GPU-accelerated transform for smooth animation
-          transform: isVisible
-            ? "translate3d(0px, 0px, 0px)"
-            : "translate3d(0px, 80px, 0px)",
-          opacity: isVisible ? 1 : 0,
-          transition:
-            "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out",
-          willChange: "transform, opacity",
-        }}
+        style={getSlideUpStyle(isVisible)}
       >
         {/* Scroll container with left margin, cards bleed right */}
         <div

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { generatePageMetadata, BreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { PricingSection, EnterpriseFaqSection } from "@/components/sections";
+import { PageHero } from "@/components/ui";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Pricing",
@@ -18,17 +19,12 @@ export default function PricingPage() {
         ]}
       />
 
-      {/* Hero */}
-      <section className="bg-primary-0 pb-12 pt-32">
-        <div className="max-w-s2xl mx-auto section-container text-center">
-          <h1 className="text-5xl font-semibold leading-tight text-primary-900 md:text-6xl lg:text-7xl">
-            Simple, Transparent Pricing
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-xl text-primary-500">
-            Start free, scale as you grow. No hidden fees.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Simple, Transparent Pricing"
+        subtitle="Start free, scale as you grow. No hidden fees."
+        variant="light"
+        paddingBottom="sm"
+      />
 
       {/* Pricing Cards */}
       <PricingSection />

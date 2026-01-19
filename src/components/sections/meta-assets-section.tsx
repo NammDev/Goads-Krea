@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { Building2, User, FileText, Layers, Package, Plus } from "lucide-react";
+import { useScrollTrigger } from "@/hooks";
+import { getStaggerAnimationStyle } from "@/lib/animation-config";
 
 /** Asset category for sidebar navigation */
 interface AssetCategory {
@@ -225,30 +227,7 @@ function AssetSidebarPanel({
  */
 export function MetaAssetsSection() {
   const [activeCategory, setActiveCategory] = useState("all");
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Intersection Observer for scroll-triggered animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
   // Filter products by category
   const filteredProducts =
@@ -262,16 +241,6 @@ export function MetaAssetsSection() {
       ? "All Products"
       : ASSET_CATEGORIES.find((c) => c.id === activeCategory)?.name ||
         "Products";
-
-  // Stagger animation style generator
-  const getAnimationStyle = (index: number) => ({
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "translateY(0px)" : "translateY(24px)",
-    transition: `opacity 300ms ease-out ${
-      index * 60
-    }ms, transform 300ms ease-out ${index * 60}ms`,
-    willChange: "opacity, transform",
-  });
 
   return (
     <section
@@ -310,7 +279,7 @@ export function MetaAssetsSection() {
               <ProductCard
                 key={product.name}
                 product={product}
-                style={getAnimationStyle(index)}
+                style={getStaggerAnimationStyle(isVisible, index)}
               />
             ))}
           </div>

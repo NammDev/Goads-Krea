@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -157,6 +158,54 @@ function ResourceCard({ item }: { item: ResourceItem }) {
   return <Link href={item.href}>{content}</Link>;
 }
 
+/** Partner card with image fallback */
+function PartnerCard({ partner }: { partner: PartnerItem }) {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <a
+      href={partner.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "group p-3 rounded-xl transition-all duration-300",
+        "bg-gradient-to-br",
+        partner.bgGradient,
+        "hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-200/50",
+        "border",
+        partner.accentColor,
+        "hover:border-primary-300"
+      )}
+    >
+      {/* Partner Logo Container */}
+      <div className="relative w-full h-12 mb-2 flex items-center justify-center rounded-lg bg-white/90 backdrop-blur-sm p-2.5 shadow-sm">
+        {imageError ? (
+          <span className="text-sm font-semibold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+            {partner.name}
+          </span>
+        ) : (
+          <Image
+            src={partner.logo}
+            alt={partner.name}
+            width={80}
+            height={32}
+            className="h-full w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+            onError={() => setImageError(true)}
+          />
+        )}
+      </div>
+      {/* Partner Name */}
+      <div className="text-xs font-medium text-primary-700 text-center mb-0.5 group-hover:text-primary-900 transition-colors">
+        {partner.name}
+      </div>
+      {/* Partner Description */}
+      <div className="text-[10px] text-primary-500 text-center group-hover:text-primary-600 transition-colors">
+        {partner.description}
+      </div>
+    </a>
+  );
+}
+
 /** Partners showcase section */
 function PartnersSection() {
   return (
@@ -172,45 +221,7 @@ function PartnersSection() {
       </div>
       <div className="grid grid-cols-3 gap-3">
         {partnerItems.map((partner) => (
-          <a
-            key={partner.name}
-            href={partner.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              "group p-3 rounded-xl transition-all duration-300",
-              "bg-gradient-to-br",
-              partner.bgGradient,
-              "hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-200/50",
-              "border",
-              partner.accentColor,
-              "hover:border-primary-300"
-            )}
-          >
-            {/* Partner Logo Container */}
-            <div className="w-full h-12 mb-2 flex items-center justify-center rounded-lg bg-white/90 backdrop-blur-sm p-2.5 shadow-sm">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                className="h-full w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-                onError={(e) => {
-                  // Fallback to styled text if image fails
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  target.parentElement!.innerHTML = `<span class="text-sm font-semibold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">${partner.name}</span>`;
-                }}
-              />
-            </div>
-            {/* Partner Name */}
-            <div className="text-xs font-medium text-primary-700 text-center mb-0.5 group-hover:text-primary-900 transition-colors">
-              {partner.name}
-            </div>
-            {/* Partner Description */}
-            <div className="text-[10px] text-primary-500 text-center group-hover:text-primary-600 transition-colors">
-              {partner.description}
-            </div>
-          </a>
+          <PartnerCard key={partner.name} partner={partner} />
         ))}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { GradientButton } from "@/components/ui/gradient-button";
 
 /**
@@ -128,12 +129,13 @@ export function CustomTrainingSection() {
           <div className="absolute inset-0">
             <div className="relative h-full w-full object-contain">
               <div className="bg-primary-100 absolute inset-0 -z-10 h-full w-full animate-pulse opacity-0 transition-opacity duration-300 ease-out" />
-              <img
+              <Image
                 src={OUTPUT_IMAGE}
                 alt="AI generated result"
                 loading="lazy"
-                decoding="async"
-                className="z-10 h-full w-full object-cover opacity-100 transition-opacity duration-400 ease-out"
+                fill
+                sizes="304px"
+                className="z-10 object-cover opacity-100 transition-opacity duration-400 ease-out"
               />
             </div>
           </div>

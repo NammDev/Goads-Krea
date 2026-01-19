@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Check, X, Minus } from "lucide-react";
+import { useScrollTrigger } from "@/hooks";
 
 /** Comparison row data structure */
 interface ComparisonRow {
@@ -108,30 +108,7 @@ function CellValue({ value }: { value: string | boolean }) {
  * Features: Feature comparison between GoAds, MMO Vendors, and Other Agencies
  */
 export function CompareSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Intersection Observer for scroll-triggered animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
   const animationStyle = {
     opacity: isVisible ? 1 : 0,

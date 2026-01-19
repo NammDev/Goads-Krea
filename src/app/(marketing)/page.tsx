@@ -1,26 +1,46 @@
-import { HeroSection } from "@/components/hero";
-import { FeatureCards } from "@/components/features";
-import {
-  ProductShowcaseSection,
-  BentoSection,
-  LogoPartnersSection,
-  UseCasesSection,
-  PricingSection,
-  ProcessSection,
-  BigPictureSection,
-  ClientShowcaseSection,
-  EnterpriseContactSection,
-  EnterpriseFaqSection,
-  CtaBannerSection,
-  GuaranteeSection,
-  TestimonialsBentoSection,
-  MetaAssetsSection,
-  CompareSection,
-  CustomTrainingSection,
-  BlogsPreviewSection,
-  CommunitySection,
-} from "@/components/sections";
+import dynamic from "next/dynamic";
+import { HeroSection } from "@/components/hero/hero-section";
+import { FeatureCards } from "@/components/features/feature-cards";
+// Direct imports for smaller sections (better tree-shaking)
+import { ProductShowcaseSection } from "@/components/sections/product-showcase-section";
+import { LogoPartnersSection } from "@/components/sections/logo-partners-section";
+import { UseCasesSection } from "@/components/sections/use-cases-section";
+import { PricingSection } from "@/components/sections/pricing-section";
+import { ProcessSection } from "@/components/sections/process";
+import { BigPictureSection } from "@/components/sections/big-picture-section";
+import { ClientShowcaseSection } from "@/components/sections/client-showcase-section";
+import { EnterpriseContactSection } from "@/components/sections/enterprise-contact-section";
+import { EnterpriseFaqSection } from "@/components/sections/enterprise-faq-section";
+import { CtaBannerSection } from "@/components/sections/cta-banner-section";
+import { CustomTrainingSection } from "@/components/sections/custom-training-section";
+import { BlogsPreviewSection } from "@/components/sections/blogs-preview-section";
+import { CommunitySection } from "@/components/sections/community-section";
 import { OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/lib/seo";
+
+// Dynamic imports for large sections (>300 LOC) - reduces initial bundle
+const BentoSection = dynamic(
+  () =>
+    import("@/components/sections/bento-section").then(
+      (mod) => mod.BentoSection
+    ),
+  { ssr: true }
+);
+
+const TestimonialsBentoSection = dynamic(
+  () =>
+    import("@/components/sections/testimonials-bento-section").then(
+      (mod) => mod.TestimonialsBentoSection
+    ),
+  { ssr: true }
+);
+
+const MetaAssetsSection = dynamic(
+  () =>
+    import("@/components/sections/meta-assets-section").then(
+      (mod) => mod.MetaAssetsSection
+    ),
+  { ssr: true }
+);
 
 export default function Home() {
   return (

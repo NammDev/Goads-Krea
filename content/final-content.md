@@ -4,6 +4,10 @@
 > **Date:** 2026-01-11
 > **Version:** 2.0 (Expanded Structure)
 
+Hero Section
+Feature Card Agency Ad Account 
+
+
 ---
 
 ## Homepage Structure (18 Sections)

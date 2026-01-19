@@ -94,7 +94,7 @@ function FaqAccordionItem({
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between py-4 text-left transition-opacity duration-200 hover:opacity-60"
+        className="flex w-full cursor-pointer items-center justify-between py-4 text-left transition-opacity duration-200 hover:opacity-60"
         aria-expanded={isOpen}
         aria-controls={`content-${item.id}`}
       >

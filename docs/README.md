@@ -1,8 +1,8 @@
 # Krea.ai Documentation
 
-Technical documentation for the Krea website (Next.js 15, TypeScript, Tailwind CSS v4).
+Technical documentation for the Krea website (Next.js 16.1.1, React 19.2.3, TypeScript 5, Tailwind CSS v4).
 
-**Updated:** 2026-01-11
+**Updated:** 2026-01-20
 
 ---
 
@@ -11,11 +11,10 @@ Technical documentation for the Krea website (Next.js 15, TypeScript, Tailwind C
 | Document | Description |
 |----------|-------------|
 | [Architecture](./architecture.md) | Routing, layouts, SEO infrastructure |
-| [Design System](./design-system.md) | Color tokens, typography, spacing |
+| [Design System](./design-system.md) | Color tokens, typography, animations |
 | [Component API](./component-api.md) | UI component reference with examples |
-| [Design Guidelines](./design-guidelines.md) | Visual specs, CSS utilities |
-| [Icon System](./icon-system.md) | 35-icon reference guide |
-| [Codebase Summary](./codebase-summary.md) | Directory structure, components |
+| [Design Guidelines](./design-guidelines.md) | Visual specs, CSS utilities, section patterns |
+| [Codebase Summary](./codebase-summary.md) | Directory structure, components, hooks |
 
 ---
 
@@ -37,10 +36,11 @@ npm run start
 
 ## Stack
 
-- **Framework:** Next.js 15+ (App Router)
+- **Framework:** Next.js 16.1.1 (App Router, Turbopack)
+- **React:** 19.2.3 with Server Components
 - **Styling:** Tailwind CSS v4
 - **Language:** TypeScript 5.x
-- **Components:** CVA variants, compound patterns
+- **Patterns:** Custom hooks, compound components, animation config
 
 ---
 
@@ -70,17 +70,16 @@ npm run start
 
 ---
 
-## Documentation Files (7 total)
+## Documentation Files (6 total)
 
 | File | Lines | Purpose |
 |------|-------|---------|
 | `README.md` | ~100 | Navigation index |
-| `architecture.md` | ~150 | Routing, SEO, layouts |
-| `design-system.md` | ~170 | Tokens, patterns |
-| `component-api.md` | ~230 | Component reference |
-| `design-guidelines.md` | ~780 | Visual specifications |
-| `codebase-summary.md` | ~530 | Structure overview |
-| `icon-system.md` | ~350 | Icon reference |
+| `architecture.md` | ~200 | Routing, SEO, layouts, Turbopack |
+| `design-system.md` | ~200 | Tokens, animations, typography |
+| `component-api.md` | ~250 | Component reference + hooks |
+| `design-guidelines.md` | ~600 | Visual specs, section patterns |
+| `codebase-summary.md` | ~700 | Structure, hooks, content pipeline |
 
 ---
 
@@ -88,12 +87,12 @@ npm run start
 
 | Task | Steps |
 |------|-------|
-| Add a page | Create `src/app/(marketing)/name/page.tsx`, add metadata |
+| Add a page | Create `src/app/(marketing)/name/page.tsx`, use PageHero component |
 | Add a component | Create in `src/components/ui/`, export from index.ts |
-| Add a section | Create in `src/components/sections/`, use Section wrapper |
-| Find an icon | Check [icon-system.md](./icon-system.md), import from `@/components/icons` |
+| Add animated section | Use `useScrollTrigger` hook + animation config |
+| Use scroll animations | Import `getStaggerAnimationStyle` from `@/lib/animation-config` |
 | Add SEO | Use `generatePageMetadata` from `@/lib/seo` |
 
 ---
 
-*Krea.ai Technical Documentation | Updated: 2026-01-11*
+*Krea.ai Technical Documentation | Updated: 2026-01-20*

@@ -1,5 +1,82 @@
 # Component API Reference
 
+**Updated:** 2026-01-20 | Includes new hooks, PageHero component, and animation utilities
+
+## Custom Hooks
+
+### useScrollTrigger
+
+Scroll-triggered animations using IntersectionObserver. Eliminates duplicate observer logic.
+
+```tsx
+import { useScrollTrigger } from "@/hooks";
+
+const { ref, isVisible } = useScrollTrigger<HTMLElement>({
+  threshold: 0.1,          // When to trigger (0-1)
+  rootMargin: "0px 0px -50px 0px", // Early trigger offset
+  triggerOnce: true,       // Only trigger once
+});
+
+return (
+  <section
+    ref={ref}
+    style={{
+      opacity: isVisible ? 1 : 0,
+      transform: isVisible ? "translateY(0)" : "translateY(24px)",
+      transition: "all 0.3s ease-out",
+    }}
+  >
+    Content revealed on scroll
+  </section>
+);
+```
+
+**Return:**
+- `ref`: RefObject to attach to element
+- `isVisible`: boolean state
+
+---
+
+## Animation Utilities
+
+Import from `@/lib/animation-config`:
+
+### getStaggerAnimationStyle()
+Generate stagger animation for indexed items:
+```tsx
+import { getStaggerAnimationStyle, DURATION, STAGGER } from "@/lib/animation-config";
+
+const style = getStaggerAnimationStyle(isVisible, index, {
+  duration: DURATION.smooth,    // 300ms default
+  stagger: STAGGER.default,     // 60ms default
+  distance: 24,                 // 24px default
+  easing: EASING.out,           // "ease-out" default
+});
+```
+
+### getSlideUpStyle()
+GPU-accelerated slide-up reveal:
+```tsx
+const style = getSlideUpStyle(isVisible, {
+  duration: DURATION.slower,    // 800ms for dramatic
+  distance: 80,                 // Larger for hero
+  easing: EASING.expoOut,       // Dramatic easing
+});
+```
+
+### buildTransition()
+Create CSS transition strings:
+```tsx
+const transition = buildTransition(
+  ["opacity", "transform"],
+  DURATION.normal,
+  EASING.out
+);
+// Result: "opacity 200ms ease-out, transform 200ms ease-out"
+```
+
+---
+
 ## UI Components
 
 ### Button
@@ -22,6 +99,51 @@ interface ButtonProps {
 <Button variant="light">Light button</Button>
 <Button variant="dark" size="sm">Small dark</Button>
 ```
+
+### PageHero
+
+Reusable page hero section eliminating duplicate hero patterns. Used for page header content.
+
+```tsx
+import { PageHero } from "@/components/ui";
+
+interface PageHeroProps {
+  title: string;                    // Page title
+  subtitle: string;                 // Subtitle/description
+  variant?: "dark" | "light";       // Background: primary-1000 or primary-0
+  paddingBottom?: "sm" | "md" | "lg"; // pb-12 | pb-20 | pb-28
+  className?: string;               // Additional classes
+  children?: React.ReactNode;       // Extra content below subtitle
+}
+```
+
+**Example:**
+```tsx
+<PageHero
+  title="Pricing Plans"
+  subtitle="Choose the perfect plan for your needs"
+  variant="light"
+  paddingBottom="md"
+/>
+
+// With extra content
+<PageHero
+  title="About Us"
+  subtitle="Our mission and values"
+  variant="dark"
+>
+  <div className="mt-8">
+    {/* Additional content like CTA buttons */}
+  </div>
+</PageHero>
+```
+
+**Styling:**
+- Dark: black bg, white title, gray-400 subtitle
+- Light: white bg, primary-900 title, primary-500 subtitle
+- Responsive title: text-5xl → text-6xl → text-7xl
+
+---
 
 ### GradientButton
 

@@ -1,5 +1,90 @@
 # Design System
 
+**Version:** Tailwind CSS v4 with Animation Config | Updated: 2026-01-20
+
+## Animation System
+
+Centralized animation constants in `src/lib/animation-config.ts` for consistent motion design.
+
+### Duration Constants (ms)
+```ts
+DURATION = {
+  instant: 100,      // Micro-interactions
+  fast: 150,         // Hover, focus
+  normal: 200,       // Standard transitions
+  smooth: 300,       // Modal, slide
+  slow: 500,         // Dramatic animations
+  slower: 800,       // Complex, page transitions
+}
+```
+
+### Stagger Delays (ms)
+```ts
+STAGGER = {
+  tight: 30,         // Dense grids
+  default: 60,       // Lists/grids
+  relaxed: 100,      // Larger items
+  dramatic: 150,     // Hero sections
+}
+```
+
+### Easing Functions
+```ts
+EASING = {
+  out: "ease-out",                               // Standard
+  in: "ease-in",                                 // Exits
+  inOut: "ease-in-out",                          // Symmetric
+  expoOut: "cubic-bezier(0.16, 1, 0.3, 1)",    // Dramatic
+  spring: "cubic-bezier(0.34, 1.56, 0.64, 1)", // Bounce
+  linear: "linear",                              // Continuous
+}
+```
+
+### Helper Functions
+
+**getStaggerAnimationStyle()** - Stagger items with index-based delays:
+```tsx
+const { ref, isVisible } = useScrollTrigger();
+const style = getStaggerAnimationStyle(isVisible, index, {
+  duration: DURATION.smooth,
+  stagger: STAGGER.default,
+  distance: 24,
+  easing: EASING.out,
+});
+```
+
+**getSlideUpStyle()** - GPU-accelerated slide-up reveal:
+```tsx
+const style = getSlideUpStyle(isVisible, {
+  duration: DURATION.slower,
+  distance: 80,
+  easing: EASING.expoOut,
+});
+```
+
+**buildTransition()** - Create transition strings:
+```tsx
+const trans = buildTransition(
+  ["opacity", "transform"],
+  DURATION.normal,
+  EASING.out
+); // "opacity 200ms ease-out, transform 200ms ease-out"
+```
+
+### Tailwind Animation Classes
+```ts
+TRANSITION_CLASSES = {
+  default: "transition-all duration-200 ease-out",
+  fast: "transition-all duration-150 ease-out",
+  smooth: "transition-all duration-300 ease-out",
+  colors: "transition-colors duration-200 ease-out",
+  transform: "transition-transform duration-200 ease-out",
+  opacity: "transition-opacity duration-200 ease-out",
+}
+```
+
+---
+
 ## Color Tokens
 
 ### Primary Scale (Grayscale)

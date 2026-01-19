@@ -369,6 +369,141 @@ export function SectionName() {
 
 ---
 
+## Animation System (animation-config.ts)
+
+Centralized animation constants in `src/lib/animation-config.ts`. **Always use these instead of hardcoding values.**
+
+### Duration Scale
+```ts
+DURATION: {
+  instant: 100,    // Micro-interactions
+  fast: 150,       // Hovers, toggles
+  normal: 200,     // Standard transitions
+  moderate: 300,   // Content reveals (DEFAULT)
+  slow: 500,       // Complex animations
+  slower: 800      // Dramatic effects
+}
+```
+
+### Stagger Delays
+```ts
+STAGGER: {
+  tight: 30,       // Dense lists
+  normal: 60,      // Standard cards (DEFAULT)
+  relaxed: 100,    // Spaced content
+  dramatic: 150    // Hero elements
+}
+```
+
+### Easing Functions
+```ts
+EASING: {
+  standard: 'ease-out',           // Default for most
+  smooth: 'ease-in-out',          // Bidirectional
+  snappy: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  expoOut: 'cubic-bezier(0.16, 1, 0.3, 1)',  // Dramatic reveals
+  spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy
+}
+```
+
+### Helper Functions
+
+**getStaggerAnimationStyle(isVisible, index)** - For staggered card animations:
+```tsx
+import { getStaggerAnimationStyle } from "@/lib/animation-config";
+
+const cards = items.map((item, index) => (
+  <div style={getStaggerAnimationStyle(isVisible, index)}>
+    {/* Card content */}
+  </div>
+));
+```
+
+**getSlideUpStyle(isVisible)** - For single element slide-up:
+```tsx
+import { getSlideUpStyle } from "@/lib/animation-config";
+
+<div style={getSlideUpStyle(isVisible)}>
+  {/* Content slides up when visible */}
+</div>
+```
+
+---
+
+## useScrollTrigger Hook Pattern
+
+**REQUIRED for all scroll-triggered animations.** Located at `src/hooks/use-scroll-trigger.ts`.
+
+### Basic Usage
+```tsx
+import { useScrollTrigger } from "@/hooks";
+import { getStaggerAnimationStyle } from "@/lib/animation-config";
+
+export function MySection() {
+  const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
+
+  return (
+    <section ref={sectionRef} className="section-container">
+      {items.map((item, index) => (
+        <div
+          key={item.id}
+          style={getStaggerAnimationStyle(isVisible, index)}
+        >
+          {/* Content */}
+        </div>
+      ))}
+    </section>
+  );
+}
+```
+
+### Configuration Options
+```ts
+useScrollTrigger({
+  threshold: 0.1,                    // 10% visible triggers (default)
+  rootMargin: "0px 0px -50px 0px",   // Trigger slightly before in view
+  triggerOnce: true                  // Only animate once (default)
+});
+```
+
+---
+
+## PageHero Component Pattern
+
+Reusable hero for marketing pages. Located at `src/components/ui/page-hero.tsx`.
+
+### Usage
+```tsx
+import { PageHero } from "@/components/ui/page-hero";
+
+export default function AboutPage() {
+  return (
+    <>
+      <PageHero
+        title="About Us"
+        subtitle="Our story and mission"
+        variant="dark"           // "dark" | "light" (default: "light")
+        paddingBottom="lg"       // "sm" | "md" | "lg" (default: "md")
+      />
+      {/* Page content */}
+    </>
+  );
+}
+```
+
+### Variants
+| Variant | Background | Text Color | Use Case |
+|---------|------------|------------|----------|
+| `dark` | `primary-1000` | white | High-impact pages |
+| `light` | `primary-0` | `primary-1000` | Standard pages |
+
+### Responsive Typography
+- Mobile: `text-5xl` (48px)
+- Tablet: `text-6xl` (60px)
+- Desktop: `text-7xl` (72px)
+
+---
+
 ## Bento Grid Section
 
 ### Desktop Layout (16 columns × 14 rows)
@@ -588,199 +723,37 @@ interface FeatureListProps {
 
 ## Pricing Section
 
-### Layout & Structure
-
-| Property | Value | Tailwind | Details |
-|----------|-------|----------|---------|
-| Container | responsive grid | `grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4` | 1 col mobile, 2 tablet, 4 desktop |
-| Gap | 20px | `gap-5` | Consistent spacing between cards |
-| Padding Y | `160px / 128px` | `pt-40 pb-20 md:pb-32` | Responsive vertical spacing |
-
-### Pricing Cards (Base)
-
-| Property | Value | Tailwind | Details |
-|----------|-------|----------|---------|
-| Min Height | `580px` | `min-h-[580px]` | Consistent card height |
-| Padding | `32px` | `p-8` | Internal content spacing |
-| Border Radius | `16px` | `rounded-2xl` | Consistent corner radius |
-| Hover Scale | `1.015` (1.5%) | `hover:scale-[1.015]` | Subtle interactive feedback |
-| Transition | 200ms | `duration-200 ease-out` | Smooth scale animation |
-
-### Card Variants
-
-#### Light Variant (Free, Individual, Business)
-| Property | Value | Tailwind |
-|----------|-------|----------|
-| Background | white | `bg-white` |
-| Border | `#e5e5e5` | `border-primary-200` |
-| Text | dark gray/black | `text-primary-900` |
-
-#### Dark Variant (Enterprise)
-| Property | Value | Tailwind |
-|----------|-------|----------|
-| Background | black | `bg-black` |
-| Border | `#404040` | `border-primary-800` |
-| Text | white/light gray | `text-white` / `text-primary-400` |
-
-### Card Content Structure
-
-| Element | Font Size | Weight | Color | Details |
-|---------|-----------|--------|-------|---------|
-| Title | 24px | 500 (medium) | primary-900 / white | Plan name |
-| Description | 14px | 400 | primary-500 / primary-400 | Subtitle text |
-| Price | 36px | 600 (semibold) | primary-900 / white | Main price number |
-| Price Unit | 14px | 500 | primary-500 | "/month" or compute units |
-| Compute Label | 16px | 500 | primary-600 / primary-500 | "K/M compute units" |
-| Feature List | 14px | 400 | primary-500 / white | Bullet points |
-
-### Pricing Button
-
-| Property | Value | Tailwind | CSS Details |
-|----------|-------|----------|------------|
-| Height | `40px` | `h-10` | Fixed button height |
-| Width | 100% | `w-full` | Full card width |
-| Border Radius | `8px` | `rounded-lg` | Slight rounding |
-| Font | 14px, 600 | `text-sm font-semibold` | Bold, compact text |
-| Hover Scale | `1.025` (2.5%) | `hover:scale-[1.025]` | Interactive feedback |
-| Transition | 200ms | `duration-200 ease-out` | Smooth animation |
-
-#### Primary Variant (Free, Individual, Business)
-| Property | Value |
-|----------|-------|
-| Background | black |
-| Text | white |
-| Gradient Animation | Yes (see below) |
-
-#### White Variant (Enterprise)
-| Property | Value |
-|----------|-------|
-| Background | white |
-| Text | black |
-| Gradient Animation | No |
+### Layout
+- Grid: `grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5`
+- Cards: `min-h-[580px] p-8 rounded-2xl hover:scale-[1.015]`
+- Light cards: `bg-white border-primary-200`
+- Dark cards (Enterprise): `bg-black border-primary-800`
 
 ### Button Gradient Animation
-
-**Primary Gradient** (Dark buttons with shine effect):
 ```css
+/* Diagonal shine effect - 120.49deg sweep */
 .button-gradient-primary {
-  background: linear-gradient(
-    120.49deg,
-    #000 41.45%,
-    #b2b2b2e6 50%,
-    #000 60.74%
-  );
+  background: linear-gradient(120.49deg, #000 41.45%, #b2b2b2e6 50%, #000 60.74%);
 }
+/* Animation: animate-[translate-x-66_1.25s_ease-in-out_infinite], visible on hover */
 ```
 
-**Secondary Gradient** (Light buttons with subtle effect):
-```css
-.button-gradient-secondary {
-  background: linear-gradient(
-    120.49deg,
-    transparent 41.45%,
-    rgba(0, 0, 0, 0.12) 50%,
-    transparent 60.74%
-  );
-}
-```
-
-**Tertiary Gradient** (Minimal dark shade):
-```css
-.button-gradient-tertiary {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.06) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-```
-
-**Animation Keyframes:**
-```css
-@keyframes translate-x-66 {
-  0% { transform: translateX(-66.666%); }
-  100% { transform: translateX(0%); }
-}
-```
-
-**Visibility Control (Hover-only):**
-```css
-[data-button-gradient] {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.button-gradient-transition:hover [data-button-gradient] {
-  opacity: 1;
-}
-
-.button-gradient-transition {
-  transition: all 0.2s ease-out;
-}
-```
-
-**Animation:** `animate-[translate-x-66_1.25s_ease-in-out_infinite]`
-- Angle: 120.49deg (diagonal sweep)
-- Effect: Black → gray → black shine that sweeps right-to-left
-- Duration: 1.25s, ease-in-out, infinite loop
-- Visibility: Hidden by default, visible on hover via opacity transition
-
-### Plan Slider (Interactive)
-
-| Property | Value | Tailwind | Details |
-|----------|-------|----------|---------|
-| Track Height | 6px | `h-1.5` | Thin slider rail |
-| Track Background | `#e5e5e5` | `bg-primary-200` | Light gray |
-| Active Range | black | `bg-primary-900` | Filled portion |
-| Thumb Size | 16px | `h-4 w-4` | Circular handle |
-| Thumb Border | 1px black | `border-primary-900` | Visible border |
-| Thumb Background | white | `bg-white` | Contrast with track |
-| Label Font | 12px, 600 | `text-xs font-semibold` | Small, bold |
-| Label Spacing | gap-0 (stretched) | `justify-between` | Distributed across width |
-
-**Accessibility:**
-- Keyboard control: Arrow Left/Right to adjust
-- ARIA labels: `role="slider"`, `aria-valuemin/max/now/text`
-- Focus ring: 4px ring on focus, primary-900 color
-- Hover state: 4px ring on hover for visibility
-
-### Pricing Card Variants
-
-| Card | Tiers | Price Range | Features | CTA |
-|------|-------|-------------|----------|-----|
-| Free | 1 | $0/month | 4 (pay-as-you-go, daily free) | Get started free |
-| Individual | 6 | $9-$96/month | 4 (premium, commercial) | Choose Individual |
-| Business | 10 | $50-$2500 | 6 (team, priority) | Choose Business |
-| Enterprise | 1 | Custom | 6 (SLA, security) | Contact sales |
-
-### Pricing Heading
-
-| Property | Value | Tailwind | Details |
-|----------|-------|----------|---------|
-| Font Sizes | 36px / 40px / 48px / 56px | `text-4xl sm:text-5xl md:text-6xl lg:text-7xl` | Responsive scaling |
-| Weight | 600 (semibold) | `font-semibold` | Medium-bold weight |
-| Line Height | 1.05 | `leading-[1.05]` | Tight spacing |
-| Letter Spacing | normal | `tracking-tight` | Compressed tracking |
-| Color | black | `text-primary-900` | Dark text |
-| Gap | 24px | `gap-6` | Space between heading lines |
-| Text Lines | 3 lines | Flex column | Stacked layout |
+### Card Types
+| Card | Tiers | Price Range | CTA |
+|------|-------|-------------|-----|
+| Free | 1 | $0/month | Get started free |
+| Individual | 6 | $9-$96/month | Choose Individual |
+| Business | 10 | $50-$2500 | Choose Business |
+| Enterprise | 1 | Custom | Contact sales |
 
 ---
 
-*Updated: 2026-01-10 12:57 | Source: krea.ai pixel-perfect recreation*
+*Updated: 2026-01-20 | Source: krea.ai pixel-perfect recreation*
 
-**See Also:** [Icon System Reference](./icon-system.md) - Consolidated 35-icon reference guide
+**See Also:** [Icon System Reference](./icon-system.md) | [Component API](./component-api.md)
 
 **Recent Updates:**
-- Fixed button gradient to diagonal 120.49deg sweep (black → #b2b2b2e6 gray → black)
-- Added tertiary button gradient variant (minimal 90deg black shade)
-- Added hover-only gradient visibility (opacity transition, data-button-gradient attribute)
-- Updated GradientButton component docs with gradient implementation details
-- Added button gradient animation CSS specifications
-- Added Pricing Section with 4-card layout (Free, Individual, Business, Enterprise)
-- Added interactive PlanSlider component specifications with accessibility
-- Added Bento Grid Section with 16-column desktop layout
-- Added Lipsync wave animation CSS specifications
-- Added BleedingEdgeClock component hydration-safe implementation
-- Updated gradient-header to match original Krea diagonal gradient
+- Added Animation System section (animation-config.ts)
+- Added useScrollTrigger hook pattern
+- Added PageHero component pattern
+- Added Bento Grid Section specifications

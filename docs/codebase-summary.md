@@ -1,8 +1,9 @@
 # Krea.ai Layout Recreation - Codebase Summary
 
-**Project:** Krea.ai SEO-ready multi-page website
-**Status:** Multi-page architecture complete with SEO infrastructure
-**Updated:** 2026-01-11
+**Project:** Krea.ai SEO-ready multi-page website with advanced animations
+**Framework:** Next.js 16.1.1 (Turbopack), React 19.2.3, TypeScript 5, Tailwind CSS v4
+**Status:** Phase 1 complete - animations, content pipeline, reusable components
+**Updated:** 2026-01-20
 
 ---
 
@@ -12,19 +13,29 @@ This project implements the full page layout structure of krea.ai, a cutting-edg
 
 **Tech Stack:**
 
-- **Framework:** Next.js 15+ (App Router)
+- **Framework:** Next.js 16.1.1 (App Router, Turbopack)
+- **React:** 19.2.3 with Server Components
 - **Language:** TypeScript 5.x
 - **Styling:** Tailwind CSS v4 + CSS variables
-- **UI Components:** React 19+, shadcn/ui
-- **State Management:** React Hooks (context where needed)
-- **Build:** npm/yarn
+- **State Management:** React Hooks, Server Components
+- **Content:** MDX with gray-matter frontmatter parsing
+- **Build:** npm (Turbopack bundler)
+
+**Key Features:**
+
+- Reusable animation hooks (useScrollTrigger)
+- Centralized animation config (DURATION, STAGGER, EASING)
+- PageHero component for consistent page headers
+- MDX blog/docs with metadata extraction
+- Dynamic sitemap and robots.txt generation
+- JSON-LD structured data for SEO
 
 **Component Library:**
 
-- 7 reusable UI components (Button, SectionHeader, GradientButton, CTAButtonGroup, FeatureList, ModelMarquee, Section)
+- 8 reusable UI components (Button, PageHero, GradientButton, CTAButtonGroup, FeatureList, ModelMarquee, Section, MediaCard)
 - 4 Bento grid special components (GradientText, Text3DCube, BleedingEdgeClock, LipsyncWave)
-- 8 section components (ModelShowcase, Bento, LogoPartners, UseCases, Pricing, AppShowcase, BigPicture, InvestorShowcase)
-- 35 SVG icons organized by category
+- 13+ section components (ModelShowcase, Bento, LogoPartners, UseCases, Pricing, Process, etc.)
+- 35+ SVG icons organized by category
 
 ---
 
@@ -112,11 +123,20 @@ src/
 │       └── index.ts
 │
 ├── config/
-│   └── navigation.ts           # Navigation configuration (NEW)
+│   └── navigation.ts           # Navigation configuration
+│
+├── hooks/                      # Custom React hooks
+│   ├── use-scroll-trigger.ts   # IntersectionObserver hook for animations
+│   └── index.ts
 │
 └── lib/
     ├── utils.ts                # Utilities (cn())
-    └── seo/                    # SEO utilities (NEW)
+    ├── animation-config.ts      # Centralized animation constants
+    ├── content/                # Content pipeline
+    │   ├── blog.ts             # Blog post loader
+    │   ├── docs.ts             # Documentation page loader
+    │   └── index.ts
+    └── seo/                    # SEO utilities
         ├── site-config.ts      # Site configuration
         ├── metadata.ts         # generatePageMetadata
         ├── json-ld.tsx         # JSON-LD components
@@ -353,6 +373,169 @@ All follow consistent structure:
 
 ---
 
+## Custom Hooks
+
+### useScrollTrigger
+
+**File:** `src/hooks/use-scroll-trigger.ts`
+
+Reusable IntersectionObserver hook for scroll-triggered animations.
+
+**Purpose:**
+- Eliminates duplicate IntersectionObserver logic
+- Provides visibility state for animations
+- GPU-friendly performance
+
+**Usage:**
+```tsx
+const { ref, isVisible } = useScrollTrigger<HTMLElement>({
+  threshold: 0.1,
+  rootMargin: "0px 0px -50px 0px",
+  triggerOnce: true,
+});
+
+return <section ref={ref} style={{ opacity: isVisible ? 1 : 0 }}>...</section>;
+```
+
+**Options:**
+| Option | Default | Description |
+|--------|---------|-------------|
+| threshold | 0.1 | When to trigger (0 = fully out, 1 = fully visible) |
+| rootMargin | "0px 0px -50px 0px" | Trigger 50px before element enters viewport |
+| triggerOnce | true | Only trigger once or repeatedly |
+
+---
+
+## Animation Configuration
+
+### File: `src/lib/animation-config.ts`
+
+Centralized animation constants for consistent motion design across the app.
+
+**Constants:**
+
+1. **DURATION** - Animation timings (ms)
+   - instant: 100
+   - fast: 150
+   - normal: 200
+   - smooth: 300
+   - slow: 500
+   - slower: 800
+
+2. **STAGGER** - Delay increments for list/grid animations (ms)
+   - tight: 30 (dense grids)
+   - default: 60 (standard lists)
+   - relaxed: 100 (large items)
+   - dramatic: 150 (hero sections)
+
+3. **EASING** - Animation curves
+   - out: "ease-out"
+   - in: "ease-in"
+   - inOut: "ease-in-out"
+   - expoOut: "cubic-bezier(0.16, 1, 0.3, 1)" (dramatic)
+   - spring: "cubic-bezier(0.34, 1.56, 0.64, 1)" (bounce)
+   - linear: "linear"
+
+4. **TRANSFORM** - Common transform values
+   - slideUpDistance: 24px
+   - slideUpHero: 80px
+   - scaleHover: 1.05
+
+**Helper Functions:**
+
+| Function | Purpose | Returns |
+|----------|---------|---------|
+| getStaggerAnimationStyle() | Index-based stagger delays | React.CSSProperties |
+| getSlideUpStyle() | GPU-accelerated reveal animation | React.CSSProperties |
+| buildTransition() | Create CSS transition strings | string |
+
+**Tailwind Classes (TRANSITION_CLASSES):**
+```ts
+default: "transition-all duration-200 ease-out"
+fast: "transition-all duration-150 ease-out"
+smooth: "transition-all duration-300 ease-out"
+colors: "transition-colors duration-200 ease-out"
+transform: "transition-transform duration-200 ease-out"
+opacity: "transition-opacity duration-200 ease-out"
+```
+
+---
+
+## Content Pipeline
+
+### Blog Posts
+
+**File:** `src/lib/content/blog.ts`
+
+Loads MDX blog posts from `content/blog/` with gray-matter frontmatter.
+
+**Interface:**
+```ts
+interface BlogPost {
+  slug: string;        // File name without .mdx
+  title: string;       // From frontmatter
+  description: string; // From frontmatter
+  date: string;        // ISO date string
+  updatedAt?: string;  // Optional update date
+  author: string;      // Default: "GoAds Team"
+  image?: string;      // OG image URL
+  tags: string[];      // Array of tags
+  published: boolean;  // Default: true
+}
+```
+
+**Functions:**
+- getBlogPosts() - Returns all published posts (sorted by date, newest first)
+- getBlogSlugs() - Returns all post slugs
+
+**Frontmatter Example:**
+```yaml
+---
+title: "Post Title"
+description: "Short description"
+date: "2026-01-20"
+author: "John Doe"
+tags: ["feature", "update"]
+published: true
+---
+```
+
+### Documentation Pages
+
+**File:** `src/lib/content/docs.ts`
+
+Loads MDX documentation from `content/docs/` with gray-matter frontmatter.
+
+**Interface:**
+```ts
+interface DocPage {
+  slug: string;        // File name without .mdx
+  title: string;       // From frontmatter
+  description: string; // From frontmatter
+  category: string;    // For organizing docs
+  order?: number;      // Sort order (optional)
+  updatedAt?: string;  // Optional update date
+  published: boolean;  // Default: true
+}
+```
+
+**Functions:**
+- getDocPages() - Returns all published docs (sorted by order)
+- getDocSlugs() - Returns all doc slugs
+
+**Frontmatter Example:**
+```yaml
+---
+title: "Getting Started"
+description: "How to get started"
+category: "Guide"
+order: 1
+published: true
+---
+```
+
+---
+
 ## CSS Custom Properties (variables)
 
 Defined in `globals.css` within `@theme inline {}`:
@@ -381,29 +564,27 @@ Defined in `globals.css` within `@theme inline {}`:
 
 ---
 
-## Implementation Status (Updated: 2026-01-11)
+## Implementation Status (Updated: 2026-01-20)
 
-### Completed
-
-**Phase 1: Component Consolidation**
+### Phase 1: Component Consolidation ✅
 - ✅ Button component with CVA variants
 - ✅ GradientButton polymorphic (`as="link"` support)
-- ✅ PricingButton deleted (uses GradientButton)
+- ✅ PageHero component for consistent page headers
 - ✅ All pricing cards use unified GradientButton
 
-**Phase 2: Layout Architecture**
+### Phase 2: Layout Architecture ✅
 - ✅ PageLayout component (Header + Footer encapsulation)
 - ✅ Route groups: `(marketing)`, `(blog)`, `(docs)`
 - ✅ Navigation config centralized (`src/config/navigation.ts`)
 
-**Phase 3: SEO Infrastructure**
+### Phase 3: SEO Infrastructure ✅
 - ✅ SEO lib (`src/lib/seo/`) with siteConfig, metadata, JSON-LD
 - ✅ sitemap.ts auto-generates `/sitemap.xml`
 - ✅ robots.ts generates `/robots.txt`
 - ✅ JSON-LD on homepage (Organization, SoftwareApplication)
 - ✅ Root metadata with title template
 
-**Phase 4: Multi-Page Setup**
+### Phase 4: Multi-Page Setup ✅
 - ✅ `/features` page with FeatureCards, ModelShowcase, Bento
 - ✅ `/pricing` page with PricingSection, FAQ
 - ✅ `/enterprise` page with enterprise sections
@@ -411,27 +592,40 @@ Defined in `globals.css` within `@theme inline {}`:
 - ✅ NavLink active state with `usePathname`
 - ✅ BreadcrumbJsonLd on all pages
 
-**Phase 5: Documentation**
-- ✅ architecture.md - Routing, SEO, layouts
-- ✅ design-system.md - Tokens, colors, typography
-- ✅ component-api.md - UI component reference
-- ✅ codebase-summary.md - Updated structure
-- ✅ README.md - Navigation index
+### Phase 5: Animation & Hooks ✅
+- ✅ useScrollTrigger hook for scroll animations
+- ✅ Centralized animation-config.ts (DURATION, STAGGER, EASING)
+- ✅ Helper functions: getStaggerAnimationStyle(), getSlideUpStyle()
+- ✅ GPU-accelerated transform animations
+- ✅ TRANSITION_CLASSES for Tailwind patterns
 
-### Existing (Pre-refactor)
-- ✅ 13 section components
-- ✅ 35 SVG icons consolidated
+### Phase 6: Content Pipeline ✅
+- ✅ Blog post loader with gray-matter frontmatter
+- ✅ Documentation page loader
+- ✅ BlogPost and DocPage interfaces
+- ✅ Automatic publish filtering and sorting
+
+### Phase 7: Documentation ✅
+- ✅ architecture.md - Routing, SEO, Turbopack, content pipeline
+- ✅ design-system.md - Tokens, animations, typography
+- ✅ component-api.md - UI components, hooks, animation utilities
+- ✅ codebase-summary.md - Structure, hooks, content pipeline
+- ✅ design-guidelines.md - Visual specs, section patterns
+- ✅ README.md - Navigation index (updated)
+
+### Foundation (Pre-refactor)
+- ✅ 13+ section components
+- ✅ 35+ SVG icons consolidated
 - ✅ CSS theme system (Tailwind v4)
 - ✅ 3D perspective layout
 - ✅ Feature cards carousel
 - ✅ Responsive design system
 
-### Deferred
-
-- 🔲 GenericPricingCard abstraction (card structures differ)
-- 🔲 Section wrapper adoption (visual preservation priority)
+### Future Enhancements
 - 🔲 Dark mode toggle
-- 🔲 Blog/Docs MDX content (future phases)
+- 🔲 Additional animation patterns
+- 🔲 Form/input components
+- 🔲 Advanced table components
 
 ---
 
@@ -476,9 +670,11 @@ Defined in `globals.css` within `@theme inline {}`:
 - `src/components/icons/model-logo-icons.tsx` (147 lines, 7 model logos)
 - `src/components/icons/` (other icon components)
 
-### Utilities
+### Utilities & Config
 
-- `src/lib/utils.ts` - Helper functions
+- `src/lib/utils.ts` - Helper functions (cn())
+- `src/lib/animation-config.ts` - Centralized animation constants
+- `src/config/navigation.ts` - Navigation menu configuration
 
 ---
 
@@ -506,6 +702,31 @@ Keep props minimal:
 - Use composition over props drilling
 - Use context for global state (theme, user, etc.)
 
+### Animation Best Practices
+
+1. **Use useScrollTrigger for scroll animations:**
+   ```tsx
+   const { ref, isVisible } = useScrollTrigger();
+   const style = getStaggerAnimationStyle(isVisible, index);
+   return <div ref={ref} style={style}>Item</div>;
+   ```
+
+2. **Apply animation-config constants:**
+   ```tsx
+   import { DURATION, STAGGER, EASING } from "@/lib/animation-config";
+   // Use predefined values for consistency
+   ```
+
+3. **Prefer GPU-accelerated properties:**
+   - Use `transform` instead of `left`/`top`
+   - Use `opacity` instead of `display`
+   - Use `willChange` for expensive animations
+
+4. **Content Pipeline:**
+   - Blog posts: Use `getBlogPosts()` from `@/lib/content`
+   - Docs: Use `getDocPages()` from `@/lib/content`
+   - Both support YAML frontmatter parsing
+
 ---
 
 ## Browser Support
@@ -525,12 +746,43 @@ Keep props minimal:
 
 ---
 
-## References
+## Key Files Reference
 
-- **Design Inspiration:** `design-inspiration/` folder contains original Krea HTML/CSS
-- **Content:** `content/` folder has website content structure
-- **Design Guidelines:** `/docs/design-guidelines.md` - Detailed design specs
+**Animation & Interactions:**
+- `src/hooks/use-scroll-trigger.ts` - Scroll animation hook
+- `src/lib/animation-config.ts` - Animation constants and helpers
+- `src/components/ui/page-hero.tsx` - Reusable page hero
+
+**Content Management:**
+- `src/lib/content/blog.ts` - Blog post loader
+- `src/lib/content/docs.ts` - Documentation loader
+- `content/blog/` - Blog post directory
+- `content/docs/` - Documentation directory
+
+**SEO & Metadata:**
+- `src/lib/seo/metadata.ts` - Page metadata generator
+- `src/lib/seo/json-ld.tsx` - Structured data components
+- `src/app/sitemap.ts` - Dynamic sitemap
+- `src/app/robots.ts` - Robots.txt
+
+**Navigation & Config:**
+- `src/config/navigation.ts` - Navigation menu configuration
+- `src/app/(marketing)/layout.tsx` - Marketing layout
+- `src/components/layouts/page-layout.tsx` - Page wrapper
 
 ---
 
-_This codebase is a pixel-perfect recreation of the Krea.ai website layout. All dimensions, spacing, and colors are derived from the original design and specifications in design-guidelines.md._
+## Development Checklist
+
+- [ ] Use PageHero for new marketing pages
+- [ ] Use useScrollTrigger for animations on scroll
+- [ ] Import animation constants from animation-config.ts
+- [ ] Use getStaggerAnimationStyle() for list animations
+- [ ] Add metadata using generatePageMetadata()
+- [ ] Test responsive behavior (mobile < 768px, desktop ≥ 768px)
+- [ ] Verify animation performance on lower-end devices
+
+---
+
+_Krea.ai website - Next.js 16 with advanced animations, content pipeline, and modern best practices._
+_Framework: Next.js 16.1.1 (Turbopack) | React 19.2.3 | TypeScript 5 | Tailwind CSS v4_

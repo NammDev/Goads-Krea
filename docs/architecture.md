@@ -1,5 +1,7 @@
 # Architecture
 
+**Version:** Next.js 16.1.1 with Turbopack | Updated: 2026-01-20
+
 ## Routing Structure
 
 ### Route Groups
@@ -139,3 +141,27 @@ Currently includes:
 - Allows all crawlers on `/`
 - Blocks `/admin`, `/api`, `/_next`, `/private`
 - References sitemap location
+
+## Performance & Build
+
+### Turbopack
+Next.js 16 includes Turbopack (default bundler):
+- 10-12x faster builds than Webpack
+- Instant hot module replacement (HMR)
+- Near-instant local development
+- Run with: `npm run dev` (no special config needed)
+
+### Development
+```bash
+npm run dev      # Starts dev server with Turbopack
+npm run build    # Optimized production build
+npm run start    # Starts production server
+```
+
+### Content Pipeline
+Dynamic blog/docs support via MDX:
+- `src/lib/content/blog.ts` - Blog posts from `content/blog/`
+- `src/lib/content/docs.ts` - Docs from `content/docs/`
+- Uses gray-matter for YAML frontmatter parsing
+- Auto-filters published content, sorts by date/order
+- Implements IBlogPost and IDocPage interfaces

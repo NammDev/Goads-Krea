@@ -2,8 +2,7 @@ import Image from "next/image";
 import { GradientButton } from "@/components/ui/gradient-button";
 
 /**
- * CommunitySection - Styles curated showcase
- * Design: Pixel-perfect from Krea website
+ * CommunitySection - GoAds community showcase
  * Features: Skewed background image, stats columns, CTA button
  */
 export function CommunitySection() {
@@ -21,7 +20,7 @@ export function CommunitySection() {
           <div className="relative h-full w-full">
             <Image
               src="https://s.krea.ai/image-page/curated-styles.webp"
-              alt="An image grid of curated styles output by Krea"
+              alt="GoAds community members and advertisers"
               loading="lazy"
               fill
               sizes="1074px"
@@ -32,13 +31,13 @@ export function CommunitySection() {
 
         {/* Stats columns */}
         <div className="z-1 flex w-full flex-col gap-8 md:w-2/3 md:flex-row md:items-center">
-          {/* Krea curated styles */}
+          {/* Telegram members */}
           <div className="flex flex-col justify-start">
             <p className="text-2xl font-medium md:text-xl lg:text-2xl">
-              Styles curated by Krea
+              Telegram Members
             </p>
             <p className="text-[40px] font-medium md:text-3xl lg:text-[40px]">
-              300+
+              200+
             </p>
           </div>
 
@@ -47,13 +46,13 @@ export function CommunitySection() {
           {/* Divider - desktop vertical */}
           <hr className="border-primary-1000/5 hidden md:block md:h-full md:w-px md:border-t-0 md:border-l" />
 
-          {/* Community styles */}
+          {/* Active advertisers */}
           <div className="flex flex-col justify-start">
             <p className="text-2xl font-medium md:text-xl lg:text-2xl">
-              Community styles
+              Active Advertisers
             </p>
             <p className="text-[40px] font-medium tracking-[0.4px] md:text-3xl lg:text-[40px]">
-              3000+
+              500+
             </p>
           </div>
         </div>
@@ -66,7 +65,7 @@ export function CommunitySection() {
             variant="tertiary"
             className="h-[44px] w-full max-w-[340px] px-6 text-sm font-medium sm:min-w-fit"
           >
-            Explore community
+            Join Our Telegram
           </GradientButton>
         </div>
       </div>

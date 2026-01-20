@@ -11,11 +11,11 @@ interface StyleOption {
   images: string[];
 }
 
-/** Krea Styles configuration */
+/** GoAds blog categories configuration */
 const STYLES: StyleOption[] = [
   {
-    id: "long-exposure-1",
-    name: "long exposure",
+    id: "getting-started-1",
+    name: "Getting Started",
     logo: "https://s.krea.ai/image-page/styles/v2/long-exposure-logo.webp",
     images: [
       "https://s.krea.ai/image-page/styles/v2/long-exposure-cat.webp",
@@ -25,8 +25,8 @@ const STYLES: StyleOption[] = [
     ],
   },
   {
-    id: "anime-2",
-    name: "anime",
+    id: "bm-guides-2",
+    name: "BM Guides",
     logo: "https://s.krea.ai/image-page/styles/v2/anime-logo.webp",
     images: [
       "https://s.krea.ai/image-page/styles/v2/anime-cat.webp",
@@ -36,8 +36,8 @@ const STYLES: StyleOption[] = [
     ],
   },
   {
-    id: "abstract-sketch-3",
-    name: "abstract sketch",
+    id: "scaling-tips-3",
+    name: "Scaling Tips",
     logo: "https://s.krea.ai/image-page/styles/v2/abstract-sketch-logo.webp",
     images: [
       "https://s.krea.ai/image-page/styles/v2/abstract-sketch-cat.webp",
@@ -47,8 +47,8 @@ const STYLES: StyleOption[] = [
     ],
   },
   {
-    id: "surrealism-4",
-    name: "surrealism",
+    id: "policy-updates-4",
+    name: "Policy Updates",
     logo: "https://s.krea.ai/image-page/styles/v2/surrealism-logo.webp",
     images: [
       "https://s.krea.ai/image-page/styles/v2/surrealism-cat.webp",
@@ -58,8 +58,8 @@ const STYLES: StyleOption[] = [
     ],
   },
   {
-    id: "cosmic-splat-5",
-    name: "cosmic splat",
+    id: "case-studies-5",
+    name: "Case Studies",
     logo: "https://s.krea.ai/image-page/styles/v2/cosmic-splat-logo.webp",
     images: [
       "https://s.krea.ai/image-page/styles/v2/cosmic-splat-cat.webp",
@@ -72,10 +72,10 @@ const STYLES: StyleOption[] = [
 
 /** Image alt texts for accessibility and tooltips */
 const IMAGE_ALTS = [
-  "Cute orange tabby cat in fast food worker uniform, red apron and cap, holding a tray with a cheeseburger, inside a restaurant",
-  "A medieval castle",
-  "Extreme close-up portrait of a young woman's face",
-  "A passenger plane during takeoff, viewed from below, with landing gear deployed and two turbofan engines",
+  "BM1 vs BM5: Which Business Manager Do You Need?",
+  "5 Signs Your Asset Setup is Wrong",
+  "Agency Account Setup Guide (2026)",
+  "Meta Policy Updates You Should Know",
 ];
 
 /** Style image card with tooltip */
@@ -109,7 +109,7 @@ function StyleImageCard({
           type="button"
           data-slot="tooltip-trigger"
           aria-label="Show image description"
-          className="flex h-6 w-6 items-center justify-center rounded-full bg-black/30 text-sm font-medium text-white backdrop-blur-xs"
+          className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-black/30 text-sm font-medium text-white backdrop-blur-xs"
         >
           i
         </button>
@@ -128,9 +128,8 @@ function StyleImageCard({
 }
 
 /**
- * BlogsPreviewSection - Styles curated showcase
- * Design: Pixel-perfect from Krea website
- * Features: 4-column image grid, style selector buttons, tooltips
+ * BlogsPreviewSection - GoAds blog categories showcase
+ * Features: 4-column image grid, category selector buttons, tooltips
  */
 export function BlogsPreviewSection() {
   const [activeStyle, setActiveStyle] = useState(STYLES[0].id);
@@ -144,12 +143,12 @@ export function BlogsPreviewSection() {
         <div className="flex w-full flex-col items-center gap-4 text-center">
           {/* Header */}
           <h2 className="text-5xl font-medium tracking-[-0.48px] md:text-4xl md:tracking-[-1.12px] lg:text-[56px]">
-            Styles
+            Learn to Scale
           </h2>
           <p className="text-2xl font-medium leading-[112%] tracking-[-0.48px] text-pretty">
-            Krea Styles offer hundreds of curated and community looks.
+            Guides from active advertisers.
             <br className="hidden md:block" />
-            Apply them to prompts and quickly find the right fit
+            Tips to grow your campaigns with confidence
           </p>
 
           {/* Image Grid */}
@@ -173,7 +172,7 @@ export function BlogsPreviewSection() {
                 key={style.id}
                 data-style-id={style.id}
                 onClick={() => setActiveStyle(style.id)}
-                className={`transition-scale flex flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
+                className={`transition-scale flex cursor-pointer flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
                   activeStyle === style.id ? "opacity-100" : "opacity-50"
                 }`}
               >
@@ -208,7 +207,7 @@ export function BlogsPreviewSection() {
                 key={style.id}
                 data-style-id={style.id}
                 onClick={() => setActiveStyle(style.id)}
-                className={`transition-scale flex flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
+                className={`transition-scale flex cursor-pointer flex-col items-center gap-3 p-1 duration-150 ease-out focus-visible:outline-offset-4 active:scale-98 ${
                   activeStyle === style.id ? "opacity-100" : "opacity-50"
                 }`}
               >

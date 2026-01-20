@@ -60,19 +60,19 @@ const FLOATING_CARDS: FloatingCardData[] = [
   },
 ];
 
-/** Model pills for center display - pixel-perfect from milestone.html */
+/** Stats pills for center display */
 const MODEL_PILLS = [
-  { name: "Flux", logo: <FluxLogo className="h-5 w-5" /> },
-  { name: "Krea", logo: <KreaLogo className="h-5 w-5" /> },
-  { name: "Imagen", logo: <ImagenLogo className="h-5 w-5" /> },
-  { name: "Nano Banana", logo: <ImagenLogo className="h-5 w-5" /> },
-  { name: "ChatGPT", logo: <ChatGPTLogo className="h-5 w-5" /> },
-  { name: "Wan", logo: <WanLogo className="h-5 w-5" /> },
+  { name: "3,242+ BM1 Sold", logo: <FluxLogo className="h-5 w-5" /> },
+  { name: "1,849+ BM5 Sold", logo: <KreaLogo className="h-5 w-5" /> },
+  { name: "4,335+ Profiles", logo: <ImagenLogo className="h-5 w-5" /> },
+  { name: "500+ Clients", logo: <ImagenLogo className="h-5 w-5" /> },
+  { name: "50+ Countries", logo: <ChatGPTLogo className="h-5 w-5" /> },
+  { name: "5+ Years", logo: <WanLogo className="h-5 w-5" /> },
 ];
 
 /**
- * ProcessSection - Pixel-perfect recreation of Krea milestone design
- * Features: Cross pattern bg, floating image cards, badge, heading, model pills, CTA
+ * ProcessSection - GoAds stats showcase section
+ * Features: Cross pattern bg, floating image cards, badge, heading, stats pills, CTA
  */
 export function ProcessSection() {
   return (
@@ -109,7 +109,7 @@ export function ProcessSection() {
               style={{ backgroundColor: BADGE_BG_COLOR }}
             >
               <FlameIcon />
-              Get access to new models on the day they&apos;re released
+              7-Day Warranty on Every Product
             </p>
 
             {/* Heading - pixel-perfect from milestone.html */}
@@ -118,15 +118,15 @@ export function ProcessSection() {
               className="flex flex-col text-4xl gap-0 text-center text-[40px] font-medium tracking-[-1.12px] md:text-[56px]"
             >
               <span className="text-primary-1000 text-pretty">
-                The world&apos;s best AI image generators
+                Trusted by 500+ Advertisers
               </span>
-              <span className="text-action">All in one tool</span>
+              <span className="text-action">Worldwide</span>
             </h2>
-            {/* Model pills - pixel-perfect from milestone.html */}
+            {/* Stats pills */}
             <div
               className="flex flex-wrap items-center justify-center gap-3 overflow-hidden md:gap-4"
               role="list"
-              aria-label="Supported AI models"
+              aria-label="GoAds statistics"
             >
               {MODEL_PILLS.map((pill) => (
                 <ModelPill key={pill.name} name={pill.name} logo={pill.logo} />
@@ -142,7 +142,7 @@ export function ProcessSection() {
               variant="primary"
               className="rounded-full px-6 h-[44px]"
             >
-              Start generating
+              Get Started
             </GradientButton>
           </div>
         </div>

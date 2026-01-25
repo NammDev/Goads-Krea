@@ -1,0 +1,1032 @@
+[
+  {
+    "name": "/ck:analyze:report",
+    "path": "analyze/report.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Generate periodic reports",
+    "argument_hint": [
+      "period"
+    ],
+    "power_level": 0,
+    "category": "analyze"
+  },
+  {
+    "name": "/ck:analyze",
+    "path": "analyze.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Analytics and performance reports",
+    "argument_hint": [
+      "type"
+    ],
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:ask",
+    "path": "ask.md",
+    "description": "Answer technical and architectural questions.",
+    "argument_hint": [
+      "technical-question"
+    ],
+    "power_level": 1,
+    "category": "core"
+  },
+  {
+    "name": "/ck:bootstrap:auto:fast",
+    "path": "bootstrap/auto/fast.md",
+    "description": "Quickly bootstrap a new project automatically",
+    "argument_hint": [
+      "user-requirements"
+    ],
+    "power_level": 3,
+    "category": "bootstrap"
+  },
+  {
+    "name": "/ck:bootstrap:auto:parallel",
+    "path": "bootstrap/auto/parallel.md",
+    "description": "Bootstrap project with parallel execution",
+    "argument_hint": [
+      "user-requirements"
+    ],
+    "power_level": 5,
+    "category": "bootstrap"
+  },
+  {
+    "name": "/ck:bootstrap:auto",
+    "path": "bootstrap/auto.md",
+    "description": "Bootstrap a new project automatically",
+    "argument_hint": [
+      "user-requirements"
+    ],
+    "power_level": 4,
+    "category": "bootstrap"
+  },
+  {
+    "name": "/ck:bootstrap",
+    "path": "bootstrap.md",
+    "description": "Bootstrap a new project step by step",
+    "argument_hint": [
+      "user-requirements"
+    ],
+    "power_level": 5,
+    "category": "core"
+  },
+  {
+    "name": "/ck:brainstorm",
+    "path": "brainstorm.md",
+    "description": "Brainstorm a feature",
+    "argument_hint": [
+      "question"
+    ],
+    "power_level": 2,
+    "category": "core"
+  },
+  {
+    "name": "/ck:brand:update",
+    "path": "brand/update.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "brand"
+  },
+  {
+    "name": "/ck:campaign:analyze",
+    "path": "campaign/analyze.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Analyze campaign performance",
+    "argument_hint": [
+      "campaign-name"
+    ],
+    "power_level": 0,
+    "category": "campaign"
+  },
+  {
+    "name": "/ck:campaign:create",
+    "path": "campaign/create.md",
+    "description": "\ud83d\udca1\ud83d\udca1\ud83d\udca1 Create comprehensive digital marketing campaign",
+    "argument_hint": [
+      "campaign-type-or-brief"
+    ],
+    "power_level": 0,
+    "category": "campaign"
+  },
+  {
+    "name": "/ck:campaign:email",
+    "path": "campaign/email.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Email campaign management",
+    "argument_hint": [
+      "action"
+    ],
+    "power_level": 0,
+    "category": "campaign"
+  },
+  {
+    "name": "/ck:campaign:status",
+    "path": "campaign/status.md",
+    "description": "\ud83d\udca1 Get campaign status",
+    "argument_hint": [
+      "campaign-name"
+    ],
+    "power_level": 0,
+    "category": "campaign"
+  },
+  {
+    "name": "/ck:campaign",
+    "path": "campaign.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:ck-help",
+    "path": "ck-help.md",
+    "description": "ClaudeKit usage guide - just type naturally",
+    "argument_hint": [
+      "category|command|task description"
+    ],
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:code:auto",
+    "path": "code/auto.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "code"
+  },
+  {
+    "name": "/ck:code:no-test",
+    "path": "code/no-test.md",
+    "description": "Start coding an existing plan (no testing)",
+    "argument_hint": [
+      "plan"
+    ],
+    "power_level": 2,
+    "category": "code"
+  },
+  {
+    "name": "/ck:code:parallel",
+    "path": "code/parallel.md",
+    "description": "Execute parallel or sequential phases based on plan structure",
+    "argument_hint": [
+      "plan-path"
+    ],
+    "power_level": 1,
+    "category": "code"
+  },
+  {
+    "name": "/ck:code",
+    "path": "code.md",
+    "description": "Start coding & testing an existing plan",
+    "argument_hint": [
+      "plan"
+    ],
+    "power_level": 3,
+    "category": "core"
+  },
+  {
+    "name": "/ck:coding-level",
+    "path": "coding-level.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:command:create",
+    "path": "command/create.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "command"
+  },
+  {
+    "name": "/ck:competitor",
+    "path": "competitor.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:cook:auto:fast",
+    "path": "cook/auto/fast.md",
+    "description": "No research. Only scout, plan & implement [\"trust me bro\"]",
+    "argument_hint": [
+      "tasks-or-prompt"
+    ],
+    "power_level": 1,
+    "category": "cook"
+  },
+  {
+    "name": "/ck:cook:auto:parallel",
+    "path": "cook/auto/parallel.md",
+    "description": "Plan parallel phases & execute with fullstack-developer agents",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 3,
+    "category": "cook"
+  },
+  {
+    "name": "/ck:cook:auto",
+    "path": "cook/auto.md",
+    "description": "Implement a feature automatically (\"trust me bro\")",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 2,
+    "category": "cook"
+  },
+  {
+    "name": "/ck:cook",
+    "path": "cook.md",
+    "description": "Implement a feature [step by step]",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 3,
+    "category": "core"
+  },
+  {
+    "name": "/ck:copy:formula",
+    "path": "copy/formula.md",
+    "description": "Generate copy using proven copywriting formulas (AIDA, PAS, BAB, etc.)",
+    "argument_hint": "<formula> \"<topic>\"",
+    "power_level": 0,
+    "category": "copy"
+  },
+  {
+    "name": "/ck:dashboard:check",
+    "path": "dashboard/check.md",
+    "description": "Check Marketing Dashboard server status",
+    "argument_hint": [],
+    "power_level": 0,
+    "category": "dashboard"
+  },
+  {
+    "name": "/ck:dashboard",
+    "path": "dashboard.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:debug",
+    "path": "debug.md",
+    "description": "Debugging technical issues and providing solutions.",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 2,
+    "category": "core"
+  },
+  {
+    "name": "/ck:design:3d",
+    "path": "design/3d.md",
+    "description": "Create immersive interactive 3D designs with Three.js",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:describe",
+    "path": "design/describe.md",
+    "description": "Describe a design based on screenshot/video",
+    "argument_hint": [
+      "screenshot"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:fast",
+    "path": "design/fast.md",
+    "description": "Create a quick design",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:generate",
+    "path": "design/generate.md",
+    "description": "Generate images with enhanced prompt & project context",
+    "argument_hint": [
+      "description"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:good",
+    "path": "design/good.md",
+    "description": "Create an immersive design",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:screenshot",
+    "path": "design/screenshot.md",
+    "description": "Create a design based on screenshot",
+    "argument_hint": [
+      "screenshot"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:design:video",
+    "path": "design/video.md",
+    "description": "Create a design based on video",
+    "argument_hint": [
+      "video"
+    ],
+    "power_level": 0,
+    "category": "design"
+  },
+  {
+    "name": "/ck:docs:init",
+    "path": "docs/init.md",
+    "description": "Analyze the codebase and create initial documentation",
+    "argument_hint": "",
+    "power_level": 4,
+    "category": "docs"
+  },
+  {
+    "name": "/ck:docs:summarize",
+    "path": "docs/summarize.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "docs"
+  },
+  {
+    "name": "/ck:docs:update",
+    "path": "docs/update.md",
+    "description": "Analyze the codebase and update documentation",
+    "argument_hint": "",
+    "power_level": 3,
+    "category": "docs"
+  },
+  {
+    "name": "/ck:email:flow",
+    "path": "email/flow.md",
+    "description": "Generate complete email automation sequence",
+    "argument_hint": "<flow-type> [goal]",
+    "power_level": 0,
+    "category": "email"
+  },
+  {
+    "name": "/ck:email:sequence",
+    "path": "email/sequence.md",
+    "description": "Generate complete email drip sequence with copy",
+    "argument_hint": "<type> \"[context]\"",
+    "power_level": 0,
+    "category": "email"
+  },
+  {
+    "name": "/ck:email",
+    "path": "email.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Generate email content",
+    "argument_hint": [
+      "type"
+    ],
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:fix:ci",
+    "path": "fix/ci.md",
+    "description": "Analyze Github Actions logs and fix issues",
+    "argument_hint": [
+      "github-actions-url"
+    ],
+    "power_level": 1,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:fast",
+    "path": "fix/fast.md",
+    "description": "Analyze and fix small issues [FAST]",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 1,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:hard",
+    "path": "fix/hard.md",
+    "description": "Use subagents to plan and fix hard issues",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 3,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:logs",
+    "path": "fix/logs.md",
+    "description": "Analyze logs and fix issues",
+    "argument_hint": [
+      "issue"
+    ],
+    "power_level": 1,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:parallel",
+    "path": "fix/parallel.md",
+    "description": "Analyze & fix issues with parallel fullstack-developer agents",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 2,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:test",
+    "path": "fix/test.md",
+    "description": "Run test suite and fix issues",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 2,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:types",
+    "path": "fix/types.md",
+    "description": "Fix type errors",
+    "argument_hint": "",
+    "power_level": 1,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix:ui",
+    "path": "fix/ui.md",
+    "description": "Analyze and fix UI issues",
+    "argument_hint": [
+      "issue"
+    ],
+    "power_level": 2,
+    "category": "fix"
+  },
+  {
+    "name": "/ck:fix",
+    "path": "fix.md",
+    "description": "Analyze and fix issues [INTELLIGENT ROUTING]",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 2,
+    "category": "core"
+  },
+  {
+    "name": "/ck:funnel",
+    "path": "funnel.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:git:ck",
+    "path": "git/ck.md",
+    "description": "Stage all files and create a commit.",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "git"
+  },
+  {
+    "name": "/ck:git:cm",
+    "path": "git/cm.md",
+    "description": "Stage all files and create a commit.",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "git"
+  },
+  {
+    "name": "/ck:git:cp",
+    "path": "git/cp.md",
+    "description": "Stage, commit and push all code in the current branch",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "git"
+  },
+  {
+    "name": "/ck:git:merge",
+    "path": "git/merge.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "git"
+  },
+  {
+    "name": "/ck:git:pr",
+    "path": "git/pr.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "git"
+  },
+  {
+    "name": "/ck:integrate:polar",
+    "path": "integrate/polar.md",
+    "description": "Implement payment integration with Polar.sh",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 2,
+    "category": "integrate"
+  },
+  {
+    "name": "/ck:integrate:sepay",
+    "path": "integrate/sepay.md",
+    "description": "Implement payment integration with SePay.vn",
+    "argument_hint": [
+      "tasks"
+    ],
+    "power_level": 2,
+    "category": "integrate"
+  },
+  {
+    "name": "/ck:journal",
+    "path": "journal.md",
+    "description": "Write some journal entries.",
+    "argument_hint": "",
+    "power_level": 1,
+    "category": "core"
+  },
+  {
+    "name": "/ck:kanban",
+    "path": "kanban.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:marketing:init",
+    "path": "marketing/init.md",
+    "description": "\ud83d\udca1\ud83d\udca1\ud83d\udca1\ud83d\udca1 Initialize marketing project",
+    "argument_hint": [
+      "prompt"
+    ],
+    "power_level": 0,
+    "category": "marketing"
+  },
+  {
+    "name": "/ck:persona",
+    "path": "persona.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Customer persona management",
+    "argument_hint": [
+      "action"
+    ],
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:plan:archive",
+    "path": "plan/archive.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:ci",
+    "path": "plan/ci.md",
+    "description": "Analyze Github Actions logs and provide a plan to fix the issues",
+    "argument_hint": [
+      "github-actions-url"
+    ],
+    "power_level": 0,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:cro",
+    "path": "plan/cro.md",
+    "description": "Create a CRO plan for the given content",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 0,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:fast",
+    "path": "plan/fast.md",
+    "description": "No research. Only analyze and create an implementation plan",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 2,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:hard",
+    "path": "plan/hard.md",
+    "description": "Research, analyze, and create an implementation plan",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 3,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:parallel",
+    "path": "plan/parallel.md",
+    "description": "Create detailed plan with parallel-executable phases",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 3,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:two",
+    "path": "plan/two.md",
+    "description": "Research & create an implementation plan with 2 approaches",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 4,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan:validate",
+    "path": "plan/validate.md",
+    "description": "Validate plan with critical questions interview",
+    "argument_hint": [
+      "plan-path"
+    ],
+    "power_level": 0,
+    "category": "plan"
+  },
+  {
+    "name": "/ck:plan",
+    "path": "plan.md",
+    "description": "Intelligent plan creation with prompt enhancement",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 3,
+    "category": "core"
+  },
+  {
+    "name": "/ck:preview",
+    "path": "preview.md",
+    "description": "Path to markdown file, plan directory, or plans collection",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:review:codebase",
+    "path": "review/codebase.md",
+    "description": "Scan & analyze the codebase.",
+    "argument_hint": [
+      "tasks-or-prompt"
+    ],
+    "power_level": 3,
+    "category": "review"
+  },
+  {
+    "name": "/ck:scout:ext",
+    "path": "scout/ext.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "scout"
+  },
+  {
+    "name": "/ck:scout",
+    "path": "scout.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:seo:audit",
+    "path": "seo/audit.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Technical SEO audit",
+    "argument_hint": [
+      "url"
+    ],
+    "power_level": 0,
+    "category": "seo"
+  },
+  {
+    "name": "/ck:seo:keywords",
+    "path": "seo/keywords.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Keyword research & planning",
+    "argument_hint": [
+      "topic"
+    ],
+    "power_level": 0,
+    "category": "seo"
+  },
+  {
+    "name": "/ck:seo:pseo",
+    "path": "seo/pseo.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Programmatic SEO template generation",
+    "argument_hint": [
+      "template-type"
+    ],
+    "power_level": 0,
+    "category": "seo"
+  },
+  {
+    "name": "/ck:seo",
+    "path": "seo.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:skill:add",
+    "path": "skill/add.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:create",
+    "path": "skill/create.md",
+    "description": "Create a new agent skill",
+    "argument_hint": [
+      "prompt-or-llms-or-github-url"
+    ],
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:fix-logs",
+    "path": "skill/fix-logs.md",
+    "description": "Fix the agent skill based on `logs.txt` file.",
+    "argument_hint": [
+      "prompt-or-path-to-skill"
+    ],
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:optimize:auto",
+    "path": "skill/optimize/auto.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:optimize",
+    "path": "skill/optimize.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:plan",
+    "path": "skill/plan.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:skill:update",
+    "path": "skill/update.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "skill"
+  },
+  {
+    "name": "/ck:slides:create",
+    "path": "slides/create.md",
+    "description": "Create strategic presentation slides with Chart.js and design tokens",
+    "argument_hint": [
+      "presentation goal and context"
+    ],
+    "power_level": 0,
+    "category": "slides"
+  },
+  {
+    "name": "/ck:social:schedule",
+    "path": "social/schedule.md",
+    "description": "\ud83d\udca1 Schedule social media posts",
+    "argument_hint": [
+      "period"
+    ],
+    "power_level": 0,
+    "category": "social"
+  },
+  {
+    "name": "/ck:social",
+    "path": "social.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:test:ui",
+    "path": "test/ui.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "test"
+  },
+  {
+    "name": "/ck:test:workflow",
+    "path": "test/workflow.md",
+    "description": "Run workflow tests with step-by-step manual verification",
+    "argument_hint": "[workflow: youtube|content|email|brand|all]",
+    "power_level": 0,
+    "category": "test"
+  },
+  {
+    "name": "/ck:test",
+    "path": "test.md",
+    "description": "Run tests locally and analyze the summary report.",
+    "argument_hint": "",
+    "power_level": 1,
+    "category": "core"
+  },
+  {
+    "name": "/ck:use-mcp",
+    "path": "use-mcp.md",
+    "description": "Utilize tools of Model Context Protocol (MCP) servers",
+    "argument_hint": [
+      "task"
+    ],
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:video:create",
+    "path": "video/create.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Create a video using Veo 3.1",
+    "argument_hint": [
+      "script-file-or-storyboard-or-prompt"
+    ],
+    "power_level": 0,
+    "category": "video"
+  },
+  {
+    "name": "/ck:video:script:create",
+    "path": "video/script/create.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "video"
+  },
+  {
+    "name": "/ck:video:storyboard:create",
+    "path": "video/storyboard/create.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Create a storyboard for video content",
+    "argument_hint": [
+      "script-file-or-prompt"
+    ],
+    "power_level": 0,
+    "category": "video"
+  },
+  {
+    "name": "/ck:watzup",
+    "path": "watzup.md",
+    "description": "Review recent changes and wrap up the work",
+    "argument_hint": "",
+    "power_level": 1,
+    "category": "core"
+  },
+  {
+    "name": "/ck:worktree",
+    "path": "worktree.md",
+    "description": "",
+    "argument_hint": "",
+    "power_level": 0,
+    "category": "core"
+  },
+  {
+    "name": "/ck:write:audit",
+    "path": "write/audit.md",
+    "description": "Audit content quality against copywriting, SEO, and platform standards",
+    "argument_hint": "<file-path>",
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:blog:youtube",
+    "path": "write/blog/youtube.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Generate SEO-optimized blog article from YouTube video",
+    "argument_hint": [
+      "youtube-url"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:blog",
+    "path": "write/blog.md",
+    "description": "\ud83d\udca1\ud83d\udca1 Create SEO-optimized blog content",
+    "argument_hint": [
+      "topic"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:cro",
+    "path": "write/cro.md",
+    "description": "Analyze the current content and optimize for conversion",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:enhance",
+    "path": "write/enhance.md",
+    "description": "Analyze the current copy issues and enhance it",
+    "argument_hint": [
+      "issues"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:fast",
+    "path": "write/fast.md",
+    "description": "Write creative & smart copy [FAST]",
+    "argument_hint": [
+      "user-request"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:good",
+    "path": "write/good.md",
+    "description": "Write good creative & smart copy [GOOD]",
+    "argument_hint": [
+      "user-request"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:hub",
+    "path": "write/hub.md",
+    "description": "Open Content Hub + Marketing Dashboard",
+    "argument_hint": [
+      "--stop|--scan"
+    ],
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:write:publish",
+    "path": "write/publish.md",
+    "description": "Audit content, auto-fix issues, output publish-ready version",
+    "argument_hint": "<file-path>",
+    "power_level": 0,
+    "category": "write"
+  },
+  {
+    "name": "/ck:youtube:blog",
+    "path": "youtube/blog.md",
+    "description": "Convert YouTube video to SEO-optimized blog post",
+    "argument_hint": "<youtube-url> [writing-style]",
+    "power_level": 0,
+    "category": "youtube"
+  },
+  {
+    "name": "/ck:youtube:infographic",
+    "path": "youtube/infographic.md",
+    "description": "Convert YouTube video to visual infographic",
+    "argument_hint": "<youtube-url> [style]",
+    "power_level": 0,
+    "category": "youtube"
+  },
+  {
+    "name": "/ck:youtube:social",
+    "path": "youtube/social.md",
+    "description": "Convert YouTube video to multi-platform social posts",
+    "argument_hint": "<youtube-url> [platforms]",
+    "power_level": 0,
+    "category": "youtube"
+  }
+]

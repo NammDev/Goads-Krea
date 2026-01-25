@@ -16,7 +16,6 @@
 
 # next.js
 /.next/
-/.claude/
 /out/
 dist/
 bin/

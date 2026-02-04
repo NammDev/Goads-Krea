@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { ModelMarquee } from "@/components/ui/model-marquee";
 
-// Rotating words for the 3D cylinder animation - GoAds product qualities
-const ROTATING_WORDS = ["Agency", "Verified", "Stable", "Trusted", "Reliable"];
+// Rotating words for the 3D cylinder animation - Platform names
+const ROTATING_WORDS = ["Meta", "TikTok", "Google", "Snapchat", "Bing"];
 
 /** 3D Rotating Cylinder Text Component */
 function RotatingCylinder() {
@@ -99,11 +99,11 @@ export function ProductShowcaseSection() {
       {/* Large heading with 3D rotating cylinder */}
       <h2 className="leading-[1.2em] font-semibold tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
         <span className="relative z-20 inline-block">
-          The industry&apos;s best
+          We&apos;re the official partner of
         </span>{" "}
         <RotatingCylinder />
         <br />
-        <span className="relative z-20 inline-block">All in one place.</span>
+        <span className="relative z-20 inline-block">leading digital platforms</span>
       </h2>
 
       {/* Marquee Container */}

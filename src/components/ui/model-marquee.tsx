@@ -1,39 +1,28 @@
 "use client";
 
-import {
-  Shield,
-  UserCheck,
-  FileCheck,
-  Clock,
-  Headphones,
-  BadgeCheck,
-  Zap,
-} from "lucide-react";
+import Image from "next/image";
 
 /** Model data for the marquee slider */
 export interface ModelItem {
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  src: string;
 }
 
-/** Default items - GoAds products and features */
+/** Default items - Partner platform logos */
 export const defaultModels: ModelItem[] = [
-  { name: "BM Verified", icon: BadgeCheck },
-  { name: "Aged Profiles", icon: UserCheck },
-  { name: "Ready Pages", icon: FileCheck },
-  { name: "Fast Delivery", icon: Zap },
-  { name: "24/7 Support", icon: Headphones },
-  { name: "7-Day Warranty", icon: Shield },
-  { name: "Instant Setup", icon: Clock },
+  { name: "Meta", src: "/images/partners/meta-logo.svg" },
+  { name: "Snapchat", src: "/images/partners/snapchat-logo.svg" },
+  { name: "Google", src: "/images/partners/google-logo.svg" },
+  { name: "Taboola", src: "/images/partners/taboola-logo.svg" },
+  { name: "Bing", src: "/images/partners/bing-logo.svg" },
+  { name: "TikTok", src: "/images/partners/tiktok-logo.svg" },
 ];
 
-/** Single model logo with icon and name */
+/** Single model logo with image */
 function ModelLogo({ model }: { model: ModelItem }) {
-  const Icon = model.icon;
   return (
     <div className="text-primary-700 flex items-center justify-center gap-2.5 text-xl font-medium opacity-65 select-all md:text-2xl">
-      <Icon className="size-7" />
-      <span>{model.name}</span>
+      <Image src={model.src} alt={model.name} width={120} height={40} className="h-8 md:h-10 w-auto" />
     </div>
   );
 }

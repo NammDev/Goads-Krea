@@ -17,14 +17,14 @@ export function Text3DCube({ size = "2.5rem" }: Text3DCubeProps) {
     const animate = () => {
       const elapsed = (Date.now() - startTime) / 1000;
 
-      // Fast bouncing (every 1.2 seconds)
-      const bouncePhase = (elapsed % 1.2) / 1.2;
+      // Gentle bouncing (every 2.5 seconds)
+      const bouncePhase = (elapsed % 2.5) / 2.5;
       const bounce = Math.sin(bouncePhase * Math.PI);
-      const jumpHeight = bounce * 25; // max 25px jump - can hit text
+      const jumpHeight = bounce * 10; // max 10px jump
 
-      // Super fast rotation at peak
-      const rotationSpeed = 300 + bounce * 600; // 300-900 deg/sec
-      const rotX = -25 + Math.sin(elapsed * 2) * 15;
+      // Moderate rotation
+      const rotationSpeed = 40 + bounce * 60; // 40-100 deg/sec
+      const rotX = -25 + Math.sin(elapsed * 0.8) * 8;
       const rotY = 45 + elapsed * rotationSpeed;
       const offsetY = 16 - jumpHeight;
 

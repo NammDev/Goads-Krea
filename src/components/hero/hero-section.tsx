@@ -22,9 +22,10 @@ const HeroVideoPlayer = dynamic(
 export function HeroSection() {
   return (
     <>
-      {/* Spacer to push content down - matches original h-[69px] div */}
-      <div className="relative z-10 h-[69px]">
-        <div className="absolute inset-0 origin-bottom scale-[5] bg-black" />
+      {/* Negative margin pulls hero up into PageLayout's header padding */}
+      {/* Black background extends behind transparent fixed header */}
+      <div className="-mt-[var(--spacing-header)] relative z-10 h-[69px]">
+        <div className="absolute inset-0 scale-[5] bg-black" />
       </div>
 
       <section
@@ -59,8 +60,8 @@ export function HeroSection() {
             aria-label="Stop Losing Accounts Start Scaling with GoAds."
             className={cn(
               "text-4xl sm:text-5xl md:text-7xl",
-              "font-semibold leading-[1.05]",
-              "text-balance text-white header-fancy"
+              "font-semibold leading-[1.15]",
+              "text-balance text-white header-fancy pb-1"
             )}
           >
             Stop Losing Accounts

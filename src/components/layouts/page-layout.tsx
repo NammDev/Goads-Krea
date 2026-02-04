@@ -42,6 +42,9 @@ export function PageLayout({
           "text-primary-1000 selection:bg-primary-1000 selection:text-primary-0",
           "relative z-10 h-full overflow-x-hidden overflow-y-auto",
           "overscroll-x-contain bg-white",
+          // padding-top pushes content below fixed header
+          // scroll-padding-top ensures anchored content is not hidden behind fixed header
+          "pt-[var(--spacing-header)] scroll-pt-[var(--spacing-header)]",
           mainClassName
         )}
         style={enablePerspective ? { perspective: "10px" } : undefined}

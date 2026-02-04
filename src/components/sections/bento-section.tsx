@@ -13,15 +13,7 @@ import { getStaggerAnimationStyle } from "@/lib/animation-config";
 /** Image URLs for bento cards */
 const BENTO_IMAGES = {
   lightStreak: "https://s.krea.ai/light-streak.webp",
-  eyeMacro: "https://s.krea.ai/eye-macro.webp",
   krea1Example: "https://s.krea.ai/krea1-example.webp",
-  minimalistBase: "https://s.krea.ai/minimalistBase.webp",
-  assetManager: "https://s.krea.ai/asset-manager.webp",
-  styles: "https://s.krea.ai/isometricPromptStyles.webp",
-  editor: "https://s.krea.ai/isometricEditExample.webp",
-  realtimeBase: "https://s.krea.ai/realtimeBase.webp",
-  realtimeOverlay:
-    "https://www.krea.ai/_app/10eb4479b955cfa2/immutable/assets/realtimeOverlay.Dw-O4V0Z.png",
 };
 
 /**
@@ -36,7 +28,8 @@ export function BentoSection() {
   const { ref: sectionRef, isVisible } = useScrollTrigger<HTMLElement>();
 
   // Use centralized animation config
-  const getAnimationStyle = (index: number) => getStaggerAnimationStyle(isVisible, index);
+  const getAnimationStyle = (index: number) =>
+    getStaggerAnimationStyle(isVisible, index);
 
   return (
     <section ref={sectionRef} className="section-container pt-24 md:pt-40">
@@ -90,24 +83,47 @@ export function BentoSection() {
           </span>
         </div>
 
-        {/* Structured Process Card - index 3 */}
+        {/* Pro Card - index 3 */}
         <div
-          className="bg-primary-300 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
+          className="relative flex flex-col items-center justify-center overflow-hidden text-white"
           style={{ gridArea: "fourk", ...getAnimationStyle(3) }}
         >
-          <Image
-            src={BENTO_IMAGES.eyeMacro}
-            className="z-0 object-cover"
-            alt="Eye macro"
-            loading="lazy"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          {/* Dark background */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              background:
+                "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)",
+            }}
           />
+          {/* Floating metrics around center */}
+          <div
+            className="absolute top-[15%] left-[20%] z-0 rounded-lg bg-white/10 px-2 py-1 backdrop-blur-sm"
+            style={{ animation: "float 4s ease-in-out infinite" }}
+          >
+            <div className="text-[9px] text-gray-400">CTR</div>
+            <div className="text-xs font-bold text-green-400">4.2%</div>
+          </div>
+          <div
+            className="absolute top-[20%] right-[15%] z-0 rounded-lg bg-white/10 px-2 py-1 backdrop-blur-sm"
+            style={{ animation: "float 4s ease-in-out infinite 0.5s" }}
+          >
+            <div className="text-[9px] text-gray-400">ROAS</div>
+            <div className="text-xs font-bold text-green-400">3.8x</div>
+          </div>
+          <div
+            className="absolute bottom-[20%] left-[15%] z-0 rounded-lg bg-white/10 px-2 py-1 backdrop-blur-sm"
+            style={{ animation: "float 4s ease-in-out infinite 1s" }}
+          >
+            <div className="text-[9px] text-gray-400">CPA</div>
+            <div className="text-xs font-bold text-green-400">$2.1</div>
+          </div>
+
           <span className="relative z-10 text-5xl leading-none font-bold tracking-tight xl:text-7xl">
-            Clear
+            Pro
           </span>
           <span className="relative z-10 text-center text-base leading-none font-medium xl:text-lg">
-            Structured Process
+            Optimized for Ads
           </span>
         </div>
 
@@ -132,66 +148,130 @@ export function BentoSection() {
             }}
           />
           <span className="tracking-snug relative z-10 text-6xl leading-none font-semibold xl:text-8xl">
-            Agency
+            GOADS
           </span>
           <span className="absolute bottom-5 z-10 text-base leading-none font-medium md:text-lg">
-            Tested by professionals
+            Trusted by leading agencies
           </span>
         </div>
 
         {/* Verified BMs Card - index 5 */}
         <div
-          className="bg-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center text-white"
+          className="relative flex flex-col items-center justify-center overflow-hidden text-white"
           style={{ gridArea: "minimalist", ...getAnimationStyle(5) }}
         >
           <Image
-            src={BENTO_IMAGES.minimalistBase}
+            src="/images/verified-bm-bg.webp"
             className="z-0 object-cover"
-            alt="Verified BMs"
+            alt="Verified BMs background"
             loading="lazy"
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          <div className="tracking-snug relative text-center text-3xl leading-none font-semibold">
-            Verified BMs
-            {/* Reflection effect */}
-            <div
-              className="tracking-snug absolute -bottom-full -scale-y-100 text-3xl font-semibold opacity-50 blur-[2px]"
-              aria-hidden="true"
-              style={{
-                background: "linear-gradient(to top, white 0%, transparent 80%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Verified BMs
-            </div>
-          </div>
-        </div>
-
-        {/* Scaling Ready Card - index 6 */}
-        <div
-          className="bg-primary-100 relative overflow-hidden bg-cover p-4 text-white"
-          style={{ gridArea: "assetmanager", ...getAnimationStyle(6) }}
-        >
-          <Image
-            src={BENTO_IMAGES.assetManager}
-            className="z-0 object-cover"
-            alt="Scaling ready"
-            loading="lazy"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
           <div
-            className="absolute top-0 left-0 z-0 h-full w-full"
+            className="absolute inset-0 z-0"
             style={{
-              backgroundImage:
-                "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1))",
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)",
             }}
           />
-          <div className="relative z-10 text-xl leading-tight font-semibold">
-            Built for growth, not just launch
+          <span className="tracking-snug relative z-10 text-center text-3xl leading-none font-semibold">
+            Verified BMs
+          </span>
+        </div>
+
+        {/* Blue Badge Pages Card - index 6 */}
+        <div
+          className="relative overflow-hidden p-4 text-white"
+          style={{ gridArea: "assetmanager", ...getAnimationStyle(6) }}
+        >
+          {/* Minimal blue background with soft gradient */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              background: "linear-gradient(160deg, #1e3a5f 0%, #0f172a 100%)",
+            }}
+          />
+          {/* Subtle glow accent */}
+          <div
+            className="absolute -top-10 -right-10 z-0 h-32 w-32 rounded-full opacity-40 blur-3xl"
+            style={{ background: "#3b82f6" }}
+          />
+          {/* Title at top */}
+          <div className="relative z-20 text-xl leading-tight font-semibold">
+            Blue Badge Verification Services
+          </div>
+          {/* Floating page mockups - positioned below text */}
+          <div className="absolute bottom-3 right-3 z-10 flex flex-col gap-1.5">
+            {/* Card 1 - main */}
+            <div
+              className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-xl"
+              style={{ animation: "float 4s ease-in-out infinite" }}
+            >
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-300 to-blue-400" />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-bold text-gray-900">
+                    Your Page
+                  </span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" fill="#2563eb" />
+                    <path
+                      d="M9 12l2 2 4-4"
+                      stroke="#fff"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span className="text-[10px] text-gray-500">@yourpage</span>
+              </div>
+            </div>
+            {/* Card 2 */}
+            <div
+              className="flex items-center gap-2 rounded-lg bg-white/95 px-2 py-1.5 shadow-lg"
+              style={{ animation: "float 4s ease-in-out infinite 0.4s" }}
+            >
+              <div className="h-6 w-6 rounded-full bg-gradient-to-br from-green-300 to-green-400" />
+              <div className="flex items-center gap-1">
+                <span className="text-xs font-semibold text-gray-800">
+                  Store
+                </span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="#2563eb" />
+                  <path
+                    d="M9 12l2 2 4-4"
+                    stroke="#fff"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            {/* Card 3 */}
+            <div
+              className="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-1.5 shadow-md"
+              style={{ animation: "float 4s ease-in-out infinite 0.8s" }}
+            >
+              <div className="h-5 w-5 rounded-full bg-gradient-to-br from-purple-300 to-purple-400" />
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] font-semibold text-gray-800">
+                  Brand
+                </span>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="#2563eb" />
+                  <path
+                    d="M9 12l2 2 4-4"
+                    stroke="#fff"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -238,78 +318,131 @@ export function BentoSection() {
           </div>
         </div>
 
-        {/* 1:1 Replacement Card - index 10 */}
+        {/* Instant Replacement Card - index 10 */}
         <div
-          className="bg-primary-100 relative overflow-hidden bg-cover bg-center p-4 text-white"
+          className="relative overflow-hidden p-4 text-white"
           style={{ gridArea: "styles", ...getAnimationStyle(10) }}
         >
-          <Image
-            src={BENTO_IMAGES.styles}
-            className="z-0 object-cover"
-            alt="Replacement"
-            loading="lazy"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          {/* Speed lines gradient - diagonal motion effect */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              background:
+                "linear-gradient(135deg, #262626 0%, #404040 50%, #262626 100%)",
+            }}
+          />
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              background:
+                "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px)",
+            }}
           />
           <div className="relative z-10 text-lg leading-tight font-semibold md:text-2xl">
-            1:1 Replacement
+            Instant Replacement
           </div>
         </div>
 
-        {/* Real Humans Card - index 11 */}
+        {/* Multi Platform Card - index 11 */}
         <div
-          className="bg-primary-100 text-primary-1000 relative flex flex-col items-center justify-center overflow-hidden bg-cover bg-center"
+          className="relative flex flex-col items-center justify-center overflow-hidden text-white"
           style={{ gridArea: "editor", ...getAnimationStyle(11) }}
         >
-          <Image
-            src={BENTO_IMAGES.editor}
-            className="z-0 scale-220 object-cover object-center"
-            alt="Real humans"
-            loading="lazy"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          {/* Dark gradient background */}
           <div
-            className="absolute top-0 left-0 z-0 h-full w-full"
+            className="absolute inset-0 z-0"
             style={{
-              backgroundImage:
-                "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1))",
+              background:
+                "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f0f 100%)",
             }}
           />
-          <span className="tracking-snug relative z-10 text-center text-3xl font-semibold text-white md:text-4xl md:leading-12">
-            Real <br /> Humans
+          {/* Colored glows for platforms */}
+          <div
+            className="absolute -top-8 -left-8 z-0 h-32 w-32 rounded-full opacity-40 blur-3xl"
+            style={{ background: "#ff0050" }}
+          />
+          <div
+            className="absolute -bottom-8 -right-8 z-0 h-32 w-32 rounded-full opacity-40 blur-3xl"
+            style={{ background: "#0668E1" }}
+          />
+          {/* Platform icons floating around */}
+          <div
+            className="absolute top-[12%] left-[18%] z-10 h-10 w-10 md:h-12 md:w-12"
+            style={{ animation: "float 4s ease-in-out infinite" }}
+          >
+            <Image
+              src="/images/platform-tiktok.png"
+              alt="TikTok"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div
+            className="absolute top-[15%] right-[15%] z-10 h-10 w-10 md:h-12 md:w-12"
+            style={{ animation: "float 4s ease-in-out infinite 0.5s" }}
+          >
+            <Image
+              src="/images/platform-meta.png"
+              alt="Meta"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div
+            className="absolute bottom-[18%] left-[15%] z-10 h-9 w-9 md:h-11 md:w-11"
+            style={{ animation: "float 4s ease-in-out infinite 1s" }}
+          >
+            <Image
+              src="/images/platform-shopify.png"
+              alt="Shopify"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div
+            className="absolute bottom-[12%] right-[18%] z-10 h-9 w-9 md:h-11 md:w-11"
+            style={{ animation: "float 4s ease-in-out infinite 1.5s" }}
+          >
+            <Image
+              src="/images/platform-snapchat.png"
+              alt="Snapchat"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <span className="tracking-snug relative z-10 text-center text-3xl font-semibold md:text-4xl md:leading-12">
+            Multi <br /> Platform
           </span>
         </div>
 
-        {/* Multi-Channel Support Card - index 12 */}
+        {/* Fast Support Card - index 12 */}
         <div
           className="flex flex-col justify-between gap-2"
           style={{ gridArea: "threed", ...getAnimationStyle(12) }}
         >
-          {/* Telegram */}
-          <div className="relative h-[45%] overflow-hidden rounded-3xl bg-black bg-cover bg-center pt-4 text-white">
+          {/* Fast Support with image background */}
+          <div className="relative h-[45%] overflow-hidden rounded-3xl text-white">
             <Image
-              src={BENTO_IMAGES.realtimeBase}
+              src="/images/fast-support-bg.webp"
               className="z-0 object-cover"
-              alt="Multi-channel support"
+              alt="Fast support background"
               loading="lazy"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
-            <div className="tracking-snug relative z-10 mx-auto text-center text-2xl font-semibold">
-              Multi-Channel
+            <div
+              className="absolute inset-0 z-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 100%)",
+              }}
+            />
+            <div className="tracking-snug relative z-10 pt-4 text-center text-2xl font-semibold">
+              Fast Support
             </div>
-            <Image
-              className="z-10 object-cover"
-              alt="Support overlay"
-              loading="lazy"
-              src={BENTO_IMAGES.realtimeOverlay}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
           </div>
 
-          {/* Fast Response */}
+          {/* Response Time */}
           <div className="bg-primary-100 relative flex h-[55%] flex-col items-center justify-center overflow-hidden rounded-3xl">
             <GradientText
               as="div"
@@ -327,7 +460,7 @@ export function BentoSection() {
           style={{ gridArea: "lipsync", ...getAnimationStyle(13) }}
         >
           <div className="text-base leading-tight font-semibold md:text-xl">
-            No Questions Asked
+            7-Day Guarantee
           </div>
           <LipsyncWave />
         </div>

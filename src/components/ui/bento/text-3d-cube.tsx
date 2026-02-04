@@ -17,10 +17,16 @@ export function Text3DCube({ size = "2.5rem" }: Text3DCubeProps) {
     const animate = () => {
       const elapsed = (Date.now() - startTime) / 1000;
 
-      // Gentle floating animation
-      const rotX = -25 + Math.sin(elapsed * 0.5) * 5;
-      const rotY = 45 + elapsed * 20; // Continuous Y rotation
-      const offsetY = 16 + Math.sin(elapsed) * 3;
+      // Fast bouncing (every 1.2 seconds)
+      const bouncePhase = (elapsed % 1.2) / 1.2;
+      const bounce = Math.sin(bouncePhase * Math.PI);
+      const jumpHeight = bounce * 25; // max 25px jump - can hit text
+
+      // Super fast rotation at peak
+      const rotationSpeed = 300 + bounce * 600; // 300-900 deg/sec
+      const rotX = -25 + Math.sin(elapsed * 2) * 15;
+      const rotY = 45 + elapsed * rotationSpeed;
+      const offsetY = 16 - jumpHeight;
 
       setRotation({ x: rotX, y: rotY % 360, offsetY });
       animationId = requestAnimationFrame(animate);

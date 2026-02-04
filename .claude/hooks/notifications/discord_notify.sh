@@ -1,9 +1,22 @@
 #!/bin/bash
 
-# Discord Notification Hook for Claude Code
-# This hook sends a notification to Discord when Claude finishes a task
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ DEPRECATED: This script is no longer maintained                         │
+# │                                                                         │
+# │ Use notify.cjs instead - zero dependencies, works everywhere:           │
+# │   node .claude/hooks/notifications/notify.cjs                           │
+# │                                                                         │
+# │ In your settings.json:                                                  │
+# │   "Stop": [{"matcher": "*", "hooks": [{"type": "command",               │
+# │     "command": "node .claude/hooks/notifications/notify.cjs"}]}]        │
+# └─────────────────────────────────────────────────────────────────────────┘
 
-set -euo pipefail
+echo "⚠️  DEPRECATED: discord_notify.sh is no longer maintained" >&2
+echo "   Use: node .claude/hooks/notifications/notify.cjs" >&2
+echo "   See: .claude/hooks/notifications/docs/discord-hook-setup.md" >&2
+exit 1
+
+# --- LEGACY CODE BELOW (kept for reference) ---
 
 # Load environment variables with priority: process.env > .claude/.env > .claude/hooks/.env
 load_env() {

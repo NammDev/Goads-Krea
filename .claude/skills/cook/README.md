@@ -82,4 +82,5 @@ cook/
 
 ## Version
 
+2.1.0 - Review gates added for human-in-the-loop mode
 2.0.0 - Smart intent detection (hybrid approach)

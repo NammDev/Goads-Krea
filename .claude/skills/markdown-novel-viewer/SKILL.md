@@ -1,3 +1,8 @@
+---
+name: markdown-novel-viewer
+description: View markdown files with calm, book-like reading experience via HTTP server. Use for long-form content, documentation preview, novel reading, report viewing, distraction-free reading.
+---
+
 # markdown-novel-viewer
 
 Background HTTP server rendering markdown files with calm, book-like reading experience.
@@ -45,7 +50,7 @@ node .claude/skills/markdown-novel-viewer/scripts/server.cjs \
   --background
 
 # Stop all running servers
-node $HOME/.claude/skills/markdown-novel-viewer/scripts/server.cjs --stop
+node .claude/skills/markdown-novel-viewer/scripts/server.cjs --stop
 ```
 
 ## Slash Command

@@ -19,7 +19,7 @@ Thorough copy development with research, planning, and execution.
    - Product/service details
 4. **Scout codebase** → `/scout:ext` (preferred) or `/scout` to find relevant files
 5. **Plan** → Use `planner` agent to outline copy structure and strategy
-6. **Write** → Use `copywriter` agent to execute plan
+6. **Write** → Use `fullstack-developer` agent to execute plan
 
 ## Quality Checklist
 

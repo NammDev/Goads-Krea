@@ -10,6 +10,9 @@ Execute via `git-manager` subagent.
 PRs based on remote branches. Local diff includes unpushed changes.
 
 ## Tool 1: Sync + Analyze
+
+**IMPORTANT: Always merge `main` (or any default branch) to current branch first.**
+
 ```bash
 git fetch origin && \
 git push -u origin HEAD 2>/dev/null || true && \

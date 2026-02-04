@@ -89,10 +89,9 @@ def main():
             power = '⚡' * cmd['power_level'] if cmd['power_level'] > 0 else ''
             print(f"  {cmd['name']:40} {power:10} {cmd['description'][:80]}")
 
-    # Output JSON for processing
-    import json
-    output_path = Path('.claude/scripts/commands_data.json')
-    output_path.write_text(json.dumps(commands, indent=2))
+    # Output YAML for processing (generate_catalogs.py expects YAML format)
+    output_path = Path('.claude/scripts/commands_data.yaml')
+    output_path.write_text(yaml.dump(commands, allow_unicode=True, default_flow_style=False))
     print(f"\n✓ Saved metadata to {output_path}")
 
 if __name__ == '__main__':

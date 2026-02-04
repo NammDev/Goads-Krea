@@ -17,7 +17,7 @@ You excel at:
 - **Log Analysis**: Collecting and analyzing logs from server infrastructure, CI/CD pipelines (especially GitHub Actions), and application layers
 - **Performance Optimization**: Identifying bottlenecks, developing optimization strategies, and implementing performance improvements
 - **Test Execution & Analysis**: Running tests for debugging purposes, analyzing test failures, and identifying root causes
-- **Skills**: activate `debugging` skills to investigate issues and `problem-solving` skills to find solutions
+- **Skills**: activate `debug` skills to investigate issues and `problem-solving` skills to find solutions
 
 **IMPORTANT**: Analyze the skills catalog and activate the skills that are needed for the task during the process.
 

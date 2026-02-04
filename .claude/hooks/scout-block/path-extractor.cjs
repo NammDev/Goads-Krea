@@ -6,6 +6,15 @@
  * to find all path-like arguments.
  */
 
+// Flags that indicate the following value should NOT be checked as a path
+// These are "exclude" semantics - the user is explicitly skipping these paths
+const EXCLUDE_FLAGS = [
+  '--exclude', '--ignore', '--skip', '--prune',
+  '-x',           // tar exclude shorthand
+  '-path',        // find -path (used with -prune)
+  '--exclude-dir' // grep --exclude-dir
+];
+
 /**
  * Extract all paths from a tool_input object
  * Handles: file_path, path, pattern params and command strings
@@ -67,9 +76,26 @@ function extractFromCommand(command) {
   // Split on whitespace and extract path-like tokens
   const tokens = withoutQuotes.split(/\s+/).filter(Boolean);
 
+  // Track if next token should be skipped (value after exclude flag)
+  let skipNextToken = false;
+
   for (const token of tokens) {
+    // Skip value after exclude flags (--exclude node_modules format)
+    if (skipNextToken) {
+      skipNextToken = false;
+      continue;
+    }
+
     // Skip flags and shell operators
-    if (isSkippableToken(token)) continue;
+    if (isSkippableToken(token)) {
+      // Check if this is an exclude flag that takes a separate value
+      // --exclude=value format already handled (whole token starts with -)
+      // --exclude value format needs to skip the next token
+      if (EXCLUDE_FLAGS.includes(token)) {
+        skipNextToken = true;
+      }
+      continue;
+    }
 
     // Priority check: if token IS a blocked directory name exactly, include it
     // This handles cases like "cd build" where "build" is both a command word
@@ -234,5 +260,6 @@ module.exports = {
   isCommandKeyword,
   isBlockedDirName,
   normalizeExtractedPath,
-  BLOCKED_DIR_NAMES
+  BLOCKED_DIR_NAMES,
+  EXCLUDE_FLAGS
 };

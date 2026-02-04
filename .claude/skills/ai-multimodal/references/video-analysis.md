@@ -455,14 +455,11 @@ response = client.models.generate_content(
 
 ### Error Handling
 
-> **NOTE**: This is example code for understanding the API pattern.
-> Use the actual script: `python scripts/gemini_batch_process.py --files <video> --task analyze`
-
 ```python
 import time
 
-def upload_and_process(file_path, max_wait=300):
-    """Upload file and wait for processing (example pattern)"""
+def upload_and_process_video(file_path, max_wait=300):
+    """Upload video and wait for processing"""
     myfile = client.files.upload(file=file_path)
 
     elapsed = 0

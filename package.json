@@ -6,9 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "remotion:studio": "remotion studio src/remotion/index.ts",
+    "remotion:render": "remotion render src/remotion/index.ts HeroVideo public/videos/hero.mp4",
+    "remotion:render:webm": "remotion render src/remotion/index.ts HeroVideo public/videos/hero.webm --codec=vp9"
   },
   "dependencies": {
+    "@remotion/bundler": "^4.0.409",
+    "@remotion/cli": "^4.0.409",
+    "@remotion/player": "^4.0.409",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
@@ -17,6 +23,7 @@
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "remotion": "^4.0.409",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

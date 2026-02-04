@@ -6,7 +6,7 @@ When to activate each skill during fixing workflows.
 
 | Skill | Reason |
 |-------|--------|
-| `debugging` | Core to all fix workflows - find root cause first |
+| `debug` | Core to all fix workflows - find root cause first |
 
 ## Conditional Activation
 
@@ -14,7 +14,7 @@ When to activate each skill during fixing workflows.
 |-------|---------------|
 | `problem-solving` | Stuck on approach, multiple failed attempts |
 | `sequential-thinking` | Complex logic chain, multi-step reasoning needed |
-| `brainstorming` | Multiple valid approaches, architecture decision |
+| `brainstorm` | Multiple valid approaches, architecture decision |
 | `context-engineering` | Fixing AI/LLM/agent code, context window issues |
 | `ai-multimodal` | UI issues, screenshots provided, visual bugs |
 
@@ -48,7 +48,7 @@ See `references/parallel-exploration.md` for detailed patterns.
 
 | Workflow | Skills Activated |
 |----------|------------------|
-| Quick | `debugging`, `code-reviewer`, parallel `Bash` verification |
+| Quick | `debug`, `code-reviewer`, parallel `Bash` verification |
 | Standard | Above + `problem-solving`, `sequential-thinking`, `tester`, parallel `Explore` |
 | Deep | All above + `brainstorming`, `context-engineering`, `researcher`, `planner` |
 | Parallel | Per-issue workflow + coordination via parallel agents |
@@ -60,6 +60,6 @@ See `references/parallel-exploration.md` for detailed patterns.
 | "AI", "LLM", "agent", "context" | `context-engineering` |
 | "stuck", "tried everything" | `problem-solving` |
 | "complex", "multi-step" | `sequential-thinking` |
-| "which approach", "options" | `brainstorming` |
+| "which approach", "options" | `brainstorm` |
 | "latest docs", "best practice" | `researcher` subagent |
 | Screenshot attached | `ai-multimodal` |

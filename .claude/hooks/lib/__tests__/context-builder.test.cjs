@@ -289,6 +289,83 @@ describe('context-builder.cjs', () => {
 
   });
 
+  describe('Hooks config behavior (Issue #413)', () => {
+    let tempDir;
+    let originalCwd;
+
+    before(() => {
+      originalCwd = process.cwd();
+    });
+
+    after(() => {
+      process.chdir(originalCwd);
+      if (tempDir) cleanupTempDir(tempDir);
+    });
+
+    it('disables context section when context-tracking: false', () => {
+      tempDir = createTempDir(['.claude']);
+      const settingsPath = path.join(tempDir, '.claude', 'settings.json');
+      fs.writeFileSync(settingsPath, JSON.stringify({
+        hooks: {
+          'context-tracking': false
+        }
+      }));
+      process.chdir(tempDir);
+
+      const result = contextBuilder.buildReminderContext({});
+
+      assert.ok(Array.isArray(result.sections.context), 'context should be array');
+      assert.strictEqual(result.sections.context.length, 0, 'context section should be empty');
+    });
+
+    it('disables usage section when usage-context-awareness: false', () => {
+      tempDir = createTempDir(['.claude']);
+      const settingsPath = path.join(tempDir, '.claude', 'settings.json');
+      fs.writeFileSync(settingsPath, JSON.stringify({
+        hooks: {
+          'usage-context-awareness': false
+        }
+      }));
+      process.chdir(tempDir);
+
+      const result = contextBuilder.buildReminderContext({});
+
+      assert.ok(Array.isArray(result.sections.usage), 'usage should be array');
+      assert.strictEqual(result.sections.usage.length, 0, 'usage section should be empty');
+    });
+
+    it('disables both sections when both hooks false', () => {
+      tempDir = createTempDir(['.claude']);
+      const settingsPath = path.join(tempDir, '.claude', 'settings.json');
+      fs.writeFileSync(settingsPath, JSON.stringify({
+        hooks: {
+          'context-tracking': false,
+          'usage-context-awareness': false
+        }
+      }));
+      process.chdir(tempDir);
+
+      const result = contextBuilder.buildReminderContext({});
+
+      assert.strictEqual(result.sections.context.length, 0, 'context section should be empty');
+      assert.strictEqual(result.sections.usage.length, 0, 'usage section should be empty');
+    });
+
+    it('enables sections by default when hooks undefined', () => {
+      tempDir = createTempDir(['.claude']);
+      const settingsPath = path.join(tempDir, '.claude', 'settings.json');
+      fs.writeFileSync(settingsPath, JSON.stringify({}));
+      process.chdir(tempDir);
+
+      const result = contextBuilder.buildReminderContext({});
+
+      assert.ok(Array.isArray(result.sections.context), 'context should be array');
+      assert.ok(Array.isArray(result.sections.usage), 'usage should be array');
+      // Enabled sections may be empty or populated - just verify they exist
+    });
+
+  });
+
   describe('Export completeness', () => {
 
     it('exports all required functions', () => {

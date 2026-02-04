@@ -179,6 +179,65 @@ const testCases = [
     name: '[#265] Read: venv file (blocked)',
     input: { tool_name: 'Read', tool_input: { file_path: 'venv/pyvenv.cfg' } },
     expected: 'BLOCKED'
+  },
+
+  // Venv creation commands - should be ALLOWED (Issue #386)
+  {
+    name: '[#386] Bash: python -m venv .venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'python -m venv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: python3 -m venv .venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'python3 -m venv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: python3 -m venv --system-site-packages .venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'python3 -m venv --system-site-packages .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: py -m venv .venv (Windows)',
+    input: { tool_name: 'Bash', tool_input: { command: 'py -m venv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: py -3.11 -m venv .venv (Windows version)',
+    input: { tool_name: 'Bash', tool_input: { command: 'py -3.11 -m venv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: uv venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'uv venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: uv venv .venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'uv venv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: virtualenv .venv',
+    input: { tool_name: 'Bash', tool_input: { command: 'virtualenv .venv' } },
+    expected: 'ALLOWED'
+  },
+  {
+    name: '[#386] Bash: virtualenv --python=python3.11 my_env',
+    input: { tool_name: 'Bash', tool_input: { command: 'virtualenv --python=python3.11 my_env' } },
+    expected: 'ALLOWED'
+  },
+
+  // Non-venv python commands - should NOT be specially allowed (Issue #386 negative tests)
+  {
+    name: '[#386] Bash: python3 --version (not specially allowed)',
+    input: { tool_name: 'Bash', tool_input: { command: 'python3 --version' } },
+    expected: 'ALLOWED'  // Allowed because no blocked path, but NOT via isAllowedCommand
+  },
+  {
+    name: '[#386] Bash: uv pip install (not venv creation)',
+    input: { tool_name: 'Bash', tool_input: { command: 'uv pip install requests' } },
+    expected: 'ALLOWED'  // Allowed because no blocked path, but NOT via isAllowedCommand
   }
 ];
 

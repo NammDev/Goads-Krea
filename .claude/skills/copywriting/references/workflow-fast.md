@@ -12,7 +12,7 @@ Quick, creative copy generation with minimal research.
 
 1. **Screenshots provided** → Use `ai-multimodal` skill to analyze context
 2. **Videos provided** → Use `ai-multimodal` video-analysis for context
-3. **Write** → Use `copywriter` agent directly to produce copy
+3. **Write** → Use `fullstack-developer` agent directly to produce copy
 
 ## Speed Optimization
 

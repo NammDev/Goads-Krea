@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AI Artist Search - BM25 search engine for prompt engineering
+AI Artist Search - BM25 search engine for prompt engineering resources
 Usage: python search.py "<query>" [--domain <domain>] [--max-results 3]
-       python search.py "<query>" --build-prompt [-p <platform>] [-s <style>]
-       python search.py "<query>" --llm-pattern [-o <output_format>]
+       python search.py "<query>" --prompt-system [--platform <platform>]
 
-Domains: style, platform, subject, llm, quality, domain
-Platforms: midjourney, dall-e, stable-diffusion, flux
+Domains: use-case, style, platform, technique, lighting
+Platforms: midjourney, dalle, sd, flux, nano-banana
 """
 
 import argparse
-from core import CSV_CONFIG, AVAILABLE_DOMAINS, MAX_RESULTS, search, search_all_domains
-from prompt_builder import build_image_prompt, build_llm_prompt, format_prompt_report
+import sys
+from core import CSV_CONFIG, MAX_RESULTS, search, search_all_domains
+
+# Fix Windows cp1252 encoding: hardcoded emojis can't encode on Windows.
+# Reconfigure stdout to UTF-8 with replacement (Python 3.7+).
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
 def format_output(result):
@@ -29,79 +34,110 @@ def format_output(result):
         output.append(f"### Result {i}")
         for key, value in row.items():
             value_str = str(value)
-            if len(value_str) > 300:
-                value_str = value_str[:300] + "..."
+            if len(value_str) > 400:
+                value_str = value_str[:400] + "..."
             output.append(f"- **{key}:** {value_str}")
         output.append("")
 
     return "\n".join(output)
 
 
-def format_multi_output(results):
-    """Format multi-domain results"""
+def generate_prompt_system(query, platform=None):
+    """Generate a comprehensive prompt system for a given concept"""
     output = []
-    output.append("## AI Artist Multi-Domain Search\n")
+    output.append(f"## 🎨 AI Artist Prompt System")
+    output.append(f"**Concept:** {query}")
+    if platform:
+        output.append(f"**Target Platform:** {platform}")
+    output.append("")
 
-    for domain, result in results.items():
-        output.append(f"### {domain.upper()}")
-        for i, row in enumerate(result['results'], 1):
-            first_key = list(row.keys())[0]
-            output.append(f"- {row.get(first_key, 'Unknown')}")
+    # Search relevant domains
+    use_case = search(query, "use-case", 1)
+    style = search(query, "style", 2)
+    lighting = search(query, "lighting", 1)
+    technique = search(query, "technique", 2)
+
+    # Use case / Template
+    if use_case.get("count", 0) > 0:
+        uc = use_case["results"][0]
+        output.append("### 📋 Use Case Match")
+        output.append(f"**{uc.get('Use Case', 'N/A')}** ({uc.get('Category', '')})")
+        if uc.get("Prompt Template"):
+            output.append(f"**Template:** `{uc.get('Prompt Template')}`")
+        if uc.get("Key Elements"):
+            output.append(f"**Key Elements:** {uc.get('Key Elements')}")
+        if uc.get("Tips"):
+            output.append(f"**Tips:** {uc.get('Tips')}")
         output.append("")
+
+    # Styles
+    if style.get("count", 0) > 0:
+        output.append("### 🎭 Recommended Styles")
+        for s in style["results"]:
+            output.append(f"**{s.get('Style Name', 'N/A')}** - {s.get('Description', '')}")
+            if s.get("Prompt Keywords"):
+                output.append(f"  Keywords: `{s.get('Prompt Keywords')}`")
+        output.append("")
+
+    # Lighting
+    if lighting.get("count", 0) > 0:
+        lt = lighting["results"][0]
+        output.append("### 💡 Lighting Suggestion")
+        output.append(f"**{lt.get('Lighting Type', 'N/A')}** - {lt.get('Description', '')}")
+        output.append(f"  Mood: {lt.get('Mood', '')} | Keywords: `{lt.get('Prompt Keywords', '')}`")
+        output.append("")
+
+    # Techniques
+    if technique.get("count", 0) > 0:
+        output.append("### 🔧 Relevant Techniques")
+        for t in technique["results"]:
+            output.append(f"**{t.get('Technique', 'N/A')}**: {t.get('Description', '')}")
+            if t.get("Syntax Example"):
+                output.append(f"  Example: `{t.get('Syntax Example')}`")
+        output.append("")
+
+    # Platform-specific tips
+    if platform:
+        plat = search(platform, "platform", 1)
+        if plat.get("count", 0) > 0:
+            p = plat["results"][0]
+            output.append(f"### 🖥️ {p.get('Platform', '')} Tips")
+            output.append(f"**Prompt Style:** {p.get('Prompt Style', '')}")
+            output.append(f"**Key Parameters:** {p.get('Key Parameters', '')}")
+            output.append(f"**Best Practices:** {p.get('Best Practices', '')}")
+            output.append("")
 
     return "\n".join(output)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AI Artist Search")
-    parser.add_argument("query", help="Search query or subject for prompt building")
-    parser.add_argument("--domain", "-d", choices=AVAILABLE_DOMAINS, help="Search domain (auto-detected if not specified)")
+    parser.add_argument("query", help="Search query")
+    parser.add_argument("--domain", "-d", choices=list(CSV_CONFIG.keys()), help="Search domain")
     parser.add_argument("--max-results", "-n", type=int, default=MAX_RESULTS, help="Max results (default: 3)")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
+    # Prompt system generation
+    parser.add_argument("--prompt-system", "-ps", action="store_true", help="Generate comprehensive prompt system")
+    parser.add_argument("--platform", "-p", type=str, default=None, help="Target platform for prompt system")
     parser.add_argument("--all", "-a", action="store_true", help="Search all domains")
-
-    # Prompt building options
-    parser.add_argument("--build-prompt", "-bp", action="store_true", help="Build a complete image prompt")
-    parser.add_argument("--platform", "-p", type=str, default="midjourney", help="Target platform for prompt building")
-    parser.add_argument("--style", "-s", type=str, default=None, help="Visual style for prompt building")
-    parser.add_argument("--context", "-c", type=str, default=None, help="Domain context (marketing, gaming, etc.)")
-
-    # LLM pattern options
-    parser.add_argument("--llm-pattern", "-lp", action="store_true", help="Build an LLM prompt using patterns")
-    parser.add_argument("--pattern", type=str, default=None, help="Prompt pattern to use")
-    parser.add_argument("--output-format", "-o", type=str, default=None, help="Output format (json, markdown)")
-
-    # Output format
-    parser.add_argument("--format", "-f", choices=["ascii", "markdown"], default="ascii", help="Output format")
 
     args = parser.parse_args()
 
-    # Prompt building takes priority
-    if args.build_prompt:
-        result = build_image_prompt(
-            subject=args.query,
-            style=args.style,
-            platform=args.platform,
-            context=args.context
-        )
-        print(format_prompt_report(result, args.format))
-
-    elif args.llm_pattern:
-        result = build_llm_prompt(
-            task=args.query,
-            pattern=args.pattern,
-            output_format=args.output_format
-        )
-        print(format_prompt_report(result, args.format))
-
+    # Prompt system generation
+    if args.prompt_system:
+        result = generate_prompt_system(args.query, args.platform)
+        print(result)
+    # Search all domains
     elif args.all:
         results = search_all_domains(args.query, args.max_results)
         if args.json:
             import json
             print(json.dumps(results, indent=2, ensure_ascii=False))
         else:
-            print(format_multi_output(results))
-
+            for domain, result in results.items():
+                print(format_output(result))
+                print("---\n")
+    # Domain search
     else:
         result = search(args.query, args.domain, args.max_results)
         if args.json:

@@ -16,12 +16,12 @@ Read from `.claude/.ck.json`:
 ```json
 {
   "gemini": {
-    "model": "gemini-3.0-flash"
+    "model": "gemini-3-flash-preview"
   }
 }
 ```
 
-Default model: `gemini-3.0-flash`
+Default model: `gemini-3-flash-preview`
 
 ## Gemini CLI (SCALE <= 3)
 
@@ -32,7 +32,7 @@ gemini -y -m <model> "[prompt]"
 
 ### Example
 ```bash
-gemini -y -m gemini-3.0-flash "Search src/ for authentication files. List paths with brief descriptions."
+gemini -y -m gemini-3-flash-preview "Search src/ for authentication files. List paths with brief descriptions."
 ```
 
 ## OpenCode CLI (SCALE 4-5)
@@ -64,9 +64,9 @@ If not installed, ask user:
 Use `Task` tool with `subagent_type: "Bash"` to spawn parallel agents:
 
 ```
-Task 1: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3.0-flash '[prompt1]'"
-Task 2: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3.0-flash '[prompt2]'"
-Task 3: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3.0-flash '[prompt3]'"
+Task 1: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3-flash-preview '[prompt1]'"
+Task 2: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3-flash-preview '[prompt2]'"
+Task 3: subagent_type="Bash", prompt="Run: gemini -y -m gemini-3-flash-preview '[prompt3]'"
 ```
 
 Spawn all in single message for parallel execution.
@@ -84,9 +84,9 @@ User: "Find database migration files"
 
 Spawn 3 parallel Bash agents via Task tool:
 ```
-Task 1 (Bash): "Run: gemini -y -m gemini-3.0-flash 'Search db/, migrations/ for migration files'"
-Task 2 (Bash): "Run: gemini -y -m gemini-3.0-flash 'Search lib/, src/ for database schema files'"
-Task 3 (Bash): "Run: gemini -y -m gemini-3.0-flash 'Search config/ for database configuration'"
+Task 1 (Bash): "Run: gemini -y -m gemini-3-flash-preview 'Search db/, migrations/ for migration files'"
+Task 2 (Bash): "Run: gemini -y -m gemini-3-flash-preview 'Search lib/, src/ for database schema files'"
+Task 3 (Bash): "Run: gemini -y -m gemini-3-flash-preview 'Search config/ for database configuration'"
 ```
 
 ## Reading File Content

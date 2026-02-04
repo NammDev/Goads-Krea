@@ -4,7 +4,7 @@ For fixing visual/UI issues. Requires design skills.
 
 ## Required Skills (activate in order)
 1. `ui-ux-pro-max` - Design database (ALWAYS FIRST)
-2. `aesthetic` - Design principles
+2. `ui-ux-pro-max` - Design principles
 3. `frontend-design` - Implementation patterns
 
 ## Pre-fix Research

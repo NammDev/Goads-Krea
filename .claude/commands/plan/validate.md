@@ -83,24 +83,50 @@ Use `AskUserQuestion` tool to present questions.
 
 ### Step 5: Document Answers
 
-After collecting answers, update the plan:
+After collecting answers, update `plan.md` with a detailed validation log. If a `## Validation Log` section already exists (from previous sessions), **append** a new session block — never overwrite history.
 
-1. Add `## Validation Summary` section to `plan.md`:
+1. Add or append to `## Validation Log` section in `plan.md`:
+
 ```markdown
-## Validation Summary
+## Validation Log
 
-**Validated:** {date}
+### Session 1 — {YYYY-MM-DD}
+**Trigger:** {what prompted this validation — initial plan creation, re-validation after scope change, etc.}
 **Questions asked:** {count}
 
-### Confirmed Decisions
-- {decision 1}: {user choice}
-- {decision 2}: {user choice}
+#### Questions & Answers
 
-### Action Items
-- [ ] {any changes needed based on answers}
+1. **[{Category}]** {full question text}
+   - Options: {A} | {B} | {C}
+   - **Answer:** {user's choice}
+   - **Custom input:** {verbatim "Other" text if user selected Other, otherwise omit this line}
+   - **Rationale:** {why this decision matters for implementation}
+
+2. **[{Category}]** {full question text}
+   - Options: {A} | {B} | {C}
+   - **Answer:** {user's choice}
+   - **Custom input:** {verbatim text, omit if N/A}
+   - **Rationale:** {why this matters}
+
+#### Confirmed Decisions
+- {decision}: {choice} — {brief why}
+
+#### Action Items
+- [ ] {specific change needed based on answers}
+
+#### Impact on Phases
+- Phase {N}: {what needs updating and why}
 ```
 
-2. If answers require plan changes, note them but **do not modify phase files** - just document what needs updating.
+**Recording rules:**
+- **Full question text**: Copy the exact question asked, not a summary
+- **All options**: List every option that was presented
+- **Verbatim custom input**: If user selected "Other" and typed custom text, record it exactly as entered — this often contains critical context
+- **Rationale**: Explain why the decision affects implementation (helps future agents understand intent)
+- **Session numbering**: Increment session number from last existing session. First validation = Session 1
+- **Trigger**: State what prompted this validation round (initial, re-validation, scope change, etc.)
+
+2. If answers require plan changes, document them in `#### Impact on Phases` but **do not modify phase files** — just document what needs updating.
 
 ## Output
 
@@ -115,7 +141,7 @@ After validation completes, provide summary:
 **IMPORTANT:** After providing the validation summary, you MUST remind the user:
 
 > **Best Practice:** Run `/clear` before implementing to start with fresh context.
-> Then run `/code {plan-path}` to begin implementation.
+> Then run `/cook {plan-path}` to begin implementation.
 >
 > Fresh context helps Claude focus solely on implementation without planning context pollution, improving plan adherence.
 

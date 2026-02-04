@@ -29,6 +29,13 @@ const TOOL_COMMAND_PATTERN = /^(\.\/)?(npx|pnpx|bunx|tsc|esbuild|vite|webpack|ro
 // Allow execution from .venv/bin/ or venv/bin/ (Unix) and .venv/Scripts/ or venv/Scripts/ (Windows)
 const VENV_EXECUTABLE_PATTERN = /(^|[\/\\])\.?venv[\/\\](bin|Scripts)[\/\\]/;
 
+// Allow Python venv creation commands (cross-platform):
+// - python/python3 -m venv (Unix/macOS/Windows)
+// - py -m venv (Windows py launcher, supports -3, -3.11, etc.)
+// - uv venv (fast Rust-based Python package manager)
+// - virtualenv (legacy but still widely used)
+const VENV_CREATION_PATTERN = /^(python3?|py)\s+(-[\w.]+\s+)*-m\s+venv\s+|^uv\s+venv(\s|$)|^virtualenv\s+/;
+
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -55,12 +62,22 @@ function isVenvExecutable(command) {
 }
 
 /**
- * Check if command should be allowed (build or venv executable)
+ * Check if command creates a Python virtual environment
+ * @param {string} command - The command to check
+ * @returns {boolean}
+ */
+function isVenvCreationCommand(command) {
+  if (!command || typeof command !== 'string') return false;
+  return VENV_CREATION_PATTERN.test(command.trim());
+}
+
+/**
+ * Check if command should be allowed (build, venv executable, or venv creation)
  * @param {string} command - The command to check
  * @returns {boolean}
  */
 function isAllowedCommand(command) {
-  return isBuildCommand(command) || isVenvExecutable(command);
+  return isBuildCommand(command) || isVenvExecutable(command) || isVenvCreationCommand(command);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -156,6 +173,7 @@ module.exports = {
   // Command checkers
   isBuildCommand,
   isVenvExecutable,
+  isVenvCreationCommand,
   isAllowedCommand,
 
   // Re-export scout-block modules for direct access
@@ -168,5 +186,6 @@ module.exports = {
   // Patterns (for testing)
   BUILD_COMMAND_PATTERN,
   TOOL_COMMAND_PATTERN,
-  VENV_EXECUTABLE_PATTERN
+  VENV_EXECUTABLE_PATTERN,
+  VENV_CREATION_PATTERN
 };

@@ -112,7 +112,7 @@ def categorize_skill(name: str, description: str, content: str) -> str:
         return 'database'
 
     # Development Tools
-    if any(x in lower_name for x in ['mcp', 'skill-creator', 'claude-code', 'repomix', 'docs-seeker']):
+    if any(x in lower_name for x in ['mcp', 'skill-creator', 'repomix', 'docs-seeker']):
         return 'dev-tools'
 
     # Multimedia

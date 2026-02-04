@@ -70,7 +70,8 @@
           "node $HOME/.claude/hooks/campaign-tracking.cjs",
           "node $HOME/.claude/hooks/approval-workflow.cjs",
           "node $HOME/.claude/hooks/write-compact-marker.cjs",
-          "node $HOME/.claude/hooks/session-end.cjs"
+          "node $HOME/.claude/hooks/session-end.cjs",
+          "node $HOME/.claude/hooks/descriptive-name.cjs"
         ],
         "mcpServers": []
       }

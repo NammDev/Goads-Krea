@@ -52,6 +52,11 @@ git diff --cached | grep -iE "(api[_-]?key|token|password|secret|credential)"
 **If secrets found:** STOP, warn user, suggest `.gitignore`.
 
 ### Step 3: Split Decision
+
+**NOTE:**
+- Search for related issues on GitHub and add to body.
+- Only use `feat`, `fix`, or `perf` prefixes for files in `.claude` directory (do not use `docs`).
+
 **Split commits if:**
 - Different types mixed (feat + fix, code + docs)
 - Multiple scopes (auth + payments)

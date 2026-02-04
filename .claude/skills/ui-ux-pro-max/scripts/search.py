@@ -10,6 +10,14 @@ Stacks: html-tailwind, react, nextjs
 """
 
 import argparse
+import sys
+
+# Fix Windows cp1252 encoding: CSV data contains Unicode chars (emojis)
+# that cp1252 can't encode. Reconfigure stdout to UTF-8 with replacement.
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 from core import CSV_CONFIG, AVAILABLE_STACKS, MAX_RESULTS, search, search_stack
 from design_system import generate_design_system
 

@@ -15,6 +15,12 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { isHookEnabled } = require('./lib/ck-config-utils.cjs');
+
+// Early exit if hook disabled in config
+if (!isHookEnabled('post-edit-simplify-reminder')) {
+  process.exit(0);
+}
 
 // Session tracking file
 const SESSION_TRACK_FILE = path.join(os.tmpdir(), 'ck-simplify-session.json');

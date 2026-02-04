@@ -9,7 +9,7 @@
  * - File paths: Blocks any file_path/path/pattern containing blocked directories
  * - Bash commands: Blocks directory access (cd, ls, cat, etc.) but ALLOWS build commands
  *   - Blocked: cd node_modules, ls packages/web/node_modules, cat dist/file.js
- *   - Allowed: npm build, pnpm build, yarn build, npm run build
+ *   - Allowed: npm build, go build, cargo build, make, mvn, gradle, docker build, kubectl, terraform
  *
  * Configuration:
  * - Edit .claude/.ckignore to customize blocked patterns (one per line, # for comments)
@@ -18,33 +18,30 @@
  * Exit Codes:
  * - 0: Command allowed
  * - 2: Command blocked
+ *
+ * Core logic extracted to lib/scout-checker.cjs for OpenCode plugin reuse.
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// Import modules
-const { loadPatterns, createMatcher, matchPath } = require('./scout-block/pattern-matcher.cjs');
-const { extractFromToolInput } = require('./scout-block/path-extractor.cjs');
-const { formatBlockedError } = require('./scout-block/error-formatter.cjs');
-const { detectBroadPatternIssue, formatBroadPatternError } = require('./scout-block/broad-pattern-detector.cjs');
+// Import shared scout checking logic
+const {
+  checkScoutBlock,
+  isBuildCommand,
+  isVenvExecutable,
+  isAllowedCommand
+} = require('./lib/scout-checker.cjs');
+const { isHookEnabled } = require('./lib/ck-config-utils.cjs');
 
-// Build command allowlist - these are allowed even if they contain blocked paths
-// Handles flags and filters: npm build, pnpm --filter web run build, yarn workspace app build
-const BUILD_COMMAND_PATTERN = /^(npm|pnpm|yarn|bun)\s+([^\s]+\s+)*(run\s+)?(build|test|lint|dev|start|install|ci|add|remove|update|publish|pack|init|create|exec)/;
-const TOOL_COMMAND_PATTERN = /^(npx|pnpx|bunx|tsc|esbuild|vite|webpack|rollup|turbo|nx|jest|vitest|mocha|eslint|prettier)/;
-
-/**
- * Check if a command is a build/tooling command (should be allowed)
- *
- * @param {string} command - The command to check
- * @returns {boolean}
- */
-function isBuildCommand(command) {
-  if (!command || typeof command !== 'string') return false;
-  const trimmed = command.trim();
-  return BUILD_COMMAND_PATTERN.test(trimmed) || TOOL_COMMAND_PATTERN.test(trimmed);
+// Early exit if hook disabled in config
+if (!isHookEnabled('scout-block')) {
+  process.exit(0);
 }
+
+// Import formatters (kept local as they're Claude-specific output)
+const { formatBlockedError } = require('./scout-block/error-formatter.cjs');
+const { formatBroadPatternError } = require('./scout-block/broad-pattern-detector.cjs');
 
 try {
   // Read stdin synchronously
@@ -75,52 +72,45 @@ try {
 
   const toolInput = data.tool_input;
   const toolName = data.tool_name || 'unknown';
+  const claudeDir = path.dirname(__dirname); // Go up from hooks/ to .claude/
 
-  // Check if it's a build command (allowed regardless of paths)
-  if (toolInput.command && isBuildCommand(toolInput.command)) {
+  // Use shared scout checker
+  const result = checkScoutBlock({
+    toolName,
+    toolInput,
+    options: {
+      claudeDir,
+      ckignorePath: path.join(claudeDir, '.ckignore'),
+      checkBroadPatterns: true
+    }
+  });
+
+  // Handle allowed commands
+  if (result.isAllowedCommand) {
     process.exit(0);
   }
 
-  // Check for overly broad glob patterns (Glob tool)
-  // This prevents LLMs from filling context with **/*.ts at project root
-  if (toolName === 'Glob' || toolInput.pattern) {
-    const broadResult = detectBroadPatternIssue(toolInput);
-    if (broadResult.blocked) {
-      const errorMsg = formatBroadPatternError(broadResult, path.dirname(__dirname));
-      console.error(errorMsg);
-      process.exit(2);
-    }
+  // Handle broad pattern blocks
+  if (result.blocked && result.isBroadPattern) {
+    const errorMsg = formatBroadPatternError({
+      blocked: true,
+      reason: result.reason,
+      suggestions: result.suggestions
+    }, claudeDir);
+    console.error(errorMsg);
+    process.exit(2);
   }
 
-  // Load patterns from .ckignore
-  const scriptDir = __dirname;
-  const claudeDir = path.dirname(scriptDir); // Go up from hooks/ to .claude/
-  const ckignorePath = path.join(claudeDir, '.ckignore');
-  const patterns = loadPatterns(ckignorePath);
-  const matcher = createMatcher(patterns);
-
-  // Extract paths from tool input
-  const extractedPaths = extractFromToolInput(toolInput);
-
-  // If no paths extracted, allow operation
-  if (extractedPaths.length === 0) {
-    process.exit(0);
-  }
-
-  // Check each path against patterns
-  for (const extractedPath of extractedPaths) {
-    const result = matchPath(matcher, extractedPath);
-    if (result.blocked) {
-      // Output rich error message
-      const errorMsg = formatBlockedError({
-        path: extractedPath,
-        pattern: result.pattern,
-        tool: toolName,
-        claudeDir: claudeDir
-      });
-      console.error(errorMsg);
-      process.exit(2);
-    }
+  // Handle pattern blocks
+  if (result.blocked) {
+    const errorMsg = formatBlockedError({
+      path: result.path,
+      pattern: result.pattern,
+      tool: toolName,
+      claudeDir: claudeDir
+    });
+    console.error(errorMsg);
+    process.exit(2);
   }
 
   // All paths allowed

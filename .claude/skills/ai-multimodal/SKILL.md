@@ -1,6 +1,6 @@
 ---
 name: ai-multimodal
-description: Process and generate multimedia content using Google Gemini API for better vision capabilities. Capabilities include analyze audio files (transcription with timestamps, summarization, speech understanding, music/sound analysis up to 9.5 hours), understand images (better image analysis than Claude models, captioning, reasoning, object detection, design extraction, OCR, visual Q&A, segmentation, handle multiple images), process videos (scene detection, Q&A, temporal analysis, YouTube URLs, up to 6 hours), extract from documents (PDF tables, forms, charts, diagrams, multi-page), generate images (text-to-image with Imagen 4, editing, composition, refinement), generate videos (text-to-video with Veo 3, 8-second clips with native audio). Use when working with audio/video files, analyzing images or screenshots (instead of default vision capabilities of Claude, only fallback to Claude's vision capabilities if needed), processing PDF documents, extracting structured data from media, creating images/videos from text prompts, or implementing multimodal AI features. Supports Gemini 3/2.5, Imagen 4, and Veo 3 models with context windows up to 2M tokens.
+description: Analyze images/audio/video with Gemini API (better vision than Claude). Generate images (Imagen 4), videos (Veo 3). Use for vision analysis, transcription, OCR, design extraction, multimodal AI.
 license: MIT
 allowed-tools:
   - Bash
@@ -20,11 +20,37 @@ export GEMINI_API_KEY="your-key"  # Get from https://aistudio.google.com/apikey
 pip install google-genai python-dotenv pillow
 ```
 
+### API Key Rotation (Optional)
+
+For high-volume usage or when hitting rate limits, configure multiple API keys:
+
+```bash
+# Primary key (required)
+export GEMINI_API_KEY="key1"
+
+# Additional keys for rotation (optional)
+export GEMINI_API_KEY_2="key2"
+export GEMINI_API_KEY_3="key3"
+```
+
+Or in your `.env` file:
+```
+GEMINI_API_KEY=key1
+GEMINI_API_KEY_2=key2
+GEMINI_API_KEY_3=key3
+```
+
+**Features:**
+- Auto-rotates on rate limit (429/RESOURCE_EXHAUSTED) errors
+- 60-second cooldown per key after rate limit
+- Logs rotation events with `--verbose` flag
+- Backward compatible: single key still works
+
 ## Quick Start
 
 **Verify setup**: `python scripts/check_setup.py`
 **Analyze media**: `python scripts/gemini_batch_process.py --files <file> --task <analyze|transcribe|extract>`
-  - TIP: When you're asked to analyze an image, check if `gemini` command is available, then use `"<prompt to analyze image>" | gemini -y -m gemini-2.5-flash` command. If `gemini` command is not available, use `python scripts/gemini_batch_process.py --files <file> --task analyze` command.
+  - TIP: When you're asked to analyze an image, check if `gemini` command is available, then use `echo "<prompt to analyze image>" | gemini -y -m <gemini.model>` command (read model from `.claude/.ck.json`: `gemini.model`). If `gemini` command is not available, use `python scripts/gemini_batch_process.py --files <file> --task analyze` command.
 **Generate content**: `python scripts/gemini_batch_process.py --task <generate|generate-video> --prompt "description"`
 
 > **Stdin support**: You can pipe files directly via stdin (auto-detects PNG/JPG/PDF/WAV/MP3).
@@ -37,18 +63,7 @@ pip install google-genai python-dotenv pillow
 - **Video generation**: `veo-3.1-generate-preview` (8s clips with audio)
 - **Analysis**: `gemini-2.5-flash` (recommended), `gemini-2.5-pro` (advanced)
 
-## Available Scripts
-
-> **IMPORTANT**: Only these 4 scripts exist. Do NOT invent or guess script names!
-
-| Script | Purpose | Example |
-|--------|---------|---------|
-| `gemini_batch_process.py` | Main CLI for all tasks | `--files <file> --task analyze` |
-| `media_optimizer.py` | Compress/resize media | `--input <file> --max-size 10M` |
-| `document_converter.py` | Convert docs to markdown | `--files <pdf>` |
-| `check_setup.py` | Verify setup | (no args needed) |
-
-### Script Details
+## Scripts
 
 - **`gemini_batch_process.py`**: CLI orchestrator for `transcribe|analyze|extract|generate|generate-video` that auto-resolves API keys, picks sensible default models per task, streams files inline vs File API, and saves structured outputs (text/JSON/CSV/markdown plus generated assets) for Imagen 4 + Veo workflows.
 - **`media_optimizer.py`**: ffmpeg/Pillow-based preflight tool that compresses/resizes/converts audio, image, and video inputs, enforces target sizes/bitrates, splits long clips into hour chunks, and batch-processes directories so media stays within Gemini limits.
@@ -63,6 +78,7 @@ Load for detailed guidance:
 
 | Topic | File | Description |
 |-------|------|-------------|
+| Music | `references/music-generation.md` | Lyria RealTime API for background music generation, style prompts, real-time control, integration with video production. |
 | Audio | `references/audio-processing.md` | Audio formats and limits, transcription (timestamps, speakers, segments), non-speech analysis, File API vs inline input, TTS models, best practices, cost and token math, and concrete meeting/podcast/interview recipes. |
 | Images | `references/vision-understanding.md` | Vision capabilities overview, supported formats and models, captioning/classification/VQA, detection and segmentation, OCR and document reading, multi-image workflows, structured JSON output, token costs, best practices, and common product/screenshot/chart/scene use cases. |
 | Image Gen | `references/image-generation.md` | Imagen 4 and Gemini image model overview, generate_images vs generate_content APIs, aspect ratios and costs, text/image/both modalities, editing and composition, style and quality control, safety settings, best practices, troubleshooting, and common marketing/concept-art/UI scenarios. |

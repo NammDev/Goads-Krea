@@ -11,10 +11,11 @@
  *   list                        List existing worktrees
  *
  * Options:
- *   --prefix <type>    Branch prefix (feat|fix|refactor|docs|test|chore|perf)
- *   --json             Output in JSON format for LLM consumption
- *   --env <files>      Comma-separated list of .env files to copy
- *   --dry-run          Show what would be done without executing
+ *   --prefix <type>        Branch prefix (feat|fix|refactor|docs|test|chore|perf)
+ *   --worktree-root <path> Explicit worktree directory (Claude's decision)
+ *   --json                 Output in JSON format for LLM consumption
+ *   --env <files>          Comma-separated list of .env files to copy (legacy)
+ *   --dry-run              Show what would be done without executing
  */
 
 const { execSync, spawnSync } = require('child_process');
@@ -53,6 +54,14 @@ const dryRunIndex = args.indexOf('--dry-run');
 const dryRun = dryRunIndex > -1;
 if (dryRunIndex > -1) args.splice(dryRunIndex, 1);
 
+// --worktree-root: explicit override for worktree location (Claude's decision)
+const worktreeRootIndex = args.indexOf('--worktree-root');
+let explicitWorktreeRoot = null;
+if (worktreeRootIndex > -1) {
+  explicitWorktreeRoot = args[worktreeRootIndex + 1];
+  args.splice(worktreeRootIndex, 2);
+}
+
 const command = args[0];
 // For create: args[1] is project (or feature for standalone), args[2] is feature
 // For remove: args[1] is worktree name or path
@@ -75,7 +84,10 @@ function output(data) {
         console.log(`   git worktree remove ${data.worktreePath}`);
         console.log(`   git branch -d ${data.branch}`);
       }
-      if (data.envFilesCopied && data.envFilesCopied.length > 0) {
+      if (data.envTemplatesCopied && data.envTemplatesCopied.length > 0) {
+        console.log(`\n📄 Environment templates copied:`);
+        data.envTemplatesCopied.forEach(t => console.log(`   ✓ ${t.from} → ${t.to}`));
+      } else if (data.envFilesCopied && data.envFilesCopied.length > 0) {
         console.log(`\n📄 Environment files copied:`);
         data.envFilesCopied.forEach(f => console.log(`   ✓ ${f}`));
       }
@@ -88,6 +100,11 @@ function output(data) {
       console.log(`\n📦 Repository Info:`);
       console.log(`   Type: ${data.repoType}`);
       console.log(`   Base branch: ${data.baseBranch}`);
+      if (data.worktreeRoot) {
+        console.log(`\n📂 Worktree location:`);
+        console.log(`   Path: ${data.worktreeRoot}`);
+        console.log(`   Source: ${data.worktreeRootSource}`);
+      }
       if (data.projects && data.projects.length > 0) {
         console.log(`\n📁 Available projects:`);
         data.projects.forEach(p => console.log(`   - ${p.name} (${p.path})`));
@@ -175,6 +192,98 @@ function detectBaseBranch(cwd) {
   return 'main'; // fallback
 }
 
+// Find the topmost superproject by walking up the directory tree
+// This handles submodules within monorepos - worktrees go to the root monorepo
+// Safety limit prevents infinite loops in edge cases (max 10 levels deep)
+const MAX_SUPERPROJECT_DEPTH = 10;
+
+function findTopmostSuperproject(gitRoot) {
+  let current = gitRoot;
+  let topmost = gitRoot;
+  let depth = 0;
+
+  // Keep walking up while we find superprojects (with safety limit)
+  while (depth < MAX_SUPERPROJECT_DEPTH) {
+    const result = git('rev-parse --show-superproject-working-tree', { silent: true, cwd: current });
+    if (!result.success || !result.output) {
+      break; // No more superprojects above
+    }
+    topmost = result.output;
+    current = result.output;
+    depth++;
+  }
+
+  return topmost;
+}
+
+// Validate that a path can be used as worktree root (exists or can be created)
+function validateWorktreeRoot(rootPath) {
+  const resolved = path.resolve(rootPath);
+
+  // Check if path exists and is a directory
+  if (fs.existsSync(resolved)) {
+    const stat = fs.statSync(resolved);
+    if (!stat.isDirectory()) {
+      return { valid: false, error: `Path exists but is not a directory: ${resolved}` };
+    }
+    return { valid: true, path: resolved };
+  }
+
+  // Check if parent directory exists (we can create the worktree dir)
+  const parent = path.dirname(resolved);
+  if (fs.existsSync(parent)) {
+    const parentStat = fs.statSync(parent);
+    if (!parentStat.isDirectory()) {
+      return { valid: false, error: `Parent path is not a directory: ${parent}` };
+    }
+    return { valid: true, path: resolved };
+  }
+
+  // Parent doesn't exist - check if grandparent exists (allows mkdir -p one level)
+  const grandparent = path.dirname(parent);
+  if (fs.existsSync(grandparent)) {
+    return { valid: true, path: resolved };
+  }
+
+  return { valid: false, error: `Cannot create worktree directory: parent path does not exist: ${parent}` };
+}
+
+// Determine the worktree root directory with priority:
+// 1. WORKTREE_ROOT env var (explicit override)
+// 2. Topmost superproject's worktrees/ (for submodules)
+// 3. Sibling worktrees/ (monorepo and standalone repos)
+function getWorktreeRoot(gitRoot, isMonorepo, explicitRoot = null) {
+  // Priority 0: Explicit --worktree-root flag (Claude's decision)
+  if (explicitRoot) {
+    const validation = validateWorktreeRoot(explicitRoot);
+    if (!validation.valid) {
+      outputError('INVALID_WORKTREE_ROOT', validation.error, {
+        suggestion: 'Provide a valid directory path that exists or can be created'
+      });
+    }
+    return { dir: validation.path, source: '--worktree-root flag' };
+  }
+
+  // Priority 1: Environment variable override
+  const envRoot = process.env.WORKTREE_ROOT;
+  if (envRoot) {
+    return { dir: path.resolve(envRoot), source: 'WORKTREE_ROOT env' };
+  }
+
+  // Priority 2: Check for superproject (we might be in a submodule)
+  const topmostRoot = findTopmostSuperproject(gitRoot);
+  if (topmostRoot !== gitRoot) {
+    return {
+      dir: path.join(topmostRoot, 'worktrees'),
+      source: `superproject (${path.basename(topmostRoot)})`
+    };
+  }
+
+  // Priority 3: Monorepo and standalone repos - use sibling worktrees/
+  // Worktrees should never be placed inside the repo (pollutes git status, non-standard)
+  return { dir: path.join(path.dirname(gitRoot), 'worktrees'), source: 'sibling directory' };
+}
+
 // Check for uncommitted changes
 function checkDirtyState() {
   const diff = git('diff --quiet', { silent: true });
@@ -227,6 +336,43 @@ function findEnvFiles(dir) {
   }
 }
 
+// Find .env template files (*.example)
+function findEnvTemplates(dir) {
+  try {
+    const files = fs.readdirSync(dir);
+    return files.filter(f => {
+      if (!f.startsWith('.env') || !f.endsWith('.example')) return false;
+      const fullPath = path.join(dir, f);
+      const stat = fs.statSync(fullPath);
+      return stat.isFile() && !stat.isSymbolicLink();
+    });
+  } catch {
+    return [];
+  }
+}
+
+// Copy env templates to worktree (strips .example suffix)
+function copyEnvTemplates(srcDir, destDir) {
+  const templates = findEnvTemplates(srcDir);
+  const copied = [];
+  const warnings = [];
+
+  templates.forEach(template => {
+    const srcPath = path.join(srcDir, template);
+    const destName = template.replace(/\.example$/, '');
+    const destPath = path.join(destDir, destName);
+
+    try {
+      fs.copyFileSync(srcPath, destPath);
+      copied.push({ from: template, to: destName });
+    } catch (err) {
+      warnings.push(`Failed to copy ${template}: ${err.message}`);
+    }
+  });
+
+  return { copied, warnings };
+}
+
 // Find matching projects
 function findMatchingProjects(projects, query) {
   const queryLower = query.toLowerCase();
@@ -275,6 +421,9 @@ function cmdInfo() {
   const dirtyDetails = dirtyState ? getDirtyStateDetails() : null;
   const envFiles = findEnvFiles(gitRoot);
 
+  // Get worktree root info (shows where worktrees will be created)
+  const worktreeRoot = getWorktreeRoot(gitRoot, isMonorepo);
+
   // For monorepo, also check each project for env files
   const projectEnvFiles = {};
   if (isMonorepo) {
@@ -294,6 +443,8 @@ function cmdInfo() {
     repoType: isMonorepo ? 'monorepo' : 'standalone',
     gitRoot,
     baseBranch,
+    worktreeRoot: worktreeRoot.dir,
+    worktreeRootSource: worktreeRoot.source,
     projects: isMonorepo ? projects : [],
     envFiles,
     projectEnvFiles: isMonorepo ? projectEnvFiles : {},
@@ -419,16 +570,16 @@ function cmdCreate() {
     });
   }
 
-  // Determine worktree path
-  let worktreesDir, worktreeName;
-  if (isMonorepo) {
-    worktreesDir = path.join(gitRoot, 'worktrees');
-    worktreeName = `${projectName}-${sanitizedFeature}`;
-  } else {
-    const repoName = path.basename(gitRoot);
-    worktreesDir = path.join(path.dirname(gitRoot), 'worktrees');
-    worktreeName = `${repoName}-${sanitizedFeature}`;
-  }
+  // Determine worktree path using smart root detection
+  // explicitWorktreeRoot comes from --worktree-root flag (Claude's decision)
+  const worktreeRoot = getWorktreeRoot(gitRoot, isMonorepo, explicitWorktreeRoot);
+  const worktreesDir = worktreeRoot.dir;
+
+  // Build worktree name: always include repo name for clarity
+  const repoName = path.basename(gitRoot);
+  const worktreeName = isMonorepo
+    ? `${projectName}-${sanitizedFeature}`
+    : `${repoName}-${sanitizedFeature}`;
 
   const worktreePath = path.join(worktreesDir, worktreeName);
 
@@ -450,6 +601,7 @@ function cmdCreate() {
       message: 'Dry run - no changes made',
       wouldCreate: {
         worktreePath,
+        worktreeRootSource: worktreeRoot.source,
         branch: branchName,
         baseBranch,
         branchExists: !!branchStatus,
@@ -495,17 +647,23 @@ function cmdCreate() {
     });
   }
 
-  // Copy env files if specified
-  const envFilesCopied = [];
+  // Auto-copy env templates (.env*.example → .env*)
+  const sourceDir = isMonorepo ? workDir : gitRoot;
+  const envResult = copyEnvTemplates(sourceDir, worktreePath);
+  envResult.warnings.forEach(w => warnings.push(w));
+
+  // Also copy explicitly specified env files (legacy --env flag support)
+  const envFilesCopied = envResult.copied.map(c => c.to);
   if (envFilesToCopy.length > 0) {
-    const sourceDir = isMonorepo ? workDir : gitRoot;
     envFilesToCopy.forEach(envFile => {
       const sourcePath = path.join(sourceDir, envFile);
       const destPath = path.join(worktreePath, envFile);
       if (fs.existsSync(sourcePath)) {
         try {
           fs.copyFileSync(sourcePath, destPath);
-          envFilesCopied.push(envFile);
+          if (!envFilesCopied.includes(envFile)) {
+            envFilesCopied.push(envFile);
+          }
         } catch (err) {
           warnings.push(`Failed to copy ${envFile}: ${err.message}`);
         }
@@ -519,10 +677,12 @@ function cmdCreate() {
     success: true,
     message: 'Worktree created successfully!',
     worktreePath,
+    worktreeRootSource: worktreeRoot.source,
     branch: branchName,
     baseBranch,
     project: isMonorepo ? projectName : null,
     envFilesCopied,
+    envTemplatesCopied: envResult.copied,
     warnings: warnings.length > 0 ? warnings : undefined
   });
 }

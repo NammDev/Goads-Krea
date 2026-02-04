@@ -1,7 +1,23 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { AppPreview } from "./app-preview";
 import { ArrowRight, Tag } from "lucide-react";
+import dynamic from "next/dynamic";
+
+// Dynamic import for Remotion Player (client-side only)
+const HeroVideoPlayer = dynamic(
+  () => import("./HeroVideoPlayer").then((mod) => mod.HeroVideoPlayer),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="w-full max-w-[1200px] aspect-video rounded-3xl bg-gradient-to-br from-orange-50 to-white animate-pulse"
+        style={{ boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)" }}
+      />
+    ),
+  }
+);
 
 export function HeroSection() {
   return (
@@ -86,11 +102,22 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* App Preview - zoom in animation */}
-          <div className="animate-zoom-in" style={{ animationDelay: "500ms" }}>
-            <AppPreview />
+          {/* Hero Video Player - Remotion animated video */}
+          <div
+            className="animate-zoom-in flex flex-col items-center"
+            style={{ animationDelay: "500ms" }}
+          >
+            <HeroVideoPlayer />
+
+            {/* Video Caption */}
+            <p className="mt-6 text-sm text-primary-500">
+              Professional Meta assets with 7-day warranty and 24/7 support.
+            </p>
           </div>
         </div>
+
+        {/* Bottom Spacer */}
+        <div className="h-24 sm:h-16 lg:h-24" />
       </section>
     </>
   );

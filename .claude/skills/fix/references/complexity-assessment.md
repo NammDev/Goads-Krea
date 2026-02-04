@@ -49,6 +49,9 @@ Classify issue complexity before routing to workflow.
 
 ### Parallel (→ multiple fullstack-developer agents)
 
+**Triggers:**
+- `--parallel` flag explicitly passed (activate parallel routing regardless of auto-classification)
+
 **Indicators:**
 - 2+ independent issues mentioned
 - Issues in different areas (frontend + backend, auth + payments)

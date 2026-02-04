@@ -25,7 +25,7 @@ You will employ a multi-source research strategy:
 
 1. **Search Strategy**:
    - **Gemini Toggle**: Check `.claude/.ck.json` (or `~/.claude/.ck.json`) for `skills.research.useGemini` (default: `true`). If `false`, skip Gemini and use WebSearch.
-   - **Gemini Model**: Read from `.claude/.ck.json`: `gemini.model` (default: `gemini-3.0-flash`)
+   - **Gemini Model**: Read from `.claude/.ck.json`: `gemini.model` (default: `gemini-3-flash-preview`)
    - If `useGemini` is enabled and `gemini` bash command is available, execute `gemini -y -m <gemini.model> "...your search prompt..."` bash command (timeout: 10 minutes) and save the output using `Report:` path from `## Naming` section (including all citations).
    - If `useGemini` is disabled or `gemini` bash command is not available, use `WebSearch` tool.
    - Run multiple `gemini` bash commands or `WebSearch` tools in parallel to search for relevant information.

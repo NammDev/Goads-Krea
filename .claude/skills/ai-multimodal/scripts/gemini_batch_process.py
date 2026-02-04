@@ -23,17 +23,9 @@ from typing import List, Dict, Any, Optional
 import csv
 import shutil
 
-# Import centralized utilities (environment resolver + Windows compatibility)
-sys.path.insert(0, str(Path.home() / '.claude' / 'scripts'))
-try:
-    from win_compat import ensure_utf8_stdout
-    ensure_utf8_stdout()
-except ImportError:
-    if sys.platform == 'win32':
-        import io
-        if hasattr(sys.stdout, 'buffer'):
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-
+# Import centralized environment resolver (works for both local and global installs)
+CLAUDE_ROOT = Path(__file__).parent.parent.parent.parent
+sys.path.insert(0, str(CLAUDE_ROOT / 'scripts'))
 try:
     from resolve_env import resolve_env
     CENTRALIZED_RESOLVER_AVAILABLE = True
@@ -44,6 +36,18 @@ except ImportError:
         from dotenv import load_dotenv
     except ImportError:
         load_dotenv = None
+
+# Import key rotation support
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'common'))
+try:
+    from api_key_rotator import KeyRotator, is_rate_limit_error
+    from api_key_helper import find_all_api_keys
+    KEY_ROTATION_AVAILABLE = True
+except ImportError:
+    KEY_ROTATION_AVAILABLE = False
+    KeyRotator = None
+    is_rate_limit_error = None
+    find_all_api_keys = None
 
 try:
     from google import genai
@@ -669,11 +673,19 @@ def process_file(
                     'error': str(e)
                 }
 
+            # Check if this is a rate limit error (candidate for key rotation)
+            is_rate_limited = (
+                KEY_ROTATION_AVAILABLE and
+                is_rate_limit_error and
+                is_rate_limit_error(e)
+            )
+
             if attempt == max_retries - 1:
                 return {
                     'file': str(file_path) if file_path else 'generated',
                     'status': 'error',
-                    'error': str(e)
+                    'error': str(e),
+                    'rate_limited': is_rate_limited  # Flag for caller to handle rotation
                 }
 
             wait_time = 2 ** attempt
@@ -697,8 +709,29 @@ def batch_process(
     verbose: bool = False,
     dry_run: bool = False
 ) -> List[Dict[str, Any]]:
-    """Batch process multiple files."""
-    api_key = find_api_key()
+    """Batch process multiple files with automatic key rotation."""
+
+    # Initialize key rotator or fall back to single key
+    rotator = None
+    api_key = None
+
+    if KEY_ROTATION_AVAILABLE and find_all_api_keys:
+        all_keys = find_all_api_keys()
+        if all_keys:
+            if len(all_keys) > 1:
+                rotator = KeyRotator(keys=all_keys, verbose=verbose)
+                api_key = rotator.get_key()
+                if verbose:
+                    print(f"✓ Key rotation enabled with {len(all_keys)} keys", file=sys.stderr)
+            else:
+                api_key = all_keys[0]
+                if verbose:
+                    print(f"✓ Using single API key: {api_key[:8]}...", file=sys.stderr)
+
+    # Fallback to original single-key lookup
+    if not api_key:
+        api_key = find_api_key()
+
     if not api_key:
         print("Error: GEMINI_API_KEY not found")
         print("\nSetup options:")
@@ -706,6 +739,10 @@ def batch_process(
         print("2. Show hierarchy: python ~/.claude/scripts/resolve_env.py --show-hierarchy --skill ai-multimodal")
         print("3. Quick setup: export GEMINI_API_KEY='your-key'")
         print("4. Create .env: cd ~/.claude/skills/ai-multimodal && cp .env.example .env")
+        print("\nFor key rotation, add multiple keys:")
+        print("   GEMINI_API_KEY=key1")
+        print("   GEMINI_API_KEY_2=key2")
+        print("   GEMINI_API_KEY_3=key3")
         sys.exit(1)
 
     if dry_run:
@@ -714,10 +751,29 @@ def batch_process(
         print(f"Model: {model}")
         print(f"Task: {task}")
         print(f"Prompt: {prompt}")
+        if rotator:
+            print(f"API keys available: {rotator.key_count}")
         return []
 
+    # Create client with current key
     client = genai.Client(api_key=api_key)
     results = []
+
+    def get_client_with_rotation(error: Optional[Exception] = None) -> Optional[genai.Client]:
+        """Get client, rotating key if rate limited."""
+        nonlocal client, api_key
+
+        if error and rotator and is_rate_limit_error and is_rate_limit_error(error):
+            # Try to rotate to next key
+            if rotator.mark_rate_limited(str(error)):
+                new_key = rotator.get_key()
+                if new_key:
+                    api_key = new_key
+                    client = genai.Client(api_key=api_key)
+                    return client
+            # All keys exhausted
+            return None
+        return client
 
     # For generation tasks without input files, process once
     if task == 'generate' and not files:
@@ -812,22 +868,43 @@ def batch_process(
             status = result.get('status', 'unknown')
             print(f"  Status: {status}")
     else:
-        # Process input files
+        # Process input files with key rotation support
         for i, file_path in enumerate(files, 1):
             if verbose:
                 print(f"\n[{i}/{len(files)}] Processing: {file_path}")
 
-            result = process_file(
-                client=client,
-                file_path=file_path,
-                prompt=prompt,
-                model=model,
-                task=task,
-                format_output=format_output,
-                aspect_ratio=aspect_ratio,
-                image_size=size,
-                verbose=verbose
-            )
+            # Try processing with key rotation on rate limit
+            max_rotation_attempts = rotator.key_count if rotator else 1
+            result = None
+
+            for rotation_attempt in range(max_rotation_attempts):
+                result = process_file(
+                    client=client,
+                    file_path=file_path,
+                    prompt=prompt,
+                    model=model,
+                    task=task,
+                    format_output=format_output,
+                    aspect_ratio=aspect_ratio,
+                    image_size=size,
+                    verbose=verbose
+                )
+
+                # Check if rate limited and can rotate
+                if (result.get('rate_limited') and rotator and
+                    rotation_attempt < max_rotation_attempts - 1):
+                    new_client = get_client_with_rotation(Exception(result.get('error', '')))
+                    if new_client:
+                        client = new_client
+                        if verbose:
+                            print(f"  Retrying with rotated key...")
+                        continue
+                    else:
+                        # All keys exhausted - mark result with clear error
+                        if verbose:
+                            print(f"  ⚠ All API keys exhausted (on cooldown)", file=sys.stderr)
+                        result['error'] = "All API keys exhausted (rate limited). Try again later."
+                break
 
             results.append(result)
 

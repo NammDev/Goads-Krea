@@ -50,7 +50,7 @@ After plan creation, offer validation interview to confirm decisions before impl
 **IMPORTANT:** If user skips validation (chooses "No" or mode is `off`), you MUST remind them:
 
 > **Best Practice:** Run `/clear` before implementing to start with fresh context.
-> Then run `/code {plan-path}` to begin implementation.
+> Then run `/cook {plan-path}` to begin implementation.
 
 This reminder is **NON-NEGOTIABLE** when validation is skipped.
 

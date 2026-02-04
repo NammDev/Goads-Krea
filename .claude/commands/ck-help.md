@@ -124,6 +124,6 @@ Never replace or summarize the script output. Always show it fully, then enhance
 
 ## Important: Correct Workflows
 
-- **`/plan` → `/code`**: Plan first, then execute the plan
+- **`/plan` → `/cook`**: Plan first, then execute the plan
 - **`/cook`**: Standalone - plans internally, no separate `/plan` needed
 - **NEVER** suggest `/plan` → `/cook` (cook has its own planning)

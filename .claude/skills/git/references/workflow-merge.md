@@ -7,6 +7,9 @@ Execute via `git-manager` subagent.
 - FROM_BRANCH: source (defaults to current branch)
 
 ## Step 1: Sync with Remote
+
+**IMPORTANT: Always merge `main` (or any default branch) to current branch first.**
+
 ```bash
 git fetch origin
 git checkout {TO_BRANCH}

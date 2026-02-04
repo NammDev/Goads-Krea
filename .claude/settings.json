@@ -86,6 +86,16 @@
             "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/privacy-block.cjs"
           }
         ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/descriptive-name.cjs",
+            "_origin": "marketing"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -109,8 +119,6 @@
           }
         ]
       }
-    ],
-    "PreCompact": [],
-    "SessionEnd": []
+    ]
   }
 }

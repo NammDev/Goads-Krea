@@ -1,12 +1,10 @@
 # Discord Notification Hook Setup
 
-## Quick Start (Unified System - Recommended)
+Get Discord notifications when Claude Code sessions complete.
 
-The new unified notification system fixes field name issues and routes to all providers.
+## Quick Start
 
-**Bug Fix:** The original bash script used incorrect field names (hookType, projectDir, sessionId). The new Node.js provider correctly uses snake_case fields (hook_event_name, cwd, session_id) matching Claude Code's hook input format.
-
-### 1. Set Environment Variables
+### 1. Set Environment Variable
 
 Add to `~/.claude/.env` (global) or `.claude/.env` (project):
 
@@ -14,9 +12,27 @@ Add to `~/.claude/.env` (global) or `.claude/.env` (project):
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxx/yyy
 ```
 
-### 2. Enable in settings.json
+### 2. Add Hook to settings.json
 
-Hooks are already configured in `.claude/settings.json`.
+Add to your `.claude/settings.json` (project) or `~/.claude/settings.json` (global):
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/notifications/notify.cjs"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ### 3. Test
 
@@ -27,9 +43,9 @@ echo '{"hook_event_name":"Stop","cwd":"'"$(pwd)"'","session_id":"test123"}' | \
 
 ---
 
-## Legacy Bash Script Setup
+## Legacy Bash Scripts (Deprecated)
 
-The original scripts are still available for backward compatibility.
+The original bash scripts (`discord_notify.sh`, `telegram_notify.sh`) are **deprecated** due to jq PATH issues in Claude Code's subprocess environment. Use `notify.cjs` instead.
 
 ---
 
@@ -147,7 +163,7 @@ Send a notification with a custom message:
 
 ### Automated Usage (Claude Code Workflow)
 
-Claude automatically calls this script when completing implementations. This is configured in `.claude/workflows/development-rules.md`:
+Claude automatically calls this script when completing implementations. This is configured in `.claude/rules/development-rules.md`:
 
 ```markdown
 - When you finish the implementation, send a full summary report to Discord channel

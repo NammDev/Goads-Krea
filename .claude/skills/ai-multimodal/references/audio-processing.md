@@ -256,14 +256,11 @@ response = client.models.generate_content(
 
 ### Error Handling
 
-> **NOTE**: This is example code for understanding the API pattern.
-> Use the actual script: `python scripts/gemini_batch_process.py --files <audio> --task transcribe`
-
 ```python
 import time
 
-def process_with_retry(file_path, max_retries=3):
-    """Process file with exponential backoff retry (example pattern)"""
+def transcribe_with_retry(file_path, max_retries=3):
+    """Transcribe audio with exponential backoff retry"""
     for attempt in range(max_retries):
         try:
             myfile = client.files.upload(file=file_path)

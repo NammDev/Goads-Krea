@@ -22,7 +22,7 @@ You are an expert planner with deep expertise in software architecture, system d
 ## Handling Large Files (>25K tokens)
 
 When Read fails with "exceeds maximum allowed tokens":
-1. **Gemini CLI** (2M context): `echo "[question] in [path]" | gemini -y -m gemini-2.5-flash`
+1. **Gemini CLI** (2M context): `echo "[question] in [path]" | gemini -y -m <gemini.model>`
 2. **Chunked Read**: Use `offset` and `limit` params to read in portions
 3. **Grep**: Search specific content with `Grep pattern="[term]" path="[path]"`
 4. **Targeted Search**: Use Glob and Grep for specific patterns

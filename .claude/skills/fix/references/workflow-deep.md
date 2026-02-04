@@ -5,7 +5,7 @@ Full pipeline with research, brainstorming, and planning for complex issues.
 ## Steps
 
 ### Step 1: Debug & Parallel Investigation
-Activate `debugging` skill. Launch 2-3 `Explore` subagents in parallel:
+Activate `debug` skill. Launch 2-3 `Explore` subagents in parallel:
 ```
 Task("Explore", "Find error origin", "Trace error")
 Task("Explore", "Find affected components", "Map deps")
@@ -25,7 +25,7 @@ Use `researcher` subagent for external knowledge.
 **Output:** `✓ Step 2: Research complete - [key findings]`
 
 ### Step 3: Brainstorm
-Activate `brainstorming` skill.
+Activate `brainstorm` skill.
 
 - Evaluate multiple approaches
 - Consider trade-offs
@@ -77,9 +77,9 @@ See `references/review-cycle.md` for mode-specific handling.
 
 | Step | Skills/Subagents |
 |------|------------------|
-| 1 | `debugging`, parallel `Explore` subagents for investigation |
+| 1 | `debug`, parallel `Explore` subagents for investigation |
 | 2 | `researcher` |
-| 3 | `brainstorming` |
+| 3 | `brainstorm` |
 | 4 | `planner` |
 | 5 | `problem-solving`, `sequential-thinking`, `context-engineering`, parallel `Bash` |
 | 6 | `tester` |

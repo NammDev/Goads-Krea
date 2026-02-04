@@ -1,75 +1,71 @@
-# Extract Design Guidelines
+# Extract Design Guidelines from Existing Assets
 
-Two extraction methods based on input type:
-- **Live URLs** → `dembrandt` CLI (automated token extraction)
-- **Screenshots/Images** → ai-multimodal skill (visual analysis)
+Reverse-engineer design principles from existing images or videos to establish design guidelines.
 
-## Method 1: URL Extraction (Dembrandt)
+## Purpose
 
-Use for live websites and competitor analysis. Extracts colors, typography, spacing, borders, shadows, components automatically.
-
-```bash
-# Basic extraction
-npx dembrandt example.com --save-output
-
-# W3C Design Tokens format
-npx dembrandt example.com --dtcg --save-output
-
-# Dark mode variant
-npx dembrandt example.com --dark-mode --save-output
-
-# Mobile viewport
-npx dembrandt example.com --mobile --save-output
-```
-
-Output: `output/<domain>/TIMESTAMP.json` with design tokens.
-
-See `dembrandt-usage.md` for full CLI options and troubleshooting.
-
-## Method 2: Screenshot/Image Analysis
-
-Use for static images, design mockups, gallery inspiration (Dribbble, Awwwards, Mobbin).
-
-```bash
-python scripts/gemini_batch_process.py \
-  --files docs/inspiration/reference.png \
-  --task analyze \
-  --prompt "[see extraction-prompts.md]" \
-  --output docs/design-guidelines/extracted-design.md \
-  --model gemini-2.5-flash
-```
-
-### Multi-Screen / Video Analysis
-```bash
-# Multiple screens
-python scripts/gemini_batch_process.py \
-  --files home.png about.png contact.png \
-  --prompt "[see extraction-prompts.md]" \
-  --output docs/design-guidelines/complete-system.md
-
-# Motion/interaction video
-python scripts/gemini_batch_process.py \
-  --files interaction-demo.mp4 \
-  --prompt "[see extraction-prompts.md for motion]" \
-  --output docs/design-guidelines/motion-system.md
-```
+- Analyze competitor designs to understand their approach
+- Extract design systems from inspiration screenshots
+- Learn from high-quality design examples
+- Create documented guidelines based on visual analysis
+- Establish consistent aesthetic direction from references
 
 ## Use Cases
 
-| Input Type | Method | Best For |
-|------------|--------|----------|
-| Live URL | dembrandt | Competitor analysis, brand audits |
-| Screenshot | ai-multimodal | Dribbble/Awwwards inspiration |
-| Video | ai-multimodal | Motion/animation extraction |
-| Design file | ai-multimodal | Figma exports, mockups |
+- Analyzing competitor websites or apps
+- Learning from inspiration galleries (Dribbble, Awwwards, Mobbin)
+- Extracting design systems from brand materials
+- Reverse-engineering successful interfaces
+- Creating design documentation from visual references
 
-## References
+## Quick Workflows
 
-- `dembrandt-usage.md` - Full dembrandt CLI documentation
-- `extraction-prompts.md` - AI analysis prompt templates
-- `extraction-best-practices.md` - Capture quality tips
+### Single Image Analysis
+```bash
+python scripts/gemini_batch_process.py \
+  --files docs/inspiration/reference-design.png \
+  --task analyze \
+  --prompt "[see extraction-prompts.md for detailed prompt]" \
+  --output docs/design-guidelines/extracted-design-system.md \
+  --model gemini-2.5-flash
+```
+
+### Multi-Screen System Extraction
+```bash
+python scripts/gemini_batch_process.py \
+  --files docs/inspiration/home.png docs/inspiration/about.png \
+  --task analyze \
+  --prompt "[see extraction-prompts.md for multi-screen prompt]" \
+  --output docs/design-guidelines/complete-design-system.md \
+  --model gemini-2.5-flash
+```
+
+### Video Motion Analysis
+```bash
+python scripts/gemini_batch_process.py \
+  --files docs/inspiration/interaction-demo.mp4 \
+  --task analyze \
+  --prompt "[see extraction-prompts.md for motion prompt]" \
+  --output docs/design-guidelines/motion-system.md \
+  --model gemini-2.5-flash
+```
+
+### Competitive Analysis
+```bash
+python scripts/gemini_batch_process.py \
+  --files competitor-a.png competitor-b.png competitor-c.png \
+  --task analyze \
+  --prompt "[see extraction-prompts.md for competitive prompt]" \
+  --output docs/design-guidelines/competitive-analysis.md \
+  --model gemini-2.5-flash
+```
+
+## Detailed References
+
+- `extraction-prompts.md` - All extraction prompt templates
+- `extraction-best-practices.md` - Capture quality, analysis tips
 - `extraction-output-templates.md` - Documentation formats
 
 ## Integration
 
-After extraction, use with `asset-generation.md` for design-aligned visual assets.
+After extraction, use guidelines with `asset-generation.md` for generating design-aligned visual assets.

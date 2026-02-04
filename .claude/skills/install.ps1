@@ -12,7 +12,9 @@ param(
     [switch]$Y = $false,           # Skip all prompts and auto-confirm
     [switch]$WithAdmin = $false,   # Use admin-requiring package managers (choco)
     [switch]$Resume = $false,      # Resume from previous interrupted installation
-    [switch]$RetryFailed = $false  # Retry previously failed packages
+    [switch]$RetryFailed = $false, # Retry previously failed packages
+    [ValidateSet("auto", "winget", "scoop", "choco")]
+    [string]$PreferPackageManager = "auto"  # Preferred package manager (soft fallback to auto if unavailable)
 )
 
 # Configuration
@@ -81,6 +83,15 @@ function Track-Skipped {
 function Initialize-State {
     if ($Resume -and (Test-Path $StateFile)) {
         Write-Info "Resuming from previous installation..."
+        # Load state and validate preference consistency
+        $state = Get-Content $StateFile -Raw | ConvertFrom-Json
+        if ($state.PSObject.Properties['prefer_package_manager']) {
+            if ($state.prefer_package_manager -ne $Script:PreferPackageManager) {
+                Write-Warning "Preference changed from '$($state.prefer_package_manager)' to '$($Script:PreferPackageManager)'"
+                Write-Warning "Using original preference: $($state.prefer_package_manager)"
+                $Script:PreferPackageManager = $state.prefer_package_manager
+            }
+        }
         return
     }
 
@@ -89,6 +100,7 @@ function Initialize-State {
         version = 1
         started_at = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
         last_updated = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+        prefer_package_manager = $Script:PreferPackageManager
         phases = @{
             chocolatey = "pending"
             system_deps = "pending"
@@ -173,17 +185,34 @@ function Test-Administrator {
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-# Check if command exists
+# Check if command exists and is functional (not just in PATH)
+# Validates: command exists, is not a broken alias, and responds to --version
 function Test-Command {
     param([string]$Command)
     try {
-        if (Get-Command $Command -ErrorAction SilentlyContinue) {
-            return $true
+        $cmd = Get-Command $Command -ErrorAction SilentlyContinue
+        if (-not $cmd) {
+            return $false
         }
+
+        # Skip aliases that don't resolve to applications
+        if ($cmd.CommandType -eq 'Alias') {
+            $resolved = Get-Command $cmd.Definition -ErrorAction SilentlyContinue
+            if (-not $resolved -or $resolved.CommandType -ne 'Application') {
+                return $false
+            }
+        }
+
+        # For package managers, verify they actually respond
+        if ($Command -in @('winget', 'scoop', 'choco')) {
+            $null = & $Command --version 2>$null
+            return ($LASTEXITCODE -eq 0)
+        }
+
+        return $true
     } catch {
         return $false
     }
-    return $false
 }
 
 # Check if Visual Studio Build Tools are installed (not just in PATH)
@@ -316,8 +345,32 @@ function Find-Python {
     return $null
 }
 
-# Get available package manager (priority: winget > scoop > choco)
+# Get available package manager with preference support (soft fallback to auto-detection)
+# Priority for auto: winget > scoop > choco
 function Get-PackageManager {
+    param([string]$Preference = "auto")
+
+    # If preference specified, try it first
+    if ($Preference -ne "auto") {
+        if (Test-Command $Preference) {
+            return $Preference
+        }
+        # Auto-detect for better warning message
+        $autoDetected = $null
+        if (Test-Command "winget") { $autoDetected = "winget" }
+        elseif (Test-Command "scoop") { $autoDetected = "scoop" }
+        elseif (Test-Command "choco") { $autoDetected = "choco" }
+
+        if ($autoDetected) {
+            Write-Warning "Preferred '$Preference' not found, using auto-detected: $autoDetected"
+            return $autoDetected
+        } else {
+            Write-Warning "Preferred '$Preference' not found, no package manager available"
+            return $null
+        }
+    }
+
+    # Auto-detection (priority: winget > scoop > choco)
     if (Test-Command "winget") { return "winget" }
     if (Test-Command "scoop") { return "scoop" }
     if (Test-Command "choco") { return "choco" }
@@ -337,9 +390,16 @@ function Install-WithPackageManager {
         [string]$Category = "optional"  # "critical" or "optional"
     )
 
-    $pm = Get-PackageManager
+    $pm = Get-PackageManager -Preference $Script:PreferPackageManager
 
     switch ($pm) {
+        $null {
+            # No package manager available - provide manual install guidance
+            Write-Warning "$DisplayName not installed. No package manager available."
+            Write-Info "Install manually from: $ManualUrl"
+            Track-Failure -Category $Category -Name $DisplayName -Reason "no package manager"
+            return $false
+        }
         "winget" {
             Write-Info "Installing $DisplayName via winget..."
             # Try user scope first, fallback to machine scope
@@ -442,7 +502,7 @@ function Install-Chocolatey {
 
     # Check if we have winget/scoop - no need for choco then
     if ((Test-Command "winget") -or (Test-Command "scoop")) {
-        $pm = Get-PackageManager
+        $pm = Get-PackageManager -Preference $Script:PreferPackageManager
         Write-Info "Using $pm as package manager (Chocolatey not needed)"
         return $false
     }
@@ -481,7 +541,7 @@ function Install-Chocolatey {
 function Install-SystemDeps {
     Write-Header "Installing System Dependencies"
 
-    $pm = Get-PackageManager
+    $pm = Get-PackageManager -Preference $Script:PreferPackageManager
     if ($pm) {
         Write-Info "Using package manager: $pm"
     } else {
@@ -840,6 +900,40 @@ function Setup-PythonEnv {
         }
     }
 
+    # Install .claude/scripts requirements (contains pyyaml for generate_catalogs.py)
+    $scriptsReqPath = Join-Path $ScriptDir "..\scripts\requirements.txt"
+    if (Test-Path $scriptsReqPath) {
+        $scriptsLogFile = Join-Path $LogDir "install-scripts.log"
+        Write-Info "Installing .claude/scripts dependencies..."
+
+        $pkgSuccess = 0
+        $pkgFail = 0
+        Get-Content $scriptsReqPath | ForEach-Object {
+            $line = $_.Trim()
+            if ($line -match '^#' -or [string]::IsNullOrWhiteSpace($line)) {
+                return
+            }
+            $line = ($line -split '#')[0].Trim()
+            if ([string]::IsNullOrWhiteSpace($line)) {
+                return
+            }
+
+            if (Try-PipInstall -PackageSpec $line -LogFile $scriptsLogFile) {
+                $pkgSuccess++
+            } else {
+                $pkgFail++
+                Track-Failure -Category "optional" -Name "scripts:${line}" -Reason "Package install failed"
+            }
+        }
+
+        if ($pkgFail -eq 0) {
+            Write-Success ".claude/scripts: all $pkgSuccess packages installed"
+            Track-Success -Category "optional" -Name "scripts"
+        } else {
+            Write-Warning ".claude/scripts: $pkgSuccess installed, $pkgFail failed"
+        }
+    }
+
     # Print installation summary (brief - final report comes later)
     Write-Header "Python Dependencies Installation Summary"
 
@@ -1059,12 +1153,14 @@ function Show-Help {
     Write-Host "  .\install.ps1 [Options]"
     Write-Host ""
     Write-Host "Options:"
-    Write-Host "  -Y                 Skip all prompts and auto-confirm installation"
-    Write-Host "  -WithAdmin         Use admin-requiring package managers (chocolatey)"
-    Write-Host "  -Resume            Resume from previous interrupted installation"
-    Write-Host "  -RetryFailed       Retry previously failed packages"
-    Write-Host "  -SkipChocolatey    Skip Chocolatey installation (uses winget/scoop instead)"
-    Write-Host "  -Help              Show this help message"
+    Write-Host "  -Y                            Skip all prompts and auto-confirm installation"
+    Write-Host "  -WithAdmin                    Use admin-requiring package managers (chocolatey)"
+    Write-Host "  -Resume                       Resume from previous interrupted installation"
+    Write-Host "  -RetryFailed                  Retry previously failed packages"
+    Write-Host "  -SkipChocolatey               Skip Chocolatey installation (uses winget/scoop instead)"
+    Write-Host "  -PreferPackageManager <PM>    Prefer specific package manager (auto|winget|scoop|choco)"
+    Write-Host "                                Falls back to auto-detection if preferred PM unavailable"
+    Write-Host "  -Help                         Show this help message"
     Write-Host ""
     Write-Host "Exit Codes:"
     Write-Host "  0  Success (all dependencies installed)"
@@ -1072,10 +1168,12 @@ function Show-Help {
     Write-Host "  2  Partial success (some optional deps failed)"
     Write-Host ""
     Write-Host "Examples:"
-    Write-Host "  .\install.ps1                  # Normal install"
-    Write-Host "  .\install.ps1 -Y               # Non-interactive"
-    Write-Host "  .\install.ps1 -WithAdmin       # Use chocolatey if admin"
-    Write-Host "  .\install.ps1 -Resume          # Resume interrupted install"
+    Write-Host "  .\install.ps1                              # Normal install (auto-detect PM)"
+    Write-Host "  .\install.ps1 -PreferPackageManager scoop  # Prefer scoop, fallback to auto"
+    Write-Host "  .\install.ps1 -PreferPackageManager winget # Use winget explicitly"
+    Write-Host "  .\install.ps1 -Y                           # Non-interactive"
+    Write-Host "  .\install.ps1 -WithAdmin                   # Use chocolatey if admin"
+    Write-Host "  .\install.ps1 -Resume                      # Resume interrupted install"
     Write-Host ""
     Write-Host "Package Manager Priority:"
     Write-Host "  1. winget (recommended, no admin required)"
@@ -1099,8 +1197,11 @@ function Main {
     Write-Header "Claude Code Skills Installation (Windows)"
     Write-Info "Script directory: $ScriptDir"
 
+    # Store preference in script scope for functions to access
+    $Script:PreferPackageManager = $PreferPackageManager
+
     # Show detected package manager
-    $pm = Get-PackageManager
+    $pm = Get-PackageManager -Preference $PreferPackageManager
     if ($pm) {
         Write-Success "Detected package manager: $pm"
     } else {
@@ -1109,6 +1210,9 @@ function Main {
     }
 
     # Show mode info
+    if ($PreferPackageManager -ne "auto") {
+        Write-Info "Mode: prefer $PreferPackageManager (soft fallback to auto if unavailable)"
+    }
     if ($WithAdmin) {
         Write-Info "Mode: with admin (chocolatey enabled)"
     } else {

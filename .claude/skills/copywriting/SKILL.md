@@ -58,6 +58,15 @@ Load: `references/landing-page-copy.md` | `references/cta-patterns.md`
 Hero: Headline (promise) → Subheadline (how) → CTA (action) → Social proof
 CTAs: "Start [verb]ing" • "Get [benefit]" • "Yes, I want [benefit]"
 
+## Workflows
+
+| Workflow | Purpose | Use When |
+|----------|---------|----------|
+| `references/workflow-cro.md` | CRO optimization (25 principles) | Conversion optimization requests |
+| `references/workflow-enhance.md` | Copy enhancement | Improving existing copy |
+| `references/workflow-fast.md` | Quick copy generation | Simple, time-sensitive requests |
+| `references/workflow-good.md` | Quality copy with research | High-stakes content |
+
 ## References
 
 | File | Purpose |
@@ -70,12 +79,12 @@ CTAs: "Start [verb]ing" • "Get [benefit]" • "Yes, I want [benefit]"
 | `references/cta-patterns.md` | CTA optimization |
 | `references/power-words.md` | Power words by emotion |
 | `references/social-media-copy.md` | Platform-specific copy |
-| `scripts/extract-writing-styles.py` | Extract styles from multi-format files (PDF, DOCX, images) |
+| `scripts/extract-writing-styles.py` | Extract styles from multi-format files |
 | `templates/copy-brief.md` | Creative brief template |
 
 ## Agent Integration
 
-**Primary:** copywriter | **Related:** brand-guidelines, content-marketing, email-marketing
+**Primary:** fullstack-developer | **Related:** brand-guidelines, content-marketing, email-marketing
 
 ## Best Practices
 

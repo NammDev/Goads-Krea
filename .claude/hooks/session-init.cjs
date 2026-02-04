@@ -7,308 +7,102 @@
  *
  * Exit Codes:
  *   0 - Success (non-blocking, allows continuation)
+ *
+ * Core detection logic extracted to lib/project-detector.cjs for OpenCode plugin reuse.
  */
 
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
-const { execSync, execFileSync } = require('child_process');
 const {
   loadConfig,
   writeEnv,
   writeSessionState,
   resolvePlanPath,
   getReportsPath,
-  resolveNamingPattern
+  resolveNamingPattern,
+  extractTaskListId,
+  isHookEnabled
 } = require('./lib/ck-config-utils.cjs');
-const { writeResetMarker } = require('./lib/context-tracker.cjs');
 
-/**
- * Safely execute shell command with optional timeout
- * @param {string} cmd - Command to execute
- * @param {number} timeoutMs - Timeout in milliseconds (default: 5000)
- */
-function execSafe(cmd, timeoutMs = 5000) {
-  try {
-    return execSync(cmd, {
-      encoding: 'utf8',
-      timeout: timeoutMs,
-      stdio: ['pipe', 'pipe', 'pipe']
-    }).trim();
-  } catch (e) {
-    return null;
-  }
+// Early exit if hook disabled in config
+if (!isHookEnabled('session-init')) {
+  process.exit(0);
 }
 
+// Import shared project detection logic
+const {
+  detectProjectType,
+  detectPackageManager,
+  detectFramework,
+  getPythonVersion,
+  getGitRemoteUrl,
+  getGitBranch,
+  getCodingLevelStyleName,
+  getCodingLevelGuidelines,
+  buildContextOutput,
+  execSafe
+} = require('./lib/project-detector.cjs');
+
 /**
- * Safely execute a binary with arguments (no shell interpolation)
- * Prevents command injection and handles paths with spaces correctly
- * @param {string} binary - Path to the executable
- * @param {string[]} args - Arguments array
- * @param {number} timeoutMs - Timeout in milliseconds (default: 2000)
+ * One-time cleanup for orphaned .shadowed/ directories from skill-dedup hook (Issue #422)
+ * The hook was disabled due to race conditions; this restores any orphaned skills.
  */
-function execFileSafe(binary, args, timeoutMs = 2000) {
+function cleanupOrphanedShadowedSkills() {
+  const shadowedDir = path.join(process.cwd(), '.claude', 'skills', '.shadowed');
+  if (!fs.existsSync(shadowedDir)) return { restored: [], skipped: [], kept: [] };
+
+  const skillsDir = path.join(process.cwd(), '.claude', 'skills');
+  const restored = [];
+  const skipped = [];
+  const kept = []; // Skills kept for manual review (content differs)
+
   try {
-    return execFileSync(binary, args, {
-      encoding: 'utf8',
-      timeout: timeoutMs,
-      stdio: ['pipe', 'pipe', 'pipe']
-    }).trim();
-  } catch (e) {
-    return null;
-  }
-}
+    const entries = fs.readdirSync(shadowedDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const src = path.join(shadowedDir, entry.name);
+      const dest = path.join(skillsDir, entry.name);
 
-/**
- * Validate that a path is a file (not directory) and doesn't contain shell metacharacters
- * @param {string} p - Path to validate
- */
-function isValidPythonPath(p) {
-  if (!p || typeof p !== 'string') return false;
-  // Reject paths with shell metacharacters that could indicate injection attempts
-  if (/[;&|`$(){}[\]<>!#*?]/.test(p)) return false;
-  try {
-    const stat = fs.statSync(p);
-    return stat.isFile();
-  } catch (e) {
-    return false;
-  }
-}
-
-/**
- * Build platform-specific Python paths for fast filesystem check
- * Avoids slow shell initialization (pyenv, conda) by checking paths directly
- */
-function getPythonPaths() {
-  const paths = [];
-
-  // User override takes priority
-  if (process.env.PYTHON_PATH) {
-    paths.push(process.env.PYTHON_PATH);
-  }
-
-  if (process.platform === 'win32') {
-    // Windows paths
-    const localAppData = process.env.LOCALAPPDATA;
-    const programFiles = process.env.ProgramFiles || 'C:\\Program Files';
-    const programFilesX86 = process.env['ProgramFiles(x86)'] || 'C:\\Program Files (x86)';
-
-    // Microsoft Store Python (most common on modern Windows)
-    if (localAppData) {
-      paths.push(path.join(localAppData, 'Microsoft', 'WindowsApps', 'python.exe'));
-      paths.push(path.join(localAppData, 'Microsoft', 'WindowsApps', 'python3.exe'));
-      // User-installed Python (common versions)
-      for (const ver of ['313', '312', '311', '310', '39']) {
-        paths.push(path.join(localAppData, 'Programs', 'Python', `Python${ver}`, 'python.exe'));
+      try {
+        if (!fs.existsSync(dest)) {
+          fs.renameSync(src, dest);
+          restored.push(entry.name);
+        } else {
+          // Skill exists in local - verify content match before deleting orphaned copy
+          const orphanedSkill = path.join(src, 'SKILL.md');
+          const localSkill = path.join(dest, 'SKILL.md');
+          if (fs.existsSync(orphanedSkill) && fs.existsSync(localSkill)) {
+            const orphanedContent = fs.readFileSync(orphanedSkill, 'utf8');
+            const localContent = fs.readFileSync(localSkill, 'utf8');
+            if (orphanedContent === localContent) {
+              // Content identical - safe to remove orphaned duplicate
+              fs.rmSync(src, { recursive: true, force: true });
+              skipped.push(entry.name);
+            } else {
+              // Content differs - user may have edited orphaned version, keep for review
+              kept.push(entry.name);
+            }
+          } else {
+            // Missing SKILL.md - safe to remove orphaned copy
+            fs.rmSync(src, { recursive: true, force: true });
+            skipped.push(entry.name);
+          }
+        }
+      } catch (err) {
+        process.stderr.write(`[session-init] Failed to process "${entry.name}": ${err.message}\n`);
       }
     }
-
-    // System-wide Python installations
-    for (const ver of ['313', '312', '311', '310', '39']) {
-      paths.push(path.join(programFiles, `Python${ver}`, 'python.exe'));
-      paths.push(path.join(programFilesX86, `Python${ver}`, 'python.exe'));
-    }
-
-    // Legacy paths
-    paths.push('C:\\Python313\\python.exe');
-    paths.push('C:\\Python312\\python.exe');
-    paths.push('C:\\Python311\\python.exe');
-    paths.push('C:\\Python310\\python.exe');
-    paths.push('C:\\Python39\\python.exe');
-  } else {
-    // Unix-like paths (Linux, macOS)
-    paths.push('/usr/bin/python3');
-    paths.push('/usr/local/bin/python3');
-    paths.push('/opt/homebrew/bin/python3');      // macOS ARM (Homebrew)
-    paths.push('/opt/homebrew/bin/python');       // macOS ARM fallback
-    paths.push('/usr/bin/python');
-    paths.push('/usr/local/bin/python');
+    // Clean up manifest and shadowed dir if empty
+    const manifestFile = path.join(shadowedDir, '.dedup-manifest.json');
+    if (fs.existsSync(manifestFile)) fs.unlinkSync(manifestFile);
+    // Only remove shadowed dir if empty (kept skills may remain)
+    const remaining = fs.readdirSync(shadowedDir);
+    if (remaining.length === 0) fs.rmdirSync(shadowedDir);
+    return { restored, skipped, kept };
+  } catch (err) {
+    process.stderr.write(`[session-init] Shadowed cleanup error: ${err.message}\n`);
+    return { restored, skipped, kept };
   }
-
-  return paths;
-}
-
-/**
- * Find Python binary using fast filesystem check
- * Returns first existing valid file path, avoiding slow shell spawns
- */
-function findPythonBinary() {
-  const paths = getPythonPaths();
-  for (const p of paths) {
-    if (isValidPythonPath(p)) return p;
-  }
-  return null;
-}
-
-/**
- * Get Python version with optimized detection
- * Layer 0: Fast path pre-check (instant fs lookup)
- * Layer 1: Timeout protection (2s max per command)
- * Layer 2: Graceful degradation (returns null on failure)
- */
-function getPythonVersion() {
-  // Layer 0: Fast path pre-check - instant filesystem lookup
-  const pythonPath = findPythonBinary();
-  if (pythonPath) {
-    // Use execFileSafe to prevent command injection and handle paths with spaces
-    // Direct binary execution bypasses shell initialization (pyenv, conda)
-    const result = execFileSafe(pythonPath, ['--version']);
-    if (result) return result;
-  }
-
-  // Fallback: Try shell resolution with strict timeout
-  // This catches non-standard installations but caps at 2s
-  // Note: Shell fallback still needed for pyenv/asdf where binary isn't in standard paths
-  const commands = ['python3', 'python'];
-  for (const cmd of commands) {
-    const result = execFileSafe(cmd, ['--version']);
-    if (result) return result;
-  }
-
-  return null;
-}
-
-/**
- * Get git remote URL
- */
-function getGitRemoteUrl() {
-  return execSafe('git config --get remote.origin.url');
-}
-
-/**
- * Get current git branch
- */
-function getGitBranch() {
-  return execSafe('git branch --show-current');
-}
-
-/**
- * Detect project type based on workspace indicators
- */
-function detectProjectType(configOverride) {
-  if (configOverride && configOverride !== 'auto') return configOverride;
-
-  if (fs.existsSync('pnpm-workspace.yaml')) return 'monorepo';
-  if (fs.existsSync('lerna.json')) return 'monorepo';
-
-  if (fs.existsSync('package.json')) {
-    try {
-      const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-      if (pkg.workspaces) return 'monorepo';
-      if (pkg.main || pkg.exports) return 'library';
-    } catch (e) { /* ignore */ }
-  }
-
-  return 'single-repo';
-}
-
-/**
- * Detect package manager from lock files
- */
-function detectPackageManager(configOverride) {
-  if (configOverride && configOverride !== 'auto') return configOverride;
-
-  if (fs.existsSync('bun.lockb')) return 'bun';
-  if (fs.existsSync('pnpm-lock.yaml')) return 'pnpm';
-  if (fs.existsSync('yarn.lock')) return 'yarn';
-  if (fs.existsSync('package-lock.json')) return 'npm';
-
-  return null;
-}
-
-/**
- * Detect framework from package.json dependencies
- */
-function detectFramework(configOverride) {
-  if (configOverride && configOverride !== 'auto') return configOverride;
-  if (!fs.existsSync('package.json')) return null;
-
-  try {
-    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-    const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-
-    if (deps['next']) return 'next';
-    if (deps['nuxt']) return 'nuxt';
-    if (deps['astro']) return 'astro';
-    if (deps['@remix-run/node'] || deps['@remix-run/react']) return 'remix';
-    if (deps['svelte'] || deps['@sveltejs/kit']) return 'svelte';
-    if (deps['vue']) return 'vue';
-    if (deps['react']) return 'react';
-    if (deps['express']) return 'express';
-    if (deps['fastify']) return 'fastify';
-    if (deps['hono']) return 'hono';
-    if (deps['elysia']) return 'elysia';
-
-    return null;
-  } catch (e) {
-    return null;
-  }
-}
-
-/**
- * Get coding level style name mapping
- * @param {number} level - Coding level (0-5)
- * @returns {string} Style name for /output-style command
- */
-function getCodingLevelStyleName(level) {
-  const styleMap = {
-    0: 'coding-level-0-eli5',
-    1: 'coding-level-1-junior',
-    2: 'coding-level-2-mid',
-    3: 'coding-level-3-senior',
-    4: 'coding-level-4-lead',
-    5: 'coding-level-5-god'
-  };
-  return styleMap[level] || 'coding-level-5-god';
-}
-
-/**
- * Get coding level guidelines by reading from output-styles .md files
- * This ensures single source of truth - users can customize the .md files directly
- * @param {number} level - Coding level (-1 to 5)
- * @returns {string|null} Guidelines text (frontmatter stripped) or null if disabled
- */
-function getCodingLevelGuidelines(level) {
-  // -1 = disabled (no injection, saves tokens)
-  // 5 = god mode (still injects minimal guidelines)
-  if (level === -1 || level === null || level === undefined) return null;
-
-  const styleName = getCodingLevelStyleName(level);
-  const stylePath = path.join(__dirname, '..', 'output-styles', `${styleName}.md`);
-
-  try {
-    if (!fs.existsSync(stylePath)) return null;
-
-    const content = fs.readFileSync(stylePath, 'utf8');
-    // Strip YAML frontmatter (between --- markers at start of file)
-    const withoutFrontmatter = content.replace(/^---[\s\S]*?---\n*/, '').trim();
-    return withoutFrontmatter;
-  } catch (e) {
-    return null;
-  }
-}
-
-/**
- * Build context summary for output (compact, single line)
- * @param {Object} config - Loaded config
- * @param {Object} detections - Project detections
- * @param {{ path: string|null, resolvedBy: string|null }} resolved - Plan resolution result
- */
-function buildContextOutput(config, detections, resolved) {
-  const lines = [`Project: ${detections.type || 'unknown'}`];
-  if (detections.pm) lines.push(`PM: ${detections.pm}`);
-  lines.push(`Plan naming: ${config.plan.namingFormat}`);
-
-  // Show plan status with resolution context
-  if (resolved.path) {
-    if (resolved.resolvedBy === 'session') {
-      lines.push(`Plan: ${resolved.path}`);
-    } else {
-      lines.push(`Suggested: ${resolved.path}`);
-    }
-  }
-
-  return lines.join(' | ');
 }
 
 /**
@@ -316,6 +110,9 @@ function buildContextOutput(config, detections, resolved) {
  */
 async function main() {
   try {
+    // Issue #422: One-time cleanup of orphaned .shadowed/ from disabled skill-dedup hook
+    const shadowedCleanup = cleanupOrphanedShadowedSkills();
+
     const stdin = fs.readFileSync(0, 'utf-8').trim();
     const data = stdin ? JSON.parse(stdin) : {};
     const envFile = process.env.CLAUDE_ENV_FILE;
@@ -323,12 +120,6 @@ async function main() {
     const sessionId = data.session_id || null;
 
     const config = loadConfig();
-
-    // Layer 3: Write reset marker on /clear to signal statusline to reset baseline
-    // This ensures context window percentage resets to 0% on fresh sessions
-    if (source === 'clear' && sessionId) {
-      writeResetMarker(sessionId, 'clear');
-    }
 
     const detections = {
       type: detectProjectType(config.project?.type),
@@ -357,6 +148,9 @@ async function main() {
     // Reports path only uses active plans, not suggested ones
     const reportsPath = getReportsPath(resolved.path, resolved.resolvedBy, config.plan, config.paths);
 
+    // Extract task list ID for Claude Code Tasks coordination (shared helper)
+    const taskListId = extractTaskListId(resolved);
+
     // Collect static environment info (computed once per session)
     const staticEnv = {
       nodeVersion: process.version,
@@ -364,11 +158,16 @@ async function main() {
       osPlatform: process.platform,
       gitUrl: getGitRemoteUrl(),
       gitBranch: getGitBranch(),
+      gitRoot: execSafe('git rev-parse --show-toplevel'),
       user: process.env.USERNAME || process.env.USER || process.env.LOGNAME || os.userInfo().username,
       locale: process.env.LANG || '',
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       claudeSettingsDir: path.resolve(__dirname, '..')
     };
+
+    // Compute base directory for absolute paths (Issue #327: use CWD for subdirectory support)
+    // Git root is kept in staticEnv for reference, but CWD determines where files are created
+    const baseDir = process.cwd();
 
     // Compute resolved naming pattern (date + issue resolved, {slug} kept as placeholder)
     const namePattern = resolveNamingPattern(config.plan, staticEnv.gitBranch);
@@ -389,11 +188,18 @@ async function main() {
       // Plan resolution
       writeEnv(envFile, 'CK_ACTIVE_PLAN', resolved.resolvedBy === 'session' ? resolved.path : '');
       writeEnv(envFile, 'CK_SUGGESTED_PLAN', resolved.resolvedBy === 'branch' ? resolved.path : '');
-      writeEnv(envFile, 'CK_REPORTS_PATH', reportsPath);
 
-      // Paths
-      writeEnv(envFile, 'CK_DOCS_PATH', config.paths.docs);
-      writeEnv(envFile, 'CK_PLANS_PATH', config.paths.plans);
+      // Claude Code Tasks integration - enables multi-session/subagent coordination
+      // Task list ID = plan directory name (shared across all sessions working on same plan)
+      if (taskListId) {
+        writeEnv(envFile, 'CLAUDE_CODE_TASK_LIST_ID', taskListId);
+      }
+
+      // Paths - use absolute paths based on CWD for subdirectory workflow support (Issue #327)
+      writeEnv(envFile, 'CK_GIT_ROOT', staticEnv.gitRoot || '');
+      writeEnv(envFile, 'CK_REPORTS_PATH', path.join(baseDir, reportsPath));
+      writeEnv(envFile, 'CK_DOCS_PATH', path.join(baseDir, config.paths.docs));
+      writeEnv(envFile, 'CK_PLANS_PATH', path.join(baseDir, config.paths.plans));
       writeEnv(envFile, 'CK_PROJECT_ROOT', process.cwd());
 
       // Project detection
@@ -433,7 +239,41 @@ async function main() {
       writeEnv(envFile, 'CK_CODING_LEVEL_STYLE', getCodingLevelStyleName(codingLevel));
     }
 
-    console.log(`Session ${source}. ${buildContextOutput(config, detections, resolved)}`);
+    console.log(`Session ${source}. ${buildContextOutput(config, detections, resolved, staticEnv.gitRoot)}`);
+
+    // Issue #422: Notify user if orphaned skills were recovered from .shadowed/
+    const hasCleanup = shadowedCleanup.restored.length > 0 || shadowedCleanup.skipped.length > 0 || shadowedCleanup.kept.length > 0;
+    if (hasCleanup) {
+      console.log(`\n[!] SKILL-DEDUP CLEANUP (Issue #422):`);
+      console.log(`Recovered orphaned .shadowed/ directory from disabled skill-dedup hook.`);
+      if (shadowedCleanup.restored.length > 0) {
+        console.log(`Restored ${shadowedCleanup.restored.length} skill(s): ${shadowedCleanup.restored.join(', ')}`);
+      }
+      if (shadowedCleanup.skipped.length > 0) {
+        console.log(`Removed ${shadowedCleanup.skipped.length} duplicate(s): ${shadowedCleanup.skipped.join(', ')}`);
+      }
+      if (shadowedCleanup.kept.length > 0) {
+        console.log(`[!] Kept ${shadowedCleanup.kept.length} skill(s) for manual review (content differs): ${shadowedCleanup.kept.join(', ')}`);
+        console.log(`    Review .claude/skills/.shadowed/ and merge changes manually.`);
+      }
+    }
+
+    // Info: Show git root when running from subdirectory (Issue #327: now supported)
+    if (staticEnv.gitRoot && staticEnv.gitRoot !== process.cwd()) {
+      console.log(`📁 Subdirectory mode: Plans/docs will be created in current directory`);
+      console.log(`   Git root: ${staticEnv.gitRoot}`);
+    }
+
+    // MITIGATION: Issue #277 - Auto-compact can bypass AskUserQuestion approval gates
+    // When context is compacted mid-workflow, the summarization may lose "pending approval" state.
+    // This warning reminds Claude to verify if user approval was pending before proceeding.
+    // Upstream bug: Claude Code CLI should preserve pending interactive state during compaction.
+    if (source === 'compact') {
+      console.log(`\n⚠️ CONTEXT COMPACTED - APPROVAL STATE CHECK:`);
+      console.log(`If you were waiting for user approval via AskUserQuestion (e.g., Step 4 review gate),`);
+      console.log(`you MUST re-confirm with the user before proceeding. Do NOT assume approval was given.`);
+      console.log(`Use AskUserQuestion to verify: "Context was compacted. Please confirm approval to continue."`);
+    }
 
     // Auto-inject coding level guidelines (if not disabled)
     const codingLevel = config.codingLevel ?? -1;

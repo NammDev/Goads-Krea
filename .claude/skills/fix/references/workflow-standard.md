@@ -5,7 +5,7 @@ Full pipeline for moderate complexity issues.
 ## Steps
 
 ### Step 1: Debug & Investigate
-Activate `debugging` skill. Use `debugger` subagent if needed.
+Activate `debug` skill. Use `debugger` subagent if needed.
 
 - Read error messages, logs, stack traces
 - Reproduce the issue
@@ -14,8 +14,8 @@ Activate `debugging` skill. Use `debugger` subagent if needed.
 
 **Output:** `✓ Step 1: Root cause - [summary], [N] files affected`
 
-### Step 2: Parallel Scout (if needed)
-Launch multiple `Explore` subagents in parallel to scout codebase.
+### Step 2: Parallel Scout
+Launch multiple `Explore` subagents in parallel to scout and verify the root cause.
 
 **Pattern:** In SINGLE message, launch 2-3 Explore agents:
 ```
@@ -74,7 +74,7 @@ See `references/review-cycle.md` for mode-specific handling.
 
 | Step | Skills/Subagents |
 |------|------------------|
-| 1 | `debugging`, `debugger` subagent |
+| 1 | `debug`, `debugger` subagent |
 | 2 | Multiple `Explore` subagents in parallel (optional) |
 | 3 | `problem-solving`, `sequential-thinking`, parallel `Bash` for verification |
 | 4 | `tester` subagent |

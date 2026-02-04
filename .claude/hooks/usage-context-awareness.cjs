@@ -17,6 +17,12 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const { execSync } = require("child_process");
+const { isHookEnabled } = require('./lib/ck-config-utils.cjs');
+
+// Early exit if hook disabled in config
+if (!isHookEnabled('usage-context-awareness')) {
+  process.exit(0);
+}
 
 // Cache configuration
 const USAGE_CACHE_FILE = path.join(os.tmpdir(), "ck-usage-limits-cache.json");
@@ -74,11 +80,29 @@ function shouldFetch(isUserPrompt = false) {
 }
 
 /**
+ * Write cache with status (available or unavailable)
+ */
+function writeCache(status, data = null) {
+	fs.writeFileSync(
+		USAGE_CACHE_FILE,
+		JSON.stringify({
+			timestamp: Date.now(),
+			status,
+			data,
+		})
+	);
+}
+
+/**
  * Fetch usage limits from Anthropic OAuth API and write to cache
+ * Always writes status to cache (available or unavailable) for statusline fallback
  */
 async function fetchAndCacheUsageLimits() {
 	const token = getClaudeCredentials();
-	if (!token) return false;
+	if (!token) {
+		writeCache("unavailable");
+		return false;
+	}
 
 	try {
 		const response = await fetch("https://api.anthropic.com/api/oauth/usage", {
@@ -92,21 +116,16 @@ async function fetchAndCacheUsageLimits() {
 			},
 		});
 
-		if (!response.ok) return false;
+		if (!response.ok) {
+			writeCache("unavailable");
+			return false;
+		}
 
 		const data = await response.json();
-
-		// Write cache
-		fs.writeFileSync(
-			USAGE_CACHE_FILE,
-			JSON.stringify({
-				timestamp: Date.now(),
-				data,
-			})
-		);
-
+		writeCache("available", data);
 		return true;
 	} catch {
+		writeCache("unavailable");
 		return false;
 	}
 }

@@ -38,6 +38,9 @@ const DEFAULT_CONFIG = {
     docs: 'docs',
     plans: 'plans'
   },
+  docs: {
+    maxLoc: 800  // Maximum lines of code per doc file before warning
+  },
   locale: {
     thinkingLanguage: null,  // Language for reasoning (e.g., "en" for precision)
     responseLanguage: null   // Language for user-facing output (e.g., "vi")
@@ -51,7 +54,23 @@ const DEFAULT_CONFIG = {
     packageManager: 'auto',
     framework: 'auto'
   },
-  assertions: []
+  skills: {
+    research: {
+      useGemini: true  // Toggle Gemini CLI usage in research skill
+    }
+  },
+  assertions: [],
+  statusline: 'full',
+  hooks: {
+    'session-init': true,
+    'subagent-init': true,
+    'dev-rules-reminder': true,
+    'usage-context-awareness': true,
+    'context-tracking': true,
+    'scout-block': true,
+    'privacy-block': true,
+    'post-edit-simplify-reminder': true
+  }
 };
 
 /**
@@ -218,21 +237,41 @@ function findMostRecentPlan(plansDir) {
 }
 
 /**
+ * Default timeout for git commands (5 seconds)
+ * Prevents indefinite hangs on network mounts or corrupted repos
+ */
+const DEFAULT_EXEC_TIMEOUT_MS = 5000;
+
+/**
  * Safely execute shell command (internal helper)
  * SECURITY: Only accepts whitelisted git read commands
  * @param {string} cmd - Command to execute
+ * @param {Object} options - Execution options
+ * @param {string} options.cwd - Working directory (optional)
+ * @param {number} options.timeout - Timeout in ms (default: 5000)
  * @returns {string|null} Command output or null
  */
-function execSafe(cmd) {
+function execSafe(cmd, options = {}) {
   // Whitelist of safe read-only commands
-  const allowedCommands = ['git branch --show-current', 'git rev-parse --abbrev-ref HEAD'];
+  const allowedCommands = [
+    'git branch --show-current',
+    'git rev-parse --abbrev-ref HEAD',
+    'git rev-parse --show-toplevel'
+  ];
   if (!allowedCommands.includes(cmd)) {
     return null;
   }
 
+  const { cwd = undefined, timeout = DEFAULT_EXEC_TIMEOUT_MS } = options;
+
   try {
     return require('child_process')
-      .execSync(cmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] })
+      .execSync(cmd, {
+        encoding: 'utf8',
+        timeout,
+        cwd,
+        stdio: ['pipe', 'pipe', 'pipe']
+      })
       .trim();
   } catch (e) {
     return null;
@@ -262,11 +301,15 @@ function resolvePlanPath(sessionId, config) {
       case 'session': {
         const state = readSessionState(sessionId);
         if (state?.activePlan) {
-          // Only use session state if CWD matches session origin (monorepo support)
-          if (state.sessionOrigin && state.sessionOrigin !== process.cwd()) {
-            break;  // Fall through to branch
+          // Issue #335: Handle both absolute and relative paths
+          // - Absolute paths (from updated set-active-plan.cjs): use as-is
+          // - Relative paths (legacy): resolve using sessionOrigin if available
+          let resolvedPath = state.activePlan;
+          if (!path.isAbsolute(resolvedPath) && state.sessionOrigin) {
+            // Resolve relative path using session origin directory
+            resolvedPath = path.join(state.sessionOrigin, resolvedPath);
           }
-          return { path: state.activePlan, resolvedBy: 'session' };
+          return { path: resolvedPath, resolvedBy: 'session' };
         }
         break;
       }
@@ -441,7 +484,8 @@ function loadConfig(options = {}) {
     // Build result with optional sections
     const result = {
       plan: merged.plan || DEFAULT_CONFIG.plan,
-      paths: merged.paths || DEFAULT_CONFIG.paths
+      paths: merged.paths || DEFAULT_CONFIG.paths,
+      docs: merged.docs || DEFAULT_CONFIG.docs
     };
 
     if (includeLocale) {
@@ -459,6 +503,12 @@ function loadConfig(options = {}) {
     // -1 = disabled (no injection, saves tokens)
     // 0-5 = inject corresponding level guidelines
     result.codingLevel = merged.codingLevel ?? -1;
+    // Skills configuration
+    result.skills = merged.skills || DEFAULT_CONFIG.skills;
+    // Hooks configuration
+    result.hooks = merged.hooks || DEFAULT_CONFIG.hooks;
+    // Statusline mode
+    result.statusline = merged.statusline || 'full';
 
     return sanitizeConfig(result, projectRoot);
   } catch (e) {
@@ -473,7 +523,11 @@ function getDefaultConfig(includeProject = true, includeAssertions = true, inclu
   const result = {
     plan: { ...DEFAULT_CONFIG.plan },
     paths: { ...DEFAULT_CONFIG.paths },
-    codingLevel: -1  // Default: disabled (no injection, saves tokens)
+    docs: { ...DEFAULT_CONFIG.docs },
+    codingLevel: -1,  // Default: disabled (no injection, saves tokens)
+    skills: { ...DEFAULT_CONFIG.skills },
+    hooks: { ...DEFAULT_CONFIG.hooks },
+    statusline: 'full'
   };
   if (includeLocale) {
     result.locale = { ...DEFAULT_CONFIG.locale };
@@ -489,10 +543,15 @@ function getDefaultConfig(includeProject = true, includeAssertions = true, inclu
 
 /**
  * Escape shell special characters for env file values
+ * Handles: backslash, double quote, dollar sign, backtick
  */
 function escapeShellValue(str) {
   if (typeof str !== 'string') return str;
-  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\$/g, '\\$');
+  return str
+    .replace(/\\/g, '\\\\')   // Backslash first
+    .replace(/"/g, '\\"')     // Double quotes
+    .replace(/\$/g, '\\$')    // Dollar sign
+    .replace(/`/g, '\\`');    // Backticks (command substitution)
 }
 
 /**
@@ -514,19 +573,29 @@ function writeEnv(envFile, key, value) {
  * @param {string|null} resolvedBy - How plan was resolved ('session'|'branch'|null)
  * @param {Object} planConfig - Plan configuration
  * @param {Object} pathsConfig - Paths configuration
- * @returns {string} Reports path
+ * @param {string|null} baseDir - Optional base directory for absolute path resolution
+ * @returns {string} Reports path (absolute if baseDir provided, relative otherwise)
  */
-function getReportsPath(planPath, resolvedBy, planConfig, pathsConfig) {
+function getReportsPath(planPath, resolvedBy, planConfig, pathsConfig, baseDir = null) {
   const reportsDir = normalizePath(planConfig?.reportsDir) || 'reports';
   const plansDir = normalizePath(pathsConfig?.plans) || 'plans';
 
+  let reportPath;
   // Only use plan-specific reports path if explicitly active (session state)
-  if (planPath && resolvedBy === 'session') {
-    const normalizedPlanPath = normalizePath(planPath) || planPath;
-    return `${normalizedPlanPath}/${reportsDir}/`;
+  // Issue #327: Validate normalized path to prevent whitespace-only paths creating invalid directories
+  const normalizedPlanPath = planPath && resolvedBy === 'session' ? normalizePath(planPath) : null;
+  if (normalizedPlanPath) {
+    reportPath = `${normalizedPlanPath}/${reportsDir}`;
+  } else {
+    // Default path for no plan or suggested (branch-matched) plans
+    reportPath = `${plansDir}/${reportsDir}`;
   }
-  // Default path for no plan or suggested (branch-matched) plans
-  return `${plansDir}/${reportsDir}/`;
+
+  // Return absolute path if baseDir provided
+  if (baseDir) {
+    return path.join(baseDir, reportPath);
+  }
+  return reportPath + '/';
 }
 
 /**
@@ -668,10 +737,50 @@ function resolveNamingPattern(planConfig, gitBranch) {
 
 /**
  * Get current git branch (safe execution)
+ * @param {string|null} cwd - Working directory to run git command from (optional)
  * @returns {string|null} Current branch name or null
  */
-function getGitBranch() {
-  return execSafe('git branch --show-current');
+function getGitBranch(cwd = null) {
+  return execSafe('git branch --show-current', { cwd: cwd || undefined });
+}
+
+/**
+ * Get git repository root directory
+ * @param {string|null} cwd - Working directory to run git command from (optional)
+ * @returns {string|null} Git root absolute path or null if not in git repo
+ */
+function getGitRoot(cwd = null) {
+  return execSafe('git rev-parse --show-toplevel', { cwd: cwd || undefined });
+}
+
+/**
+ * Extract task list ID from plan resolution for Claude Code Tasks coordination
+ * Only returns ID for session-resolved plans (explicitly active, not branch-suggested)
+ *
+ * Cross-platform: path.basename() handles both Unix/Windows separators
+ *
+ * @param {{ path: string|null, resolvedBy: 'session'|'branch'|null }} resolved - Plan resolution result
+ * @returns {string|null} Task list ID (plan directory name) or null
+ */
+function extractTaskListId(resolved) {
+  if (!resolved || resolved.resolvedBy !== 'session' || !resolved.path) {
+    return null;
+  }
+  return path.basename(resolved.path);
+}
+
+/**
+ * Check if a hook is enabled in config
+ * Returns true if hook is not defined (default enabled)
+ *
+ * @param {string} hookName - Hook name (script basename without .cjs)
+ * @returns {boolean} Whether hook is enabled
+ */
+function isHookEnabled(hookName) {
+  const config = loadConfig({ includeProject: false, includeAssertions: false, includeLocale: false });
+  const hooks = config.hooks || {};
+  // Return true if undefined (default enabled), otherwise return the boolean value
+  return hooks[hookName] !== false;
 }
 
 module.exports = {
@@ -702,5 +811,8 @@ module.exports = {
   formatDate,
   validateNamingPattern,
   resolveNamingPattern,
-  getGitBranch
+  getGitBranch,
+  getGitRoot,
+  extractTaskListId,
+  isHookEnabled
 };

@@ -50,15 +50,97 @@ declare -a FAILED_OPTIONAL=()
 declare -a SKIPPED_SUDO=()
 FINAL_EXIT_CODE=0
 
-# Detect OS
+# Detect OS (including WSL and Windows shells)
 detect_os() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         echo "macos"
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "linux"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "linux"* ]]; then
+        # Check for WSL
+        if [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+            echo "wsl"
+        else
+            echo "linux"
+        fi
+    elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "mingw"* ]]; then
+        echo "msys"  # Git Bash / MSYS2
+    elif [[ "$OSTYPE" == "cygwin" ]]; then
+        echo "cygwin"
     else
         echo "unknown"
     fi
+}
+
+# Detect Linux distribution (for package manager selection)
+detect_distro() {
+    # WSL uses the underlying Linux distro
+    if [[ "$OS" != "linux" ]] && [[ "$OS" != "wsl" ]]; then
+        echo "none"
+        return
+    fi
+
+    # Alpine detection (check first - most specific)
+    if [[ -f /etc/alpine-release ]]; then
+        echo "alpine"
+    # Arch Linux detection
+    elif [[ -f /etc/arch-release ]] || command_exists pacman; then
+        echo "arch"
+    # Debian/Ubuntu detection
+    elif command_exists apt-get; then
+        echo "debian"
+    # RHEL/CentOS/Fedora detection
+    elif command_exists dnf; then
+        echo "redhat"
+    elif command_exists yum; then
+        echo "redhat"
+    else
+        echo "unknown"
+    fi
+}
+
+# Package manager abstraction - update package lists
+pkg_update() {
+    case "$DISTRO" in
+        alpine)
+            apk update
+            ;;
+        arch)
+            pacman -Sy
+            ;;
+        debian)
+            apt-get update -qq
+            ;;
+        redhat)
+            dnf check-update || true
+            ;;
+        *)
+            print_warning "Unknown distro, skipping package update"
+            ;;
+    esac
+}
+
+# Package manager abstraction - install package
+# Usage: pkg_install <package_name>
+pkg_install() {
+    local package_name="$1"
+
+    case "$DISTRO" in
+        alpine)
+            apk add --no-cache "$package_name"
+            ;;
+        arch)
+            pacman -S --noconfirm "$package_name"
+            ;;
+        debian)
+            apt-get install -y "$package_name"
+            ;;
+        redhat)
+            dnf install -y "$package_name"
+            ;;
+        *)
+            print_warning "Unknown distro, cannot install $package_name"
+            return 1
+            ;;
+    esac
 }
 
 # Print functions (must be defined before check_bash_version)
@@ -115,6 +197,9 @@ check_bash_version
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
+
+# Initialize distro detection (after command_exists is defined)
+DISTRO=$(detect_distro)
 
 # ============================================================================
 # Installation Tracking Functions
@@ -245,8 +330,24 @@ try_pip_install() {
     # Phase 2: Check if we can build from source
     if ! has_build_tools; then
         print_warning "$package_name: No wheel available, no build tools"
-        if [[ "$OS" == "linux" ]]; then
-            print_info "Install build tools: sudo apt-get install gcc python3-dev"
+        if [[ "$OS" == "linux" ]] || [[ "$OS" == "wsl" ]]; then
+            case "$DISTRO" in
+                alpine)
+                    print_info "Install build tools: apk add build-base python3-dev"
+                    ;;
+                arch)
+                    print_info "Install build tools: sudo pacman -S base-devel python"
+                    ;;
+                debian)
+                    print_info "Install build tools: sudo apt-get install gcc python3-dev"
+                    ;;
+                redhat)
+                    print_info "Install build tools: sudo dnf install gcc python3-devel"
+                    ;;
+                *)
+                    print_info "Install build tools: gcc and python3-dev equivalent"
+                    ;;
+            esac
         elif [[ "$OS" == "macos" ]]; then
             print_info "Install build tools: xcode-select --install"
         fi
@@ -295,17 +396,39 @@ install_system_package() {
         fi
     fi
 
-    # Linux: only install if --with-sudo was passed
-    if [[ "$WITH_SUDO" == "true" ]]; then
-        print_info "Installing $display_name (sudo)..."
-        if sudo apt-get install -y "$package_name"; then
-            print_success "$display_name installed"
-            track_success "optional" "$display_name"
-            return 0
+    # Linux: only install if --with-sudo was passed (except Alpine which often runs as root)
+    if [[ "$WITH_SUDO" == "true" ]] || [[ "$DISTRO" == "alpine" && "$(id -u)" == "0" ]]; then
+        print_info "Installing $display_name..."
+        if [[ "$WITH_SUDO" == "true" ]]; then
+            # Call package manager directly with sudo (functions don't work with sudo)
+            local install_result=0
+            case "$DISTRO" in
+                alpine) sudo apk add --no-cache "$package_name" || install_result=1 ;;
+                arch) sudo pacman -S --noconfirm "$package_name" || install_result=1 ;;
+                debian) sudo apt-get install -y "$package_name" || install_result=1 ;;
+                redhat) sudo dnf install -y "$package_name" || install_result=1 ;;
+                *) install_result=1 ;;
+            esac
+            if [[ "$install_result" -eq 0 ]]; then
+                print_success "$display_name installed"
+                track_success "optional" "$display_name"
+                return 0
+            else
+                print_warning "$display_name: package install failed"
+                track_failure "optional" "$display_name" "package install failed"
+                return 1
+            fi
         else
-            print_warning "$display_name: apt-get install failed"
-            track_failure "optional" "$display_name" "apt-get install failed"
-            return 1
+            # Alpine as root (no sudo needed)
+            if pkg_install "$package_name"; then
+                print_success "$display_name installed"
+                track_success "optional" "$display_name"
+                return 0
+            else
+                print_warning "$display_name: package install failed"
+                track_failure "optional" "$display_name" "package install failed"
+                return 1
+            fi
         fi
     else
         # No sudo permission - track as skipped
@@ -325,16 +448,33 @@ check_package_manager() {
         else
             print_success "Homebrew found"
         fi
-    elif [[ "$OS" == "linux" ]]; then
-        if command_exists apt-get; then
-            print_success "apt-get found"
-        elif command_exists yum; then
-            print_success "yum found"
-        else
-            print_warning "No supported package manager found (apt-get or yum)"
-            print_info "System packages will be skipped"
-            # Don't exit - just warn and continue
-        fi
+    elif [[ "$OS" == "linux" ]] || [[ "$OS" == "wsl" ]]; then
+        case "$DISTRO" in
+            alpine)
+                print_success "apk found (Alpine Linux)"
+                ;;
+            arch)
+                print_success "pacman found (Arch Linux)"
+                ;;
+            debian)
+                print_success "apt-get found (Debian/Ubuntu)"
+                ;;
+            redhat)
+                if command_exists dnf; then
+                    print_success "dnf found (RHEL/Fedora)"
+                else
+                    print_success "yum found (RHEL/CentOS)"
+                fi
+                ;;
+            *)
+                print_warning "No supported package manager found (apk, pacman, apt-get, dnf, or yum)"
+                print_info "System packages will be skipped"
+                ;;
+        esac
+    elif [[ "$OS" == "msys" ]] || [[ "$OS" == "cygwin" ]]; then
+        print_warning "Windows shell detected ($OS)"
+        print_info "System package installation not supported"
+        print_info "Please install dependencies manually or use WSL"
     fi
 }
 
@@ -342,10 +482,22 @@ check_package_manager() {
 install_system_deps() {
     print_header "Installing System Dependencies"
 
-    # Update apt cache if we have sudo permission (Linux only)
-    if [[ "$OS" == "linux" ]] && [[ "$WITH_SUDO" == "true" ]]; then
-        print_info "Updating package lists..."
-        sudo apt-get update -qq
+    # Update package cache if we have permission (Linux only)
+    if [[ "$OS" == "linux" ]]; then
+        if [[ "$WITH_SUDO" == "true" ]]; then
+            print_info "Updating package lists..."
+            # Call package manager directly with sudo (functions don't work with sudo)
+            case "$DISTRO" in
+                alpine) sudo apk update ;;
+                arch) sudo pacman -Sy ;;
+                debian) sudo apt-get update -qq ;;
+                redhat) sudo dnf check-update || true ;;
+            esac
+        elif [[ "$DISTRO" == "alpine" && "$(id -u)" == "0" ]]; then
+            # Alpine as root (no sudo needed)
+            print_info "Updating package lists..."
+            pkg_update
+        fi
     fi
 
     # FFmpeg (required for media-processing skill)
@@ -377,9 +529,57 @@ install_node_deps() {
         print_info "Installing Node.js..."
         if [[ "$OS" == "macos" ]]; then
             brew install node
-        elif [[ "$OS" == "linux" ]]; then
-            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+        elif [[ "$OS" == "linux" ]] || [[ "$OS" == "wsl" ]]; then
+            case "$DISTRO" in
+                alpine)
+                    # Alpine: install via apk
+                    if [[ "$(id -u)" == "0" ]]; then
+                        apk add --no-cache nodejs npm
+                    elif [[ "$WITH_SUDO" == "true" ]]; then
+                        sudo apk add --no-cache nodejs npm
+                    else
+                        print_warning "Node.js installation requires root or --with-sudo"
+                        print_info "Run: apk add nodejs npm"
+                        return 1
+                    fi
+                    ;;
+                arch)
+                    # Arch: install via pacman
+                    if [[ "$(id -u)" == "0" ]]; then
+                        pacman -S --noconfirm nodejs npm
+                    elif [[ "$WITH_SUDO" == "true" ]]; then
+                        sudo pacman -S --noconfirm nodejs npm
+                    else
+                        print_warning "Node.js installation requires root or --with-sudo"
+                        print_info "Run: sudo pacman -S nodejs npm"
+                        return 1
+                    fi
+                    ;;
+                debian)
+                    # Debian/Ubuntu: use nodesource
+                    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+                    sudo apt-get install -y nodejs
+                    ;;
+                redhat)
+                    # RHEL/CentOS/Fedora: use nodesource
+                    curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+                    if command_exists dnf; then
+                        sudo dnf install -y nodejs
+                    else
+                        sudo yum install -y nodejs
+                    fi
+                    ;;
+                *)
+                    print_warning "Unknown distro, cannot install Node.js automatically"
+                    print_info "Please install Node.js manually"
+                    return 1
+                    ;;
+            esac
+        elif [[ "$OS" == "msys" ]] || [[ "$OS" == "cygwin" ]]; then
+            print_warning "Cannot install Node.js in $OS environment"
+            print_info "Please install Node.js from https://nodejs.org"
+            print_info "Or use WSL for better compatibility"
+            return 1
         fi
         print_success "Node.js installed"
     fi
@@ -640,6 +840,37 @@ setup_python_env() {
         fi
     done
 
+    # Install .claude/scripts requirements (contains pyyaml for generate_catalogs.py)
+    local SCRIPTS_REQ="$SCRIPT_DIR/../scripts/requirements.txt"
+    if [ -f "$SCRIPTS_REQ" ]; then
+        local SCRIPTS_LOG="$LOG_DIR/install-scripts.log"
+        print_info "Installing .claude/scripts dependencies..."
+
+        local pkg_success=0
+        local pkg_fail=0
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ "$line" =~ ^#.*$ ]] && continue
+            [[ -z "${line// }" ]] && continue
+            line="${line%%#*}"
+            line="${line%"${line##*[![:space:]]}"}"
+            [[ -z "$line" ]] && continue
+
+            if try_pip_install "$line" "$SCRIPTS_LOG"; then
+                pkg_success=$((pkg_success + 1))
+            else
+                pkg_fail=$((pkg_fail + 1))
+                track_failure "optional" "scripts:$line" "Package install failed"
+            fi
+        done < "$SCRIPTS_REQ"
+
+        if [[ $pkg_fail -eq 0 ]]; then
+            print_success ".claude/scripts: all $pkg_success packages installed"
+            track_success "optional" "scripts"
+        else
+            print_warning ".claude/scripts: $pkg_success installed, $pkg_fail failed"
+        fi
+    fi
+
     # Print installation summary (brief - final report comes later)
     print_header "Python Dependencies Installation Summary"
 
@@ -746,27 +977,87 @@ generate_remediation_commands() {
     echo ""
 
     if [[ "$has_sudo_skipped" == "true" ]]; then
-        echo "# System packages (requires sudo):"
-        echo "sudo apt-get update"
-        for item in "${SKIPPED_SUDO[@]}"; do
-            local pkg="${item%%:*}"
-            case "$pkg" in
-                FFmpeg) echo "sudo apt-get install -y ffmpeg" ;;
-                ImageMagick) echo "sudo apt-get install -y imagemagick" ;;
-                *) echo "# $pkg: see documentation" ;;
-            esac
-        done
+        echo "# System packages (requires root/sudo):"
+        case "$DISTRO" in
+            alpine)
+                echo "apk update"
+                for item in "${SKIPPED_SUDO[@]}"; do
+                    local pkg="${item%%:*}"
+                    case "$pkg" in
+                        FFmpeg) echo "apk add ffmpeg" ;;
+                        ImageMagick) echo "apk add imagemagick" ;;
+                        *) echo "# $pkg: see documentation" ;;
+                    esac
+                done
+                ;;
+            arch)
+                echo "sudo pacman -Sy"
+                for item in "${SKIPPED_SUDO[@]}"; do
+                    local pkg="${item%%:*}"
+                    case "$pkg" in
+                        FFmpeg) echo "sudo pacman -S --noconfirm ffmpeg" ;;
+                        ImageMagick) echo "sudo pacman -S --noconfirm imagemagick" ;;
+                        *) echo "# $pkg: see documentation" ;;
+                    esac
+                done
+                ;;
+            debian)
+                echo "sudo apt-get update"
+                for item in "${SKIPPED_SUDO[@]}"; do
+                    local pkg="${item%%:*}"
+                    case "$pkg" in
+                        FFmpeg) echo "sudo apt-get install -y ffmpeg" ;;
+                        ImageMagick) echo "sudo apt-get install -y imagemagick" ;;
+                        *) echo "# $pkg: see documentation" ;;
+                    esac
+                done
+                ;;
+            redhat)
+                echo "sudo dnf check-update"
+                for item in "${SKIPPED_SUDO[@]}"; do
+                    local pkg="${item%%:*}"
+                    case "$pkg" in
+                        FFmpeg) echo "sudo dnf install -y ffmpeg" ;;
+                        ImageMagick) echo "sudo dnf install -y ImageMagick" ;;
+                        *) echo "# $pkg: see documentation" ;;
+                    esac
+                done
+                ;;
+            *)
+                echo "# Unknown distro - install packages manually"
+                for item in "${SKIPPED_SUDO[@]}"; do
+                    local pkg="${item%%:*}"
+                    echo "# $pkg: see documentation"
+                done
+                ;;
+        esac
         echo ""
     fi
 
     if [[ "$has_python_failed" == "true" ]]; then
         echo "# Python packages (may require build tools):"
-        if [[ "$OS" == "linux" ]]; then
-            echo "sudo apt-get install -y gcc python3-dev libjpeg-dev zlib1g-dev"
-        elif [[ "$OS" == "macos" ]]; then
-            echo "xcode-select --install"
-            echo "brew install jpeg libpng"
-        fi
+        case "$DISTRO" in
+            alpine)
+                echo "apk add build-base python3-dev jpeg-dev zlib-dev"
+                ;;
+            arch)
+                echo "sudo pacman -S --noconfirm base-devel python libjpeg-turbo zlib"
+                ;;
+            debian)
+                echo "sudo apt-get install -y gcc python3-dev libjpeg-dev zlib1g-dev"
+                ;;
+            redhat)
+                echo "sudo dnf install -y gcc python3-devel libjpeg-devel zlib-devel"
+                ;;
+            *)
+                if [[ "$OS" == "macos" ]]; then
+                    echo "xcode-select --install"
+                    echo "brew install jpeg libpng"
+                else
+                    echo "# Install gcc, python3-dev, and image libraries for your distro"
+                fi
+                ;;
+        esac
         echo "source $VENV_DIR/bin/activate"
 
         for item in "${FAILED_OPTIONAL[@]}"; do
@@ -885,16 +1176,47 @@ write_error_summary() {
         skipped_json+="]"
     fi
 
+    # Generate distro-specific remediation commands
+    local sudo_pkg_cmd build_tools_cmd
+    case "$DISTRO" in
+        alpine)
+            sudo_pkg_cmd="apk add ffmpeg imagemagick"
+            build_tools_cmd="apk add build-base python3-dev jpeg-dev zlib-dev"
+            ;;
+        arch)
+            sudo_pkg_cmd="sudo pacman -S --noconfirm ffmpeg imagemagick"
+            build_tools_cmd="sudo pacman -S --noconfirm base-devel python libjpeg-turbo zlib"
+            ;;
+        debian)
+            sudo_pkg_cmd="sudo apt-get install -y ffmpeg imagemagick"
+            build_tools_cmd="sudo apt-get install -y gcc python3-dev libjpeg-dev zlib1g-dev"
+            ;;
+        redhat)
+            sudo_pkg_cmd="sudo dnf install -y ffmpeg ImageMagick"
+            build_tools_cmd="sudo dnf install -y gcc python3-devel libjpeg-devel zlib-devel"
+            ;;
+        *)
+            if [[ "$OS" == "macos" ]]; then
+                sudo_pkg_cmd="brew install ffmpeg imagemagick"
+                build_tools_cmd="xcode-select --install && brew install jpeg libpng"
+            else
+                sudo_pkg_cmd="# Install ffmpeg and imagemagick for your distro"
+                build_tools_cmd="# Install gcc, python3-dev, and image libraries for your distro"
+            fi
+            ;;
+    esac
+
     cat > "$summary_file" << EOF
 {
   "exit_code": $FINAL_EXIT_CODE,
   "timestamp": "$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "distro": "$DISTRO",
   "critical_failures": $critical_json,
   "optional_failures": $optional_json,
   "skipped": $skipped_json,
   "remediation": {
-    "sudo_packages": "sudo apt-get install -y ffmpeg imagemagick",
-    "build_tools": "sudo apt-get install -y gcc python3-dev libjpeg-dev zlib1g-dev",
+    "sudo_packages": "$sudo_pkg_cmd",
+    "build_tools": "$build_tools_cmd",
     "pip_retry": "source $VENV_DIR/bin/activate && pip install <package>"
   }
 }
@@ -918,6 +1240,12 @@ main() {
     echo ""  # Just add spacing, don't clear terminal
     print_header "Claude Code Skills Installation"
     print_info "OS: $OS"
+    if [[ "$OS" == "linux" ]] || [[ "$OS" == "wsl" ]]; then
+        print_info "Distro: $DISTRO"
+    fi
+    if [[ "$OS" == "wsl" ]]; then
+        print_info "Environment: Windows Subsystem for Linux"
+    fi
     print_info "Script directory: $SCRIPT_DIR"
     if [[ "$WITH_SUDO" == "true" ]]; then
         print_info "Mode: with sudo (--with-sudo)"
@@ -929,9 +1257,19 @@ main() {
     fi
     echo ""
 
+    # Handle unsupported OS
     if [[ "$OS" == "unknown" ]]; then
         print_error "Unsupported operating system"
         exit 1
+    fi
+
+    # Warn about limited Windows shell support
+    if [[ "$OS" == "msys" ]] || [[ "$OS" == "cygwin" ]]; then
+        print_warning "Running in Windows shell environment ($OS)"
+        print_warning "Limited functionality - system packages cannot be installed"
+        print_info "For full support, consider using WSL (Windows Subsystem for Linux)"
+        print_info "Continuing with Python environment setup only..."
+        echo ""
     fi
 
     # Confirm installation (skip if --yes flag or NON_INTERACTIVE env is set)

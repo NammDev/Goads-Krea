@@ -478,14 +478,20 @@ function buildReminder(params) {
     validationMode,
     validationMin,
     validationMax,
-    staticEnv
+    staticEnv,
+    hooks
   } = params;
+
+  // Respect hooks config — skip sections when their corresponding hook is disabled
+  const hooksConfig = hooks || {};
+  const contextEnabled = hooksConfig['context-tracking'] !== false;
+  const usageEnabled = hooksConfig['usage-context-awareness'] !== false;
 
   return [
     ...buildLanguageSection({ thinkingLanguage, responseLanguage }),
     ...buildSessionSection(staticEnv),
-    ...buildContextSection(sessionId),
-    ...buildUsageSection(),
+    ...(contextEnabled ? buildContextSection(sessionId) : []),
+    ...(usageEnabled ? buildUsageSection() : []),
     ...buildRulesSection({ devRulesPath, catalogScript, skillsVenv }),
     ...buildModularizationSection(),
     ...buildPathsSection({ reportsPath, plansPath, docsPath, docsMaxLoc }),
@@ -545,10 +551,16 @@ function buildReminderContext({ sessionId, config, staticEnv, configDirName = '.
     validationMode: planCtx.validationMode,
     validationMin: planCtx.validationMin,
     validationMax: planCtx.validationMax,
-    staticEnv
+    staticEnv,
+    hooks: cfg.hooks
   };
 
   const lines = buildReminder(params);
+
+  // Respect hooks config for sections object too
+  const hooksConfig = cfg.hooks || {};
+  const contextEnabled = hooksConfig['context-tracking'] !== false;
+  const usageEnabled = hooksConfig['usage-context-awareness'] !== false;
 
   return {
     content: lines.join('\n'),
@@ -556,8 +568,8 @@ function buildReminderContext({ sessionId, config, staticEnv, configDirName = '.
     sections: {
       language: buildLanguageSection({ thinkingLanguage: params.thinkingLanguage, responseLanguage: params.responseLanguage }),
       session: buildSessionSection(staticEnv),
-      context: buildContextSection(sessionId),
-      usage: buildUsageSection(),
+      context: contextEnabled ? buildContextSection(sessionId) : [],
+      usage: usageEnabled ? buildUsageSection() : [],
       rules: buildRulesSection({ devRulesPath, catalogScript, skillsVenv }),
       modularization: buildModularizationSection(),
       paths: buildPathsSection({ reportsPath: params.reportsPath, plansPath: params.plansPath, docsPath: params.docsPath, docsMaxLoc: params.docsMaxLoc }),

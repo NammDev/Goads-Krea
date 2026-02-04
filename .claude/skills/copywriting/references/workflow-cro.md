@@ -51,4 +51,4 @@ Analyze content and optimize for conversion based on user-reported issues.
 2. **Videos provided** → Use `ai-multimodal` video-analysis for bottleneck identification
 3. **URL provided** → Use `web_fetch` tool to fetch and analyze current issues
 4. **Scout codebase** → `/scout:ext` (preferred) or `/scout` to find relevant files
-5. **Implement** → Use `copywriter` agent to write enhanced copy into code files
+5. **Implement** → Use `fullstack-developer` agent to write enhanced copy into code files

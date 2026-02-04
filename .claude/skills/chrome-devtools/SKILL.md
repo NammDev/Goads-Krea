@@ -1,6 +1,6 @@
 ---
 name: chrome-devtools
-description: Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Use for automating browsers, taking screenshots, analyzing performance, monitoring network traffic, web scraping, form automation, and JavaScript debugging.
+description: Automate browsers with Puppeteer CLI scripts and persistent sessions. Use for screenshots, performance analysis, network monitoring, web scraping, form automation, JavaScript debugging.
 license: Apache-2.0
 version: 1.1.0
 ---
@@ -14,14 +14,14 @@ Browser automation via Puppeteer scripts with persistent sessions. All scripts o
 Skills can exist in **project-scope** or **user-scope**. Priority: project-scope > user-scope.
 
 ```bash
-# Detect skill location
+# Detect skill location (no cd needed - scripts use __dirname for paths)
 SKILL_DIR=""
 if [ -d ".claude/skills/chrome-devtools/scripts" ]; then
   SKILL_DIR=".claude/skills/chrome-devtools/scripts"
 elif [ -d "$HOME/.claude/skills/chrome-devtools/scripts" ]; then
   SKILL_DIR="$HOME/.claude/skills/chrome-devtools/scripts"
 fi
-cd "$SKILL_DIR"
+# Run scripts with full path: node "$SKILL_DIR/script.js" --args
 ```
 
 ## Choosing Your Approach
@@ -50,10 +50,10 @@ When page structure is unknown, use `aria-snapshot.js` to get a YAML-formatted a
 
 ```bash
 # Generate ARIA snapshot and output to stdout
-node aria-snapshot.js --url https://example.com
+node "$SKILL_DIR/aria-snapshot.js" --url https://example.com
 
 # Save to file in snapshots directory
-node aria-snapshot.js --url https://example.com --output ./.claude/chrome-devtools/snapshots/page.yaml
+node "$SKILL_DIR/aria-snapshot.js" --url https://example.com --output ./.claude/chrome-devtools/snapshots/page.yaml
 ```
 
 ### Example YAML Output
@@ -96,22 +96,22 @@ Use `select-ref.js` to interact with elements by their ref:
 
 ```bash
 # Click element with ref e5
-node select-ref.js --ref e5 --action click
+node "$SKILL_DIR/select-ref.js" --ref e5 --action click
 
 # Fill input with ref e10
-node select-ref.js --ref e10 --action fill --value "search query"
+node "$SKILL_DIR/select-ref.js" --ref e10 --action fill --value "search query"
 
 # Get text content
-node select-ref.js --ref e8 --action text
+node "$SKILL_DIR/select-ref.js" --ref e8 --action text
 
 # Screenshot specific element
-node select-ref.js --ref e1 --action screenshot --output ./logo.png
+node "$SKILL_DIR/select-ref.js" --ref e1 --action screenshot --output ./logo.png
 
 # Focus element
-node select-ref.js --ref e10 --action focus
+node "$SKILL_DIR/select-ref.js" --ref e10 --action focus
 
 # Hover over element
-node select-ref.js --ref e5 --action hover
+node "$SKILL_DIR/select-ref.js" --ref e5 --action hover
 ```
 
 ### Store Snapshots
@@ -125,26 +125,26 @@ mkdir -p .claude/chrome-devtools/snapshots
 
 # Capture and store with timestamp
 SESSION="$(date +%Y%m%d-%H%M%S)"
-node aria-snapshot.js --url https://example.com --output .claude/chrome-devtools/snapshots/$SESSION.yaml
+node "$SKILL_DIR/aria-snapshot.js" --url https://example.com --output .claude/chrome-devtools/snapshots/$SESSION.yaml
 ```
 
 ### Workflow: Unknown Page Structure
 
 1. **Get snapshot** to discover elements:
    ```bash
-   node aria-snapshot.js --url https://example.com
+   node "$SKILL_DIR/aria-snapshot.js" --url https://example.com
    ```
 
 2. **Identify target** from YAML output (e.g., `[ref=e5]` for a button)
 
 3. **Interact by ref**:
    ```bash
-   node select-ref.js --ref e5 --action click
+   node "$SKILL_DIR/select-ref.js" --ref e5 --action click
    ```
 
 4. **Verify result** with screenshot or new snapshot:
    ```bash
-   node screenshot.js --output ./result.png
+   node "$SKILL_DIR/screenshot.js" --output ./result.png
    ```
 
 ## Local HTML Files
@@ -156,11 +156,11 @@ Skills can exist in **project-scope** or **user-scope**. Priority: project-scope
 ```bash
 # Option 1: npx serve (recommended)
 npx serve ./dist -p 3000 &
-node navigate.js --url http://localhost:3000
+node "$SKILL_DIR/navigate.js" --url http://localhost:3000
 
 # Option 2: Python http.server
 python -m http.server 3000 --directory ./dist &
-node navigate.js --url http://localhost:3000
+node "$SKILL_DIR/navigate.js" --url http://localhost:3000
 ```
 
 **Note**: when port 3000 is busy, find an available port with `lsof -i :3000` and use a different one.
@@ -168,16 +168,15 @@ node navigate.js --url http://localhost:3000
 ## Quick Start
 
 ```bash
-# Install dependencies
-cd .claude/skills/chrome-devtools/scripts
-npm install  # Installs puppeteer, sharp, debug, yargs
+# Install dependencies (one-time setup)
+npm install --prefix "$SKILL_DIR"
 
 # Test (browser stays running for session reuse)
-node navigate.js --url https://example.com
+node "$SKILL_DIR/navigate.js" --url https://example.com
 # Output: {"success": true, "url": "...", "title": "..."}
 ```
 
-**Linux/WSL only**: Run `./install-deps.sh` first for Chrome system libraries.
+**Linux/WSL only**: Run `"$SKILL_DIR/install-deps.sh"` first for Chrome system libraries.
 
 ## Session Persistence
 
@@ -187,15 +186,15 @@ Browser state persists across script executions via WebSocket endpoint file (`.b
 
 ```bash
 # First script: launches browser, navigates, disconnects (browser stays running)
-node navigate.js --url https://example.com/login
+node "$SKILL_DIR/navigate.js" --url https://example.com/login
 
 # Subsequent scripts: connect to existing browser, reuse page state
-node fill.js --selector "#email" --value "user@example.com"
-node fill.js --selector "#password" --value "secret"
-node click.js --selector "button[type=submit]"
+node "$SKILL_DIR/fill.js" --selector "#email" --value "user@example.com"
+node "$SKILL_DIR/fill.js" --selector "#password" --value "secret"
+node "$SKILL_DIR/click.js" --selector "button[type=submit]"
 
 # Close browser when done
-node navigate.js --url about:blank --close true
+node "$SKILL_DIR/navigate.js" --url about:blank --close true
 ```
 
 **Session management**:
@@ -220,6 +219,11 @@ All in `.claude/skills/chrome-devtools/scripts/`:
 | `console.js` | Monitor console messages/errors |
 | `network.js` | Track HTTP requests/responses |
 | `performance.js` | Measure Core Web Vitals |
+| `ws-debug.js` | Debug WebSocket connections (basic) |
+| `ws-full-debug.js` | Debug WebSocket with full events/frames |
+| `inject-auth.js` | Inject cookies/tokens for authentication |
+| `import-cookies.js` | Import cookies from JSON/Netscape file |
+| `connect-chrome.js` | Connect to Chrome with remote debugging |
 
 ## Workflow Loop
 
@@ -282,13 +286,13 @@ Store screenshots for analysis in `<project>/.claude/chrome-devtools/screenshots
 
 ```bash
 # Basic screenshot
-node screenshot.js --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png
+node "$SKILL_DIR/screenshot.js" --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png
 
 # Full page
-node screenshot.js --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --full-page true
+node "$SKILL_DIR/screenshot.js" --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --full-page true
 
 # Specific element
-node screenshot.js --url https://example.com --selector ".main-content" --output ./.claude/chrome-devtools/screenshots/element.png
+node "$SKILL_DIR/screenshot.js" --url https://example.com --selector ".main-content" --output ./.claude/chrome-devtools/screenshots/element.png
 ```
 
 ### Auto-Compression (Sharp)
@@ -297,13 +301,13 @@ Screenshots >5MB auto-compress using Sharp (4-5x faster than ImageMagick):
 
 ```bash
 # Default: compress if >5MB
-node screenshot.js --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png
+node "$SKILL_DIR/screenshot.js" --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png
 
 # Custom threshold (3MB)
-node screenshot.js --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --max-size 3
+node "$SKILL_DIR/screenshot.js" --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --max-size 3
 
 # Disable compression
-node screenshot.js --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --no-compress
+node "$SKILL_DIR/screenshot.js" --url https://example.com --output ./.claude/chrome-devtools/screenshots/page.png --no-compress
 ```
 
 Store screenshots for analysis in `<project>/.claude/chrome-devtools/screenshots/`.
@@ -316,10 +320,10 @@ Skills can exist in **project-scope** or **user-scope**. Priority: project-scope
 
 ```bash
 # Capture all logs for 10 seconds
-node console.js --url https://example.com --duration 10000
+node "$SKILL_DIR/console.js" --url https://example.com --duration 10000
 
 # Filter by type
-node console.js --url https://example.com --types error,warn --duration 5000
+node "$SKILL_DIR/console.js" --url https://example.com --types error,warn --duration 5000
 ```
 
 ### Session Storage Pattern
@@ -332,8 +336,8 @@ SESSION="$(date +%Y%m%d-%H%M%S)"
 mkdir -p .claude/chrome-devtools/logs/$SESSION
 
 # Capture and store
-node console.js --url https://example.com --duration 10000 > .claude/chrome-devtools/logs/$SESSION/console.json
-node network.js --url https://example.com > .claude/chrome-devtools/logs/$SESSION/network.json
+node "$SKILL_DIR/console.js" --url https://example.com --duration 10000 > .claude/chrome-devtools/logs/$SESSION/console.json
+node "$SKILL_DIR/network.js" --url https://example.com > .claude/chrome-devtools/logs/$SESSION/network.json
 
 # View errors
 jq '.messages[] | select(.type=="error")' .claude/chrome-devtools/logs/$SESSION/console.json
@@ -343,13 +347,13 @@ jq '.messages[] | select(.type=="error")' .claude/chrome-devtools/logs/$SESSION/
 
 ```bash
 # 1. Check for JavaScript errors
-node console.js --url https://example.com --types error,pageerror --duration 5000 | jq '.messages'
+node "$SKILL_DIR/console.js" --url https://example.com --types error,pageerror --duration 5000 | jq '.messages'
 
 # 2. Correlate with network failures
-node network.js --url https://example.com | jq '.requests[] | select(.response.status >= 400)'
+node "$SKILL_DIR/network.js" --url https://example.com | jq '.requests[] | select(.response.status >= 400)'
 
 # 3. Check specific error stack traces
-node console.js --url https://example.com --types error --duration 5000 | jq '.messages[].stack'
+node "$SKILL_DIR/console.js" --url https://example.com --types error --duration 5000 | jq '.messages[].stack'
 ```
 
 ## Finding Elements
@@ -359,13 +363,13 @@ Use `snapshot.js` to discover selectors before interacting:
 
 ```bash
 # Get all interactive elements
-node snapshot.js --url https://example.com | jq '.elements[] | {tagName, text, selector}'
+node "$SKILL_DIR/snapshot.js" --url https://example.com | jq '.elements[] | {tagName, text, selector}'
 
 # Find buttons
-node snapshot.js --url https://example.com | jq '.elements[] | select(.tagName=="button")'
+node "$SKILL_DIR/snapshot.js" --url https://example.com | jq '.elements[] | select(.tagName=="button")'
 
 # Find by text content
-node snapshot.js --url https://example.com | jq '.elements[] | select(.text | contains("Submit"))'
+node "$SKILL_DIR/snapshot.js" --url https://example.com | jq '.elements[] | select(.text | contains("Submit"))'
 ```
 
 ## Error Recovery
@@ -375,23 +379,23 @@ If script fails:
 
 ```bash
 # 1. Capture current state (without navigating to preserve state)
-node screenshot.js --output ./.claude/skills/chrome-devtools/screenshots/debug.png
+node "$SKILL_DIR/screenshot.js" --output ./.claude/skills/chrome-devtools/screenshots/debug.png
 
 # 2. Get console errors
-node console.js --url about:blank --types error --duration 1000
+node "$SKILL_DIR/console.js" --url about:blank --types error --duration 1000
 
 # 3. Discover correct selector
-node snapshot.js | jq '.elements[] | select(.text | contains("Submit"))'
+node "$SKILL_DIR/snapshot.js" | jq '.elements[] | select(.text | contains("Submit"))'
 
 # 4. Try XPath if CSS fails
-node click.js --selector "//button[contains(text(),'Submit')]"
+node "$SKILL_DIR/click.js" --selector "//button[contains(text(),'Submit')]"
 ```
 
 ## Common Patterns
 
 ### Web Scraping
 ```bash
-node evaluate.js --url https://example.com --script "
+node "$SKILL_DIR/evaluate.js" --url https://example.com --script "
   Array.from(document.querySelectorAll('.item')).map(el => ({
     title: el.querySelector('h2')?.textContent,
     link: el.querySelector('a')?.href
@@ -401,14 +405,14 @@ node evaluate.js --url https://example.com --script "
 
 ### Form Automation
 ```bash
-node navigate.js --url https://example.com/form
-node fill.js --selector "#search" --value "query"
-node click.js --selector "button[type=submit]"
+node "$SKILL_DIR/navigate.js" --url https://example.com/form
+node "$SKILL_DIR/fill.js" --selector "#search" --value "query"
+node "$SKILL_DIR/click.js" --selector "button[type=submit]"
 ```
 
 ### Performance Testing
 ```bash
-node performance.js --url https://example.com | jq '.vitals'
+node "$SKILL_DIR/performance.js" --url https://example.com | jq '.vitals'
 ```
 
 ## Script Options
@@ -438,31 +442,142 @@ If images don't appear in screenshots, they may be waiting for animation trigger
 
 1. **Scroll-triggered animations**: Scroll element into view first
    ```bash
-   node evaluate.js --script "document.querySelector('.lazy-image').scrollIntoView()"
+   node "$SKILL_DIR/evaluate.js" --script "document.querySelector('.lazy-image').scrollIntoView()"
    # Wait for animation
-   node evaluate.js --script "await new Promise(r => setTimeout(r, 1000))"
-   node screenshot.js --output ./result.png
+   node "$SKILL_DIR/evaluate.js" --script "await new Promise(r => setTimeout(r, 1000))"
+   node "$SKILL_DIR/screenshot.js" --output ./result.png
    ```
 
 2. **Sequential animation queue**: Wait longer and retry
    ```bash
    # First attempt
-   node screenshot.js --url http://localhost:3000 --output ./attempt1.png
+   node "$SKILL_DIR/screenshot.js" --url http://localhost:3000 --output ./attempt1.png
 
    # Wait for animations to complete
-   node evaluate.js --script "await new Promise(r => setTimeout(r, 2000))"
+   node "$SKILL_DIR/evaluate.js" --script "await new Promise(r => setTimeout(r, 2000))"
 
    # Retry screenshot
-   node screenshot.js --output ./attempt2.png
+   node "$SKILL_DIR/screenshot.js" --output ./attempt2.png
    ```
 
 3. **Intersection Observer animations**: Trigger by scrolling through page
    ```bash
-   node evaluate.js --script "window.scrollTo(0, document.body.scrollHeight)"
-   node evaluate.js --script "await new Promise(r => setTimeout(r, 1500))"
-   node evaluate.js --script "window.scrollTo(0, 0)"
-   node screenshot.js --output ./full-loaded.png --full-page true
+   node "$SKILL_DIR/evaluate.js" --script "window.scrollTo(0, document.body.scrollHeight)"
+   node "$SKILL_DIR/evaluate.js" --script "await new Promise(r => setTimeout(r, 1500))"
+   node "$SKILL_DIR/evaluate.js" --script "window.scrollTo(0, 0)"
+   node "$SKILL_DIR/screenshot.js" --output ./full-loaded.png --full-page true
    ```
+
+## Authentication & Cookies
+
+For accessing protected/authenticated pages, use one of these methods:
+
+### Method 1: Inject Cookies Directly
+
+Use when you have cookie values (from DevTools or manual extraction):
+
+```bash
+# Inject single cookie
+node "$SKILL_DIR/inject-auth.js" --url https://site.com \
+  --cookies '[{"name":"session","value":"abc123","domain":".site.com"}]'
+
+# Multiple cookies with all properties
+node "$SKILL_DIR/inject-auth.js" --url https://site.com \
+  --cookies '[{"name":"session","value":"abc","domain":".site.com","httpOnly":true,"secure":true}]'
+
+# With Bearer token header
+node "$SKILL_DIR/inject-auth.js" --url https://api.site.com \
+  --token "Bearer eyJhbG..." --header Authorization
+```
+
+### Method 2: Import from Browser Extension
+
+Best for complex auth (OAuth, multi-cookie sessions):
+
+```bash
+# 1. Install "Cookie-Editor" or "EditThisCookie" Chrome extension
+# 2. Navigate to site → Log in manually
+# 3. Click extension → Export as JSON → Save to cookies.json
+# 4. Import into puppeteer session:
+
+node "$SKILL_DIR/import-cookies.js" --file ./cookies.json --url https://site.com
+
+# Netscape format (from curl/wget):
+node "$SKILL_DIR/import-cookies.js" --file ./cookies.txt --format netscape --url https://site.com
+
+# Only import cookies matching target domain:
+node "$SKILL_DIR/import-cookies.js" --file ./cookies.json --url https://site.com --strict-domain
+```
+
+### Method 3: Use Your Chrome Profile
+
+Most reliable for complex auth (2FA, OAuth, SSO). Uses your existing Chrome session:
+
+```bash
+# Use Chrome's default profile (preserves all cookies, extensions, saved passwords)
+node "$SKILL_DIR/navigate.js" --url https://site.com --use-default-profile true
+
+# Use specific Chrome profile directory
+node "$SKILL_DIR/navigate.js" --url https://site.com --profile "/path/to/chrome/profile"
+```
+
+**⚠️ Important**: Chrome must be fully closed when using its profile (single instance lock).
+
+**Profile paths by OS:**
+- **macOS**: `~/Library/Application Support/Google/Chrome`
+- **Windows**: `%LOCALAPPDATA%/Google/Chrome/User Data`
+- **Linux**: `~/.config/google-chrome`
+
+### Method 4: Connect to Running Chrome
+
+Best for debugging (can see browser window while scripts run):
+
+```bash
+# Step 1: Launch Chrome with remote debugging (in separate terminal)
+# macOS:
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+
+# Windows:
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222
+
+# Linux:
+google-chrome --remote-debugging-port=9222
+
+# Step 2: Log in manually in the Chrome window
+
+# Step 3: Connect and automate
+node "$SKILL_DIR/connect-chrome.js" --browser-url http://localhost:9222 --url https://site.com
+
+# Or launch Chrome automatically (opens new window):
+node "$SKILL_DIR/connect-chrome.js" --launch --port 9222 --url https://site.com
+```
+
+### Session Persistence
+
+Auth sessions are saved to `.auth-session.json` for 24-hour reuse:
+
+```bash
+# First script injects auth
+node "$SKILL_DIR/inject-auth.js" --url https://site.com --cookies '[...]'
+
+# Subsequent scripts reuse saved auth automatically
+node "$SKILL_DIR/navigate.js" --url https://site.com/dashboard
+node "$SKILL_DIR/screenshot.js" --url https://site.com/profile --output ./profile.png
+
+# Clear auth session when done
+node "$SKILL_DIR/inject-auth.js" --url https://site.com --clear true
+```
+
+### Choosing the Right Method
+
+| Method | Best For | Complexity |
+|--------|----------|------------|
+| Inject cookies | Simple session cookies, API tokens | Low |
+| Import from extension | Multi-cookie auth, OAuth tokens | Medium |
+| Chrome profile | 2FA, SSO, complex OAuth flows | Low* |
+| Connect to Chrome | Debugging, visual verification | Medium |
+
+*Requires Chrome to be closed first
 
 ## Reference Documentation
 

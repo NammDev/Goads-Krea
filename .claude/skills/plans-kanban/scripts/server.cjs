@@ -13,7 +13,8 @@
  *   --host <addr>   Host to bind (default: localhost, use 0.0.0.0 for all interfaces)
  *   --open          Auto-open browser after start
  *   --stop          Stop all running kanban servers
- *   --background    Run in background (detached)
+ *   --background    Run in background (detached) - legacy mode
+ *   --foreground    Run in foreground (for CC background tasks)
  */
 
 const fs = require('fs');
@@ -36,6 +37,7 @@ function parseArgs(argv) {
     open: false,
     stop: false,
     background: false,
+    foreground: false,
     isChild: false
   };
 
@@ -53,6 +55,8 @@ function parseArgs(argv) {
       args.stop = true;
     } else if (arg === '--background') {
       args.background = true;
+    } else if (arg === '--foreground') {
+      args.foreground = true;
     } else if (arg === '--child') {
       args.isChild = true;
     } else if (!arg.startsWith('--') && !args.dir) {
@@ -155,8 +159,9 @@ async function main() {
     process.exit(1);
   }
 
-  // Background mode - spawn child and exit
-  if (args.background && !args.isChild) {
+  // Background mode - spawn child and exit (legacy mode for manual runs)
+  // Skip if --foreground is set (for Claude Code background tasks)
+  if (args.background && !args.foreground && !args.isChild) {
     const childArgs = ['--dir', plansDir, '--port', String(args.port), '--host', args.host, '--child'];
     if (args.open) childArgs.push('--open');
 
@@ -212,7 +217,9 @@ async function main() {
     writePidFile(port, process.pid);
     setupShutdownHandlers(port, () => server.close());
 
-    if (args.isChild || process.env.CLAUDE_COMMAND) {
+    // Output for CLI/command integration
+    // In foreground mode (CC background task), always output JSON
+    if (args.foreground || args.isChild || process.env.CLAUDE_COMMAND) {
       const result = {
         success: true,
         url,

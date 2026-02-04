@@ -266,10 +266,10 @@
           "enum": [
             "gemini-2.5-flash",
             "gemini-2.5-pro",
-            "gemini-3.0-pro",
-            "gemini-3.0-flash"
+            "gemini-3-pro-preview",
+            "gemini-3-flash-preview"
           ],
-          "default": "gemini-3.0-flash",
+          "default": "gemini-3-flash-preview",
           "description": "Gemini model to use for CLI commands"
         }
       },
@@ -317,6 +317,64 @@
       },
       "default": [],
       "description": "Code assertions and rules to enforce"
+    },
+    "statusline": {
+      "type": "string",
+      "enum": ["full", "compact", "minimal", "none"],
+      "default": "full",
+      "description": "Statusline display mode: full=all features, compact=2-3 lines, minimal=single text line, none=disabled"
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Toggle individual hooks on/off. Default: all enabled. Set a hook to `false` to disable; only explicit `false` disables (undefined/null/missing keys default to enabled).",
+      "properties": {
+        "session-init": {
+          "type": "boolean",
+          "default": true,
+          "description": "SessionStart hook - project detection and env setup"
+        },
+        "subagent-init": {
+          "type": "boolean",
+          "default": true,
+          "description": "SubagentStart hook - injects context to subagents"
+        },
+        "descriptive-name": {
+          "type": "boolean",
+          "default": true,
+          "description": "PreToolUse hook - descriptive name for scripts"
+        },
+        "dev-rules-reminder": {
+          "type": "boolean",
+          "default": true,
+          "description": "UserPromptSubmit hook - injects dev rules context"
+        },
+        "usage-context-awareness": {
+          "type": "boolean",
+          "default": true,
+          "description": "UserPromptSubmit/PostToolUse hook - usage limits fetching and injection"
+        },
+        "context-tracking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Context window tracking injection (% used, token counts) in dev-rules-reminder"
+        },
+        "scout-block": {
+          "type": "boolean",
+          "default": true,
+          "description": "PreToolUse hook - blocks heavy directories"
+        },
+        "privacy-block": {
+          "type": "boolean",
+          "default": true,
+          "description": "PreToolUse hook - blocks sensitive files"
+        },
+        "post-edit-simplify-reminder": {
+          "type": "boolean",
+          "default": true,
+          "description": "PostToolUse hook - simplify reminder after edits"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": true

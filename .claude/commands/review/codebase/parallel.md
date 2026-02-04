@@ -87,8 +87,8 @@ Collect all verification reports:
 ### 5. Auto-Fix Pipeline
 
 **IF** unhandled/partial edge cases found:
-- Ask: "Found N unhandled edge cases. Fix with /fix:parallel? [Y/n]"
-- **IF yes:** Trigger `/fix:parallel` with unhandled list
+- Ask: "Found N unhandled edge cases. Fix with /fix --parallel? [Y/n]"
+- **IF yes:** Trigger `/fix --parallel` with unhandled list
 
 ### 6. Final Report
 
@@ -116,7 +116,7 @@ User: /review:codebase:parallel auth module
 
 4. Aggregate → 8 handled, 3 unhandled, 1 partial
 
-5. Fix → User approves → /fix:parallel
+5. Fix → User approves → /fix --parallel
 
 6. Final → Commit changes
 ```

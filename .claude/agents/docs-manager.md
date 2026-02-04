@@ -52,6 +52,93 @@ You organize documentation to:
 - Maintain up-to-date setup and deployment instructions
 - Create clear onboarding documentation
 
+### 6. Size Limit Management
+
+**Target:** Keep all doc files under `docs.maxLoc` (default: 800 LOC, injected via session context).
+
+#### Before Writing
+1. Check existing file size: `wc -l docs/{file}.md`
+2. Estimate how much content you'll add
+3. If result would exceed limit → split proactively
+
+#### During Generation
+When creating/updating docs:
+- **Single file approaching limit** → Stop and split into topic directories
+- **New large topic** → Create `docs/{topic}/index.md` + part files from start
+- **Existing oversized file** → Refactor into modular structure before adding more
+
+#### Splitting Strategy (LLM-Driven)
+
+When splitting is needed, analyze content and choose split points by:
+1. **Semantic boundaries** - distinct topics that can stand alone
+2. **User journey stages** - getting started → configuration → advanced → troubleshooting
+3. **Domain separation** - API vs architecture vs deployment vs security
+
+Create modular structure:
+```
+docs/{topic}/
+├── index.md        # Overview + navigation links
+├── {subtopic-1}.md # Self-contained, links to related
+├── {subtopic-2}.md
+└── reference.md    # Detailed examples, edge cases
+```
+
+**index.md template:**
+```markdown
+# {Topic}
+
+Brief overview (2-3 sentences).
+
+## Contents
+- [{Subtopic 1}](./{subtopic-1}.md) - one-line description
+- [{Subtopic 2}](./{subtopic-2}.md) - one-line description
+
+## Quick Start
+Link to most common entry point.
+```
+
+#### Concise Writing Techniques
+- Lead with purpose, not background
+- Use tables instead of paragraphs for lists
+- Move detailed examples to separate reference files
+- One concept per section, link to related topics
+- Prefer code blocks over prose for configuration
+
+### 7. Documentation Accuracy Protocol
+
+**Principle:** Only document what you can verify exists in the codebase.
+
+#### Evidence-Based Writing
+Before documenting any code reference:
+1. **Functions/Classes:** Verify via `grep -r "function {name}\|class {name}" src/`
+2. **API Endpoints:** Confirm routes exist in route files
+3. **Config Keys:** Check against `.env.example` or config files
+4. **File References:** Confirm file exists before linking
+
+#### Conservative Output Strategy
+- When uncertain about implementation details → describe high-level intent only
+- When code is ambiguous → note "implementation may vary"
+- Never invent API signatures, parameter names, or return types
+- Don't assume endpoints exist; verify or omit
+
+#### Internal Link Hygiene
+- Only use `[text](./path.md)` for files that exist in `docs/`
+- For code files, verify path before documenting
+- Prefer relative links within `docs/`
+
+#### Self-Validation
+After completing documentation updates, run validation:
+```bash
+node .claude/scripts/validate-docs.cjs docs/
+```
+Review warnings and fix before considering task complete.
+
+#### Red Flags (Stop & Verify)
+- Writing `functionName()` without seeing it in code
+- Documenting API response format without checking actual code
+- Linking to files you haven't confirmed exist
+- Describing env vars not in `.env.example`
+
 ## Working Methodology
 
 ### Documentation Review Process

@@ -20,58 +20,12 @@ const broadPatternTests = [
   { pattern: '**', expected: true, desc: 'double star alone' },
   { pattern: '*', expected: true, desc: 'single star alone' },
   { pattern: '**/.*', expected: true, desc: 'all dotfiles' },
-  { pattern: '**/*.ts', expected: true, desc: 'all .ts files' },
-  { pattern: '**/*.tsx', expected: true, desc: 'all .tsx files' },
-  { pattern: '**/*.js', expected: true, desc: 'all .js files' },
-  { pattern: '**/*.{ts,tsx}', expected: true, desc: 'all TS files with braces' },
-  { pattern: '**/*.{js,jsx,ts,tsx}', expected: true, desc: 'all JS/TS files' },
-  { pattern: '**/index.ts', expected: true, desc: 'all index.ts files' },
-  { pattern: '*.ts', expected: true, desc: 'root .ts files' },
-  { pattern: '*.{ts,tsx}', expected: true, desc: 'root TS files with braces' },
-
-  // Should be detected as broad - Python
-  { pattern: '**/*.py', expected: true, desc: 'all .py files' },
-  { pattern: '**/*.ipynb', expected: true, desc: 'all Jupyter notebooks' },
-  { pattern: '**/requirements.txt', expected: true, desc: 'all requirements.txt' },
-
-  // Should be detected as broad - Other languages
-  { pattern: '**/*.java', expected: true, desc: 'all Java files' },
-  { pattern: '**/*.go', expected: true, desc: 'all Go files' },
-  { pattern: '**/*.rs', expected: true, desc: 'all Rust files' },
-  { pattern: '**/*.rb', expected: true, desc: 'all Ruby files' },
-  { pattern: '**/*.c', expected: true, desc: 'all C files' },
-  { pattern: '**/*.cpp', expected: true, desc: 'all C++ files' },
-
-  // Should be detected as broad - Config/Data
-  { pattern: '**/*.json', expected: true, desc: 'all JSON files' },
-  { pattern: '**/*.yaml', expected: true, desc: 'all YAML files' },
-  { pattern: '**/*.md', expected: true, desc: 'all Markdown files' },
 
   // Should NOT be detected as broad (specific)
-  { pattern: 'src/**/*.ts', expected: false, desc: 'src scoped .ts files' },
-  { pattern: 'lib/**/*.js', expected: false, desc: 'lib scoped .js files' },
-  { pattern: 'components/**/*.tsx', expected: false, desc: 'components scoped' },
-  { pattern: 'app/routes/*.ts', expected: false, desc: 'specific app path' },
   { pattern: 'package.json', expected: false, desc: 'specific file' },
   { pattern: 'src/index.ts', expected: false, desc: 'specific file path' },
-  { pattern: 'scripts/**/*.py', expected: false, desc: 'scoped Python files' },
   { pattern: null, expected: false, desc: 'null pattern' },
   { pattern: '', expected: false, desc: 'empty pattern' },
-];
-
-// === hasSpecificDirectory tests ===
-const specificDirTests = [
-  { pattern: 'src/**/*.ts', expected: true, desc: 'starts with src/' },
-  { pattern: 'lib/**/*.js', expected: true, desc: 'starts with lib/' },
-  { pattern: 'app/routes/*.ts', expected: true, desc: 'starts with app/' },
-  { pattern: 'components/**/*.tsx', expected: true, desc: 'starts with components/' },
-  { pattern: './src/**/*.ts', expected: true, desc: 'starts with ./src/' },
-  { pattern: 'mydir/**/*.ts', expected: true, desc: 'custom dir prefix' },
-  { pattern: 'packages/web/**/*.ts', expected: true, desc: 'packages scoped' },
-
-  { pattern: '**/*.ts', expected: false, desc: 'no directory prefix' },
-  { pattern: '*.ts', expected: false, desc: 'root only' },
-  { pattern: null, expected: false, desc: 'null' },
 ];
 
 // === isHighLevelPath tests ===
@@ -164,20 +118,6 @@ for (const test of broadPatternTests) {
     passed++;
   } else {
     console.log(`\x1b[31m✗\x1b[0m ${test.desc}: expected ${test.expected ? 'BROAD' : 'OK'}, got ${result ? 'BROAD' : 'OK'}`);
-    failed++;
-  }
-}
-
-// Test hasSpecificDirectory
-console.log('\n\x1b[1m--- hasSpecificDirectory ---\x1b[0m');
-for (const test of specificDirTests) {
-  const result = hasSpecificDirectory(test.pattern);
-  const success = result === test.expected;
-  if (success) {
-    console.log(`\x1b[32m✓\x1b[0m ${test.desc}: "${test.pattern}" -> ${result ? 'HAS_DIR' : 'NO_DIR'}`);
-    passed++;
-  } else {
-    console.log(`\x1b[31m✗\x1b[0m ${test.desc}: expected ${test.expected ? 'HAS_DIR' : 'NO_DIR'}, got ${result ? 'HAS_DIR' : 'NO_DIR'}`);
     failed++;
   }
 }

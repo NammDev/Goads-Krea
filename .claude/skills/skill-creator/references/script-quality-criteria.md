@@ -34,9 +34,12 @@ Tests must pass. No skipping failed tests.
 Respect hierarchy (first found wins):
 
 1. `process.env` (runtime)
-2. `.claude/skills/<skill-name>/.env` (skill-specific)
-3. `.claude/skills/.env` (shared skills)
-4. `.claude/.env` (global)
+2. `$HOME/.claude/skills/<skill-name>/.env` (skill-specific)
+3. `$HOME/.claude/skills/.env` (shared skills)
+4. `$HOME/.claude/.env` (global)
+5. `./.claude/skills/${SKILL}/.env` (cwd)
+6. `./.claude/skills/.env` (cwd)
+7. `./.claude/.env` (cwd)
 
 **Implementation pattern (Python):**
 
@@ -45,9 +48,12 @@ from dotenv import load_dotenv
 import os
 
 # Load in reverse order (last loaded wins if not set)
-load_dotenv('.claude/.env')
-load_dotenv('.claude/skills/.env')
-load_dotenv('.claude/skills/my-skill/.env')
+load_dotenv('$HOME/.claude/.env')
+load_dotenv('$HOME/.claude/skills/.env')
+load_dotenv('$HOME/.claude/skills/my-skill/.env')
+load_dotenv('./.claude/skills/my-skill/.env')
+load_dotenv('./.claude/skills/.env')
+load_dotenv('./.claude/.env')
 # process.env already takes precedence
 ```
 

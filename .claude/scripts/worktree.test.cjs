@@ -107,6 +107,17 @@ test('info detects monorepo from monorepo root', () => {
   assert(json.projects.length > 0, 'Should have projects');
 });
 
+test('monorepo uses internal worktrees directory', () => {
+  if (!fs.existsSync(MONOREPO_DIR)) return; // Skip if not available
+  const result = run('info --json', { cwd: MONOREPO_DIR });
+  const json = assertJSON(result.output);
+  // Monorepo should use worktrees/ inside the repo, not sibling
+  assert(json.worktreeRoot === path.join(MONOREPO_DIR, 'worktrees'),
+    `Expected ${path.join(MONOREPO_DIR, 'worktrees')}, got ${json.worktreeRoot}`);
+  assert(json.worktreeRootSource === 'monorepo internal',
+    `Expected 'monorepo internal', got ${json.worktreeRootSource}`);
+});
+
 test('info returns text output without --json', () => {
   const result = run('info');
   assert(result.success, 'Command should succeed');

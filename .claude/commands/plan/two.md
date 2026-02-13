@@ -37,6 +37,22 @@ Use the `planner` subagent to create 2 detailed implementation plans for this fo
   ---
   ```
 
+## Context Reminder (MANDATORY)
+
+**IMPORTANT:** After plan creation, you MUST remind the user with the **full absolute path**:
+
+> **Best Practice:** Run `/clear` before implementing to start with fresh context.
+> Then run:
+> ```
+> /cook {ABSOLUTE_PATH_TO_PLAN_DIR}/plan.md
+> ```
+> *(Replace with actual absolute path, e.g., `/home/user/project/plans/260203-1234-feature/plan.md`)*
+
+**Why no flag?** Multiple approaches need interactive review to choose the right one.
+**Why absolute path?** After `/clear`, the new session loses context. Worktree paths won't be discoverable without the full path.
+
+This reminder is **NON-NEGOTIABLE** - always output it after presenting the plan with the actual absolute path.
+
 ## Important Notes
 **IMPORTANT:** Analyze the skills catalog and activate the skills that are needed for the task during the process.
 **IMPORTANT:** Sacrifice grammar for the sake of concision when writing reports.

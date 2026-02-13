@@ -88,11 +88,11 @@ All modes share core steps with mode-specific variations.
 
 **All modes (except no-test):**
 - Write tests: happy path, edge cases, errors
-- Use `tester` agent
-- If failures: `debugger` → fix → repeat
-- **Forbidden:** fake mocks, commented tests, changed assertions
+- **MUST** spawn `tester` subagent: `Task(subagent_type="tester", prompt="Run test suite", description="Run tests")`
+- If failures: **MUST** spawn `debugger` subagent → fix → repeat
+- **Forbidden:** fake mocks, commented tests, changed assertions, skipping subagent delegation
 
-**Output:** `✓ Step 4: Tests [X/X passed]`
+**Output:** `✓ Step 4: Tests [X/X passed] - tester subagent invoked`
 
 ### [Review Gate 4] Post-Testing (skip if auto mode)
 - Present test results summary
@@ -101,8 +101,11 @@ All modes share core steps with mode-specific variations.
 
 ## Step 5: Code Review
 
+**All modes - MANDATORY subagent:**
+- **MUST** spawn `code-reviewer` subagent: `Task(subagent_type="code-reviewer", prompt="Review changes. Return score, critical issues, warnings.", description="Code review")`
+- **DO NOT** review code yourself - delegate to subagent
+
 **Interactive/Parallel/Code/No-test:**
-- Use `code-reviewer` agent
 - Interactive cycle (max 3): see `review-cycle.md`
 - Requires user approval
 
@@ -115,22 +118,24 @@ All modes share core steps with mode-specific variations.
 - Simplified review, no fix loop
 - User approves or aborts
 
-**Output:** `✓ Step 5: Review [score]/10 - [Approved|Auto-approved]`
+**Output:** `✓ Step 5: Review [score]/10 - [Approved|Auto-approved] - code-reviewer subagent invoked`
 
 ## Step 6: Finalize
 
-**All modes:**
-1. `project-manager` + `docs-manager` subagents in parallel:
-  - `project-manager` updates plan & phase status
-  - `docs-manager` updates docs (if any)
+**All modes - MANDATORY subagents (NON-NEGOTIABLE):**
+1. **MUST** spawn these subagents in parallel:
+   - `Task(subagent_type="project-manager", prompt="Update plan status. Mark phase DONE.", description="Update plan")`
+   - `Task(subagent_type="docs-manager", prompt="Update docs for changes.", description="Update docs")`
 2. Use `TaskUpdate` to mark Claude Tasks complete immediately.
 3. Onboarding check (API keys, env vars)
-4. Auto-commit via `git-manager` subagent
+4. **MUST** spawn git subagent: `Task(subagent_type="git-manager", prompt="Stage and commit changes", description="Commit")`
+
+**CRITICAL:** Step 6 is INCOMPLETE without spawning all 3 subagents. DO NOT skip subagent delegation.
 
 **Auto mode:** Continue to next phase automatically, start from **Step 3**.
 **Others:** Ask user before next phase
 
-**Output:** `✓ Step 6: Finalized - Status updated - Committed`
+**Output:** `✓ Step 6: Finalized - 3 subagents invoked - Status updated - Committed`
 
 ## Mode-Specific Flow Summary
 
@@ -150,7 +155,12 @@ code:        0 → skip → skip → 3 → [R] → 4 → [R] → 5(user) → 6
 ## Critical Rules
 
 - Never skip steps without mode justification
+- **MANDATORY SUBAGENT DELEGATION:** Steps 4, 5, 6 MUST spawn subagents via Task tool. DO NOT implement directly.
+  - Step 4: `tester` (and `debugger` if failures)
+  - Step 5: `code-reviewer`
+  - Step 6: `project-manager`, `docs-manager`, `git-manager`
 - Use `TaskCreate` to create Claude Tasks for each unchecked item with priority order and dependencies.
 - Use `TaskUpdate` to mark Claude Tasks `in_progress` when picking up a task.
 - Use `TaskUpdate` to mark Claude Tasks `complete` immediately after finalizing the task.
 - All step outputs follow format: `✓ Step [N]: [status] - [metrics]`
+- **VALIDATION:** If Task tool calls = 0 at end of workflow, the workflow is INCOMPLETE.

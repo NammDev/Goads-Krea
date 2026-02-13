@@ -58,7 +58,8 @@
           "node $HOME/.claude/hooks/write-compact-marker.cjs",
           "node $HOME/.claude/hooks/session-end.cjs",
           "node $HOME/.claude/hooks/usage-context-awareness.cjs",
-          "node $HOME/.claude/hooks/post-edit-simplify-reminder.cjs"
+          "node $HOME/.claude/hooks/post-edit-simplify-reminder.cjs",
+          "node $HOME/.claude/hooks/cook-after-plan-reminder.cjs"
         ],
         "mcpServers": []
       }

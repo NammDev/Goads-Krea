@@ -30,12 +30,19 @@ Use `planner` subagent to:
 
 ## Context Reminder (MANDATORY)
 
-**IMPORTANT:** After plan creation, you MUST remind the user:
+**IMPORTANT:** After plan creation, you MUST remind the user with the **full absolute path**:
 
 > **Best Practice:** Run `/clear` before implementing to start with fresh context.
-> Then run `/cook {plan-path}` to begin implementation.
+> Then run:
+> ```
+> /cook --auto {ABSOLUTE_PATH_TO_PLAN_DIR}/plan.md
+> ```
+> *(Replace with actual absolute path, e.g., `/home/user/project/plans/260203-1234-feature/plan.md`)*
 
-This reminder is **NON-NEGOTIABLE** - always output it after presenting the plan.
+**Why `--auto`?** Fast planning pairs with fast execution - skips review gates.
+**Why absolute path?** After `/clear`, the new session loses context. Worktree paths won't be discoverable without the full path.
+
+This reminder is **NON-NEGOTIABLE** - always output it after presenting the plan with the actual absolute path.
 
 ## Output Requirements
 

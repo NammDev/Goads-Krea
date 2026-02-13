@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
 const { isHookEnabled } = require('./lib/ck-config-utils.cjs');
 
 // Early exit if hook disabled in config
@@ -10,8 +8,12 @@ if (!isHookEnabled('descriptive-name')) {
 }
 
 try {
-  let injectedPrompt = `IMPORTANT: Except markdowns or docs, all scripts MUST use kebab-case file naming with a long descriptive name to ensure this file name is self-documenting, 
-so that when LLM is using tools (Grep, Glob, Search) to list files, it can guess what the file does right away without reading the file.`
+  let injectedPrompt = `## File naming guidance:
+- Skip this guidance if you are creating markdown or plain text files
+- Prefer kebab-case for JS/TS/Python/shell (.js, .ts, .py, .sh) with descriptive names
+- Respect language conventions: C#/Java/Kotlin/Swift use PascalCase (.cs, .java, .kt, .swift), Go/Rust use snake_case (.go, .rs)
+- Other languages: follow their ecosystem's standard naming convention
+- Goal: self-documenting names for LLM tools (Grep, Glob, Search)`
 
   console.log(JSON.stringify({
     "hookSpecificOutput": {

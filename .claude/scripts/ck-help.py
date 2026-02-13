@@ -147,7 +147,7 @@ TASK_MAPPINGS = {
     # New categories
     "worktree": ["worktree", "parallel", "isolate", "isolation", "concurrent", "multiple branches"],
     "kanban": ["kanban", "board", "dashboard", "progress", "track", "orchestration", "visualize"],
-    "preview": ["preview", "view", "render", "markdown", "reader", "novel"],
+    "preview": ["preview", "view", "render", "markdown", "reader", "novel", "explain", "slides", "diagram", "ascii", "visualize", "visual"],
     "journal": ["journal", "diary", "log", "entry", "reflect", "failure", "lesson"],
     "watzup": ["watzup", "status", "summary", "wrap up", "what's up", "recent", "changes"],
     "notifications": ["notification", "notifications", "notify", "discord", "telegram", "slack", "alert", "webhook", "stop hook", "session end", "setup notification", "setup notifications", "configure discord", "configure telegram", "configure slack", "discord webhook", "telegram bot", "slack webhook"],
@@ -249,13 +249,17 @@ CATEGORY_GUIDES = {
         "tip": "Dashboard shows plan phases, progress bars, and agent activity. Future: worktree + agent orchestration",
     },
     "preview": {
-        "title": "Content Preview (Novel Reader UI)",
+        "title": "Content Preview & Visual Generation",
         "workflow": [
             ("View markdown", "`/preview plans/plan.md`"),
             ("Browse directory", "`/preview docs/`"),
+            ("Explain topic", "`/preview --explain OAuth flow`"),
+            ("Generate slides", "`/preview --slides API architecture`"),
+            ("Create diagram", "`/preview --diagram data flow`"),
+            ("ASCII only", "`/preview --ascii auth process`"),
             ("Stop server", "`/preview --stop`"),
         ],
-        "tip": "Beautiful novel-reader UI for markdown. Great for reviewing plans before execution",
+        "tip": "View existing markdown OR generate visual explanations (ASCII + Mermaid). Visuals save to active plan's visuals/ folder",
     },
     "journal": {
         "title": "Technical Journaling",

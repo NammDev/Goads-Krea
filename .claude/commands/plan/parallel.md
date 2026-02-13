@@ -120,6 +120,22 @@ Phase 04: Integration Tests (depends on 01, 02, 03)
 - Execution strategy (e.g., "Phases 1-3 parallel, then Phase 4")
 - File ownership matrix (which phase owns which files)
 
+## Context Reminder (MANDATORY)
+
+**IMPORTANT:** After plan creation, you MUST remind the user with the **full absolute path**:
+
+> **Best Practice:** Run `/clear` before implementing to start with fresh context.
+> Then run:
+> ```
+> /cook --parallel {ABSOLUTE_PATH_TO_PLAN_DIR}/plan.md
+> ```
+> *(Replace with actual absolute path, e.g., `/home/user/project/plans/260203-1234-feature/plan.md`)*
+
+**Why `--parallel`?** Parallel-optimized plan pairs with parallel execution - multiple agents work on independent phases.
+**Why absolute path?** After `/clear`, the new session loses context. Worktree paths won't be discoverable without the full path.
+
+This reminder is **NON-NEGOTIABLE** - always output it after presenting the plan with the actual absolute path.
+
 ## Important Notes
 **IMPORTANT:** Analyze the skills catalog and activate the skills that are needed for the task during the process.
 **IMPORTANT:** Ensure token efficiency while maintaining high quality.

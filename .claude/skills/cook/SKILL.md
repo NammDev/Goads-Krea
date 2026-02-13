@@ -86,19 +86,23 @@ Human review required at these checkpoints (skipped with `--auto`):
   3. `TaskUpdate` → mark all Claude Tasks complete
   4. Ask user if they want to commit via `git-manager` subagent
 
-## Required Subagents
+## Required Subagents (MANDATORY)
 
-| Phase | Subagent |
-|-------|----------|
-| Research | `researcher` (parallel, optional in fast) |
-| Scout | `scout` |
-| Plan | `planner` |
-| UI Work | `ui-ux-designer` |
-| Testing | `tester`, `debugger` |
-| Review | `code-reviewer` |
-| Finalize | `project-manager`, `docs-manager`, `git-manager` |
+| Phase | Subagent | Requirement |
+|-------|----------|-------------|
+| Research | `researcher` | Optional in fast/code |
+| Scout | `scout` | Optional in code |
+| Plan | `planner` | Optional in code |
+| UI Work | `ui-ux-designer` | If frontend work |
+| Testing | `tester`, `debugger` | **MUST** spawn |
+| Review | `code-reviewer` | **MUST** spawn |
+| Finalize | `project-manager`, `docs-manager`, `git-manager` | **MUST** spawn all 3 |
 
-**CRITICAL:** Finalize step is NON-OPTIONAL in ALL modes. You MUST spawn all finalize subagents before completing.
+**CRITICAL ENFORCEMENT:**
+- Steps 4, 5, 6 **MUST** use Task tool to spawn subagents
+- DO NOT implement testing, review, or finalization yourself - DELEGATE
+- If workflow ends with 0 Task tool calls, it is INCOMPLETE
+- Pattern: `Task(subagent_type="[type]", prompt="[task]", description="[brief]")`
 
 ## References
 

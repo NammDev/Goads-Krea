@@ -249,9 +249,11 @@ function validateWorktreeRoot(rootPath) {
 }
 
 // Determine the worktree root directory with priority:
-// 1. WORKTREE_ROOT env var (explicit override)
-// 2. Topmost superproject's worktrees/ (for submodules)
-// 3. Sibling worktrees/ (monorepo and standalone repos)
+// 1. Explicit --worktree-root flag (Claude's decision)
+// 2. WORKTREE_ROOT env var (explicit override)
+// 3. Topmost superproject's worktrees/ (for submodules)
+// 4. Monorepo: worktrees/ inside repo (keeps related worktrees together)
+// 5. Standalone: sibling worktrees/ (avoids polluting repo)
 function getWorktreeRoot(gitRoot, isMonorepo, explicitRoot = null) {
   // Priority 0: Explicit --worktree-root flag (Claude's decision)
   if (explicitRoot) {
@@ -279,8 +281,14 @@ function getWorktreeRoot(gitRoot, isMonorepo, explicitRoot = null) {
     };
   }
 
-  // Priority 3: Monorepo and standalone repos - use sibling worktrees/
-  // Worktrees should never be placed inside the repo (pollutes git status, non-standard)
+  // Priority 3: Monorepo - use worktrees/ inside the repo
+  // Keeps all project worktrees organized together within the monorepo
+  if (isMonorepo) {
+    return { dir: path.join(gitRoot, 'worktrees'), source: 'monorepo internal' };
+  }
+
+  // Priority 4: Standalone repos - use sibling worktrees/
+  // Avoids polluting the repo with worktree directories
   return { dir: path.join(path.dirname(gitRoot), 'worktrees'), source: 'sibling directory' };
 }
 

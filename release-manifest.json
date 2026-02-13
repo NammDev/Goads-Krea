@@ -1,6 +1,6 @@
 {
-  "version": "2.9.1",
-  "generatedAt": "2026-02-03T05:24:41.470Z",
+  "version": "2.10.1",
+  "generatedAt": "2026-02-05T03:33:58.575Z",
   "files": [
     {
       "path": ".gitignore",
@@ -16,9 +16,9 @@
     },
     {
       "path": "agents/code-reviewer.md",
-      "checksum": "a655c8bb18dd9a40f6db4626fcd82f201d37af06f8cbbb69097efbcf5dca3bea",
-      "size": 9081,
-      "lastModified": "2026-01-12T13:25:29-05:00"
+      "checksum": "569408bebfd77b63f0208b18b4e5fb59d2301772f755b3b2bf1ab3a07b0db1bb",
+      "size": 3549,
+      "lastModified": "2026-02-04T12:57:36+07:00"
     },
     {
       "path": "agents/code-simplifier.md",
@@ -136,9 +136,9 @@
     },
     {
       "path": "commands/docs/init.md",
-      "checksum": "ecdd47ba186ec94fb312afe20dc62efb046a580dc4297f33d81fd4c217f33915",
-      "size": 1868,
-      "lastModified": "2026-01-20T15:51:42+07:00"
+      "checksum": "f16326a351c3a703b8c2eae1c2fc15c56ed19a93cc0462b9269e749cc8686f75",
+      "size": 1892,
+      "lastModified": "2026-02-03T11:52:17-05:00"
     },
     {
       "path": "commands/docs/summarize.md",
@@ -148,9 +148,9 @@
     },
     {
       "path": "commands/docs/update.md",
-      "checksum": "ab59aee30808de5b2fbfe9fe59e094710c5c0359a75020a1601c6569c2984d47",
-      "size": 3326,
-      "lastModified": "2026-01-20T15:51:42+07:00"
+      "checksum": "014705e1a34b77ed8c5c996516a194250a05504c4172d9e8b61015620c281458",
+      "size": 3367,
+      "lastModified": "2026-02-03T11:52:17-05:00"
     },
     {
       "path": "commands/journal.md",
@@ -184,33 +184,33 @@
     },
     {
       "path": "commands/plan/fast.md",
-      "checksum": "1aed57583f8a5e9749e72abfad6251238c7f65a5606ce9f1cf4b72b39a011be7",
-      "size": 3153,
-      "lastModified": "2026-01-26T22:52:53-05:00"
+      "checksum": "e41fd09f10846623e2186058b899b853e2af75857166cb4b0c3ad3db3084fe4e",
+      "size": 3547,
+      "lastModified": "2026-02-03T22:34:59-05:00"
     },
     {
       "path": "commands/plan/hard.md",
-      "checksum": "7161c118636a688073761afe7f36eba0ee07dbbca02da34cde0334d72029cd5b",
-      "size": 4611,
-      "lastModified": "2026-01-26T22:52:53-05:00"
+      "checksum": "76d5be0855e3e4e3dad0a09609d1425b8389d809391f286e4379da2efc783041",
+      "size": 5020,
+      "lastModified": "2026-02-03T22:34:59-05:00"
     },
     {
       "path": "commands/plan/parallel.md",
-      "checksum": "81730740b63c643c07ff3de54509e4ea85219a51e374d25aa927f2dd3dd4c47b",
-      "size": 5725,
-      "lastModified": "2025-12-17T00:33:48-05:00"
+      "checksum": "6b67ba8d11950421da453361bbecc7d26922d623a5400bb565a6eb2c0439befa",
+      "size": 6484,
+      "lastModified": "2026-02-03T22:34:59-05:00"
     },
     {
       "path": "commands/plan/two.md",
-      "checksum": "eae91b91e8c18fd14883ab8369e5e737fde3154b93513e0fc62c820037cb2856",
-      "size": 2023,
-      "lastModified": "2025-12-16T02:57:26-05:00"
+      "checksum": "7d1f9d4a77a6e885cef502277ca0961eb3c9bf9f98512955fb3f331cf4cfa805",
+      "size": 2735,
+      "lastModified": "2026-02-03T22:34:59-05:00"
     },
     {
       "path": "commands/plan/validate.md",
-      "checksum": "d31573573f25b8905ed365f9d97d2a510a1420635cc9b9479fc3d2f390c10e07",
-      "size": 5573,
-      "lastModified": "2026-01-31T18:13:30-05:00"
+      "checksum": "6f1b98b71118e81d152d8a5a1f29148f7c4118a5f314b8020d0ade75d3a4a3aa",
+      "size": 7050,
+      "lastModified": "2026-02-03T22:34:59-05:00"
     },
     {
       "path": "commands/plan.md",
@@ -220,9 +220,9 @@
     },
     {
       "path": "commands/preview.md",
-      "checksum": "6e41f23df189a50b0dac93362426d2bda373f4d599c10ed122b37d39766922bd",
-      "size": 2863,
-      "lastModified": "2026-01-08T08:50:20-05:00"
+      "checksum": "fa22cc5692255dbc6f9d4be04061d6d0d108488e77a2d641f841764571098fa3",
+      "size": 9794,
+      "lastModified": "2026-02-03T18:06:01-05:00"
     },
     {
       "path": "commands/review/codebase/parallel.md",
@@ -495,6 +495,12 @@
       "lastModified": "2026-01-11T11:26:17-05:00"
     },
     {
+      "path": "hooks/__tests__/descriptive-name.test.cjs",
+      "checksum": "b307a81902cab7d4c0b016df32837cc8598c0adc493ae7d05d016069908a86be",
+      "size": 9123,
+      "lastModified": "2026-02-04T09:35:49-05:00"
+    },
+    {
       "path": "hooks/__tests__/dev-rules-reminder.test.cjs",
       "checksum": "fc2099fb6dfa0905d01720db82054f82d6c5e5768a95eed0bf143441877412c6",
       "size": 10353,
@@ -531,10 +537,16 @@
       "lastModified": "2026-01-03T12:46:25-05:00"
     },
     {
+      "path": "hooks/cook-after-plan-reminder.cjs",
+      "checksum": "a23b3549f6eff71bc4ba83a2f67c1fef2cde088a749c66de07ea2446a9f31644",
+      "size": 1699,
+      "lastModified": "2026-02-03T22:34:59-05:00"
+    },
+    {
       "path": "hooks/descriptive-name.cjs",
-      "checksum": "ad8f799eea5ce148231ed6942480e91a59954b83f33728e122a8e2900b641c52",
-      "size": 955,
-      "lastModified": "2026-02-02T17:04:03+07:00"
+      "checksum": "5ef600f2b1f89b47489fddfd9500f28a345269b278d49ab96048295b5f2fd2ab",
+      "size": 1053,
+      "lastModified": "2026-02-05T10:30:33+07:00"
     },
     {
       "path": "hooks/dev-rules-reminder.cjs",
@@ -580,9 +592,9 @@
     },
     {
       "path": "hooks/lib/ck-config-utils.cjs",
-      "checksum": "98ff0c4a939e52c1f09cc1e6f205bac7a6ec4dc3d4a144ac8f82b2af04397b66",
-      "size": 25956,
-      "lastModified": "2026-02-02T14:29:22-05:00"
+      "checksum": "259880193046db93ee96fc84a8f38db995c491f0033f78eaf14cd96f09529af2",
+      "size": 26486,
+      "lastModified": "2026-02-03T20:40:40-05:00"
     },
     {
       "path": "hooks/lib/colors.cjs",
@@ -598,9 +610,9 @@
     },
     {
       "path": "hooks/lib/context-builder.cjs",
-      "checksum": "115cca5a4f2ba6a74f3ad6cb31c6c1cb916d261ee6860f2e096cbdee96336005",
-      "size": 23727,
-      "lastModified": "2026-02-02T14:13:59-05:00"
+      "checksum": "ba9328303692f96ea706c9e2fc97619cbc48add38b63a04eef7a60d3adeb4e3f",
+      "size": 23678,
+      "lastModified": "2026-02-04T09:35:49-05:00"
     },
     {
       "path": "hooks/lib/privacy-checker.cjs",
@@ -838,9 +850,9 @@
     },
     {
       "path": "metadata.json",
-      "checksum": "0e10d0c5b116096a964599e27964baba82cb283429a0293c419fd7af3a14194a",
-      "size": 1199,
-      "lastModified": "2026-02-03T05:23:14Z"
+      "checksum": "aa2a4d8f83bbc61d59e95278aab15d3dc18aafcd0d46c96a870d5d875ac72f1a",
+      "size": 1200,
+      "lastModified": "2026-02-05T03:32:17Z"
     },
     {
       "path": "output-styles/coding-level-0-eli5.md",
@@ -880,9 +892,9 @@
     },
     {
       "path": "rules/development-rules.md",
-      "checksum": "787582949533c8be59d36f571692bd8d736534033232d6811e095efc9ad7fbc1",
-      "size": 2954,
-      "lastModified": "2026-01-26T13:07:27+07:00"
+      "checksum": "b31d1c24a67de38db4023a245ad45a36e71c480349e9d9bb277dc6e66a99a95b",
+      "size": 3619,
+      "lastModified": "2026-02-03T16:11:10-05:00"
     },
     {
       "path": "rules/documentation-management.md",
@@ -898,9 +910,9 @@
     },
     {
       "path": "rules/primary-workflow.md",
-      "checksum": "a42150a01323a5e7a26f8165e934e0cd57db9a564b61fec66aefd14551819f44",
-      "size": 2557,
-      "lastModified": "2026-01-26T13:27:23+07:00"
+      "checksum": "0218014d151daee0414877245d19aa2487619849651ca9226049d6951ae81982",
+      "size": 3318,
+      "lastModified": "2026-02-03T15:34:21-05:00"
     },
     {
       "path": "schemas/ck-config.schema.json",
@@ -916,9 +928,9 @@
     },
     {
       "path": "scripts/ck-help.py",
-      "checksum": "58d66623a9503c4108c3e120147591d42e755d5288854e1e249de073dbbf12ed",
-      "size": 40946,
-      "lastModified": "2026-01-28T22:22:39-05:00"
+      "checksum": "aca8984eca632caabeef3aa09e2298b13663c1576807bccbed4e92db94f07e50",
+      "size": 41317,
+      "lastModified": "2026-02-04T20:14:49-05:00"
     },
     {
       "path": "scripts/commands_data.yaml",
@@ -1000,21 +1012,21 @@
     },
     {
       "path": "scripts/worktree.cjs",
-      "checksum": "83b7abdd8dd1b6a07db4e692e1ee51d0d8bd7b5dc8778ac96c4cbc094b9deb0a",
-      "size": 26672,
-      "lastModified": "2026-02-02T11:41:57-05:00"
+      "checksum": "b4816fc4f4e43a35593f26c89a0fa813335348bbc605346c0a4729598abe594a",
+      "size": 26998,
+      "lastModified": "2026-02-03T11:45:39-05:00"
     },
     {
       "path": "scripts/worktree.test.cjs",
-      "checksum": "a3df5d9f270852302fea37757850836be0b6b4896bd2a03f3fef4422f7a5dd10",
-      "size": 30707,
-      "lastModified": "2026-01-19T13:31:22-05:00"
+      "checksum": "065bafebe8548bfbf17f5006ae402aa35e0a2646f8a951a88213433c646214dc",
+      "size": 31286,
+      "lastModified": "2026-02-03T11:45:39-05:00"
     },
     {
       "path": "settings.json",
-      "checksum": "7f9ea2d2e392f9f5bed16c620f48800a0396af085ce620a8513cc2bd5e081599",
-      "size": 1968,
-      "lastModified": "2026-02-03T00:14:22-05:00"
+      "checksum": "22aed7a52ac3f90832ffe1db82b8b767b8a9f566a699233f6048690a0961a1ab",
+      "size": 2197,
+      "lastModified": "2026-02-03T14:40:40+07:00"
     },
     {
       "path": "skills/.gitignore",
@@ -1606,21 +1618,27 @@
     },
     {
       "path": "skills/code-review/SKILL.md",
-      "checksum": "512cb440d9066dc441cff08d62326f2d7d814d5bc1fdd6b5fb52c6b38e256b5e",
-      "size": 5209,
-      "lastModified": "2026-01-15T16:13:15+07:00"
+      "checksum": "17877a3224aca6623134d0749db9a5fef7b95a7fbbd4c662303cc8e8e61ca63f",
+      "size": 3903,
+      "lastModified": "2026-02-04T12:58:03+07:00"
     },
     {
       "path": "skills/code-review/references/code-review-reception.md",
-      "checksum": "a8847b178c983555ef9b8b650ca0fe8fc522f8390548b0b6ea6f274434acd9a8",
-      "size": 6318,
-      "lastModified": "2025-11-06T11:09:51+07:00"
+      "checksum": "f8b818db1b47ecf7a43328783cd298f4efeacdf8d2bb04061281149a2256cada",
+      "size": 3214,
+      "lastModified": "2026-02-04T12:58:03+07:00"
+    },
+    {
+      "path": "skills/code-review/references/edge-case-scouting.md",
+      "checksum": "02e705d4482937c771930e19da73ba3fb1e7eb2c813cdb0f52f34ae06e58ddc7",
+      "size": 3015,
+      "lastModified": "2026-02-04T12:58:03+07:00"
     },
     {
       "path": "skills/code-review/references/requesting-code-review.md",
-      "checksum": "4f0d44953238f97d766a8f6457c14c0c14d87e84907fc7cd1cf28e8dbad60f18",
-      "size": 2877,
-      "lastModified": "2025-11-06T11:09:51+07:00"
+      "checksum": "22793d73c3e0c2c36f03af1098b369016bff4edd8f64c9371d11f634d2fa62c4",
+      "size": 3180,
+      "lastModified": "2026-02-04T12:58:03+07:00"
     },
     {
       "path": "skills/code-review/references/verification-before-completion.md",
@@ -1738,9 +1756,9 @@
     },
     {
       "path": "skills/cook/SKILL.md",
-      "checksum": "f0f10cf9526f2585eceb38de1f8ce25d56a81faa54913b3512cd3093266f36a9",
-      "size": 4055,
-      "lastModified": "2026-02-01T02:48:51-05:00"
+      "checksum": "e7281286931f29516519d89e420debfc2ba05fd999c8f5db8ce0ada695fdfe1f",
+      "size": 4387,
+      "lastModified": "2026-02-03T13:29:05+07:00"
     },
     {
       "path": "skills/cook/references/intent-detection.md",
@@ -1762,9 +1780,9 @@
     },
     {
       "path": "skills/cook/references/workflow-steps.md",
-      "checksum": "64821f43423e0bf6740a428b68160a948704735637f2b6d212f3441a28778b9d",
-      "size": 5646,
-      "lastModified": "2026-01-28T23:02:25+07:00"
+      "checksum": "aefc1fc5d86616ea904ae85e8b8ac9174a04b6aba209c5c9868aba96b02a288d",
+      "size": 6803,
+      "lastModified": "2026-02-03T13:29:05+07:00"
     },
     {
       "path": "skills/copywriting/SKILL.md",
@@ -3502,9 +3520,9 @@
     },
     {
       "path": "skills/markdown-novel-viewer/SKILL.md",
-      "checksum": "e4fe8ac4b52c395644c6f5c3f3ab5b3f79e5328174f3bca1dc7abaaec2331a03",
-      "size": 7233,
-      "lastModified": "2026-01-15T16:13:23+07:00"
+      "checksum": "8dcf5eb9ef63b1784a558222da877f31481297c4679922def3820cdbe6d84ab4",
+      "size": 9114,
+      "lastModified": "2026-02-04T09:30:29-05:00"
     },
     {
       "path": "skills/markdown-novel-viewer/assets/directory-browser.css",
@@ -3520,21 +3538,75 @@
     },
     {
       "path": "skills/markdown-novel-viewer/assets/novel-theme.css",
-      "checksum": "edf410c331eb18fe244bbef05f4f6f65c7ff96ea26eed84c5b0ba485e6895ea4",
-      "size": 15026,
-      "lastModified": "2025-12-25T15:49:19+07:00"
+      "checksum": "5cd1b6e39f05ab3e47d09bb0e7b4a7bed1c8e887ee84fdfd3e792e9a8d0171e8",
+      "size": 612,
+      "lastModified": "2026-02-04T09:30:29-05:00"
     },
     {
       "path": "skills/markdown-novel-viewer/assets/reader.js",
-      "checksum": "6b3383ea11ce5bd80b01f93945150563b1899f6416efdfe112833c1cc62ec437",
-      "size": 10158,
-      "lastModified": "2025-12-25T15:49:19+07:00"
+      "checksum": "f1bb49ea0e5d1a69a9c5c21f81a41f0d0a34c4c6b5b7b9c1014219a3a4f6eeaa",
+      "size": 22060,
+      "lastModified": "2026-02-04T09:45:31-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-base.css",
+      "checksum": "c4ff0f672e8ac24cdb07de6161f8844188318a76cf4d210fb6e4b0354af413b1",
+      "size": 1013,
+      "lastModified": "2026-02-04T09:45:31-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-components.css",
+      "checksum": "6882ee0b7efa6c889de046d39c7627257b323f5490dfb337d37c8e7540fdebeb",
+      "size": 1343,
+      "lastModified": "2026-02-04T09:30:29-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-content.css",
+      "checksum": "de0bd34b2cbc707f57573898d2f4c6688db3f1235033915c98ec273ff54121ae",
+      "size": 2857,
+      "lastModified": "2026-02-04T09:45:31-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-header.css",
+      "checksum": "f1e0e91b9ea83b804af52dc6d5f2300bd18274ec502e902098751d41fbdca023",
+      "size": 3980,
+      "lastModified": "2026-02-04T09:30:29-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-mermaid.css",
+      "checksum": "08b0c41340f2eaaf2c416f1bb5671e7666837ee354c85a4d4094a9dcc60c6ba5",
+      "size": 2522,
+      "lastModified": "2026-02-04T09:30:29-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-overlays.css",
+      "checksum": "464d82b4861edcf9ef06d3f1bb0cd1f3775c986ade36b8a8498721d173c89383",
+      "size": 3729,
+      "lastModified": "2026-02-04T09:30:29-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-responsive.css",
+      "checksum": "9b528f14390993caa252aa459a2bba02064a5cc9a69ec492435b27616d722101",
+      "size": 4653,
+      "lastModified": "2026-02-04T09:30:29-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-sidebar.css",
+      "checksum": "f56b56320744a68f132b58eba09a39493f1b50371a649c97a2f51ef908a083c8",
+      "size": 6351,
+      "lastModified": "2026-02-04T09:45:31-05:00"
+    },
+    {
+      "path": "skills/markdown-novel-viewer/assets/styles/novel-theme-variables.css",
+      "checksum": "99a1177a06ce7641cdf5e3f831d6e3b84937154012a15204603d13b3ac7370b1",
+      "size": 1395,
+      "lastModified": "2026-02-04T09:45:31-05:00"
     },
     {
       "path": "skills/markdown-novel-viewer/assets/template.html",
-      "checksum": "58fdd359df3c80d6305b8917b5da0b1d4f7983dce0d4e1d968982e4c7b6fdbab",
-      "size": 3532,
-      "lastModified": "2025-12-25T15:49:19+07:00"
+      "checksum": "f735e6aab371063babc28b8ec69110edaed15ab7a184561775af1d6ad8ad4b02",
+      "size": 6181,
+      "lastModified": "2026-02-04T09:45:31-05:00"
     },
     {
       "path": "skills/markdown-novel-viewer/package.json",
@@ -3556,9 +3628,9 @@
     },
     {
       "path": "skills/markdown-novel-viewer/scripts/lib/plan-navigator.cjs",
-      "checksum": "e8269a00f5a1a400b33b4a8303656a7761d3e358ae84933d4fbc94387f0ac847",
-      "size": 18269,
-      "lastModified": "2025-12-16T04:30:36-05:00"
+      "checksum": "9251db2bc7d2ec2d4eef863bc6908157c3e4c2f45ad03995bf36127389f6ebb0",
+      "size": 20464,
+      "lastModified": "2026-02-04T09:30:29-05:00"
     },
     {
       "path": "skills/markdown-novel-viewer/scripts/lib/port-finder.cjs",
@@ -5206,9 +5278,9 @@
     },
     {
       "path": "skills/skill-creator/SKILL.md",
-      "checksum": "8bfac90d540398f2e326c44c03c8efa3f67bdedf75b392f5483e8339509dc88c",
-      "size": 18266,
-      "lastModified": "2026-01-29T15:36:20+07:00"
+      "checksum": "018170b648b9afa4ce6762fab368f91e453c23d3cf3c08ccee4773b9a4821f63",
+      "size": 18676,
+      "lastModified": "2026-02-03T13:29:27+07:00"
     },
     {
       "path": "skills/skill-creator/references/metadata-quality-criteria.md",
@@ -5248,9 +5320,9 @@
     },
     {
       "path": "skills/skill-creator/references/script-quality-criteria.md",
-      "checksum": "21c18d1cdabfa786ecb90f11725f33c5cf4d864ba8e387d18891d90e61876f74",
-      "size": 1781,
-      "lastModified": "2026-01-20T14:10:08+07:00"
+      "checksum": "0c56828f468e226a340745a1c72ffa75b86de466b49ef76b3b75037833baa474",
+      "size": 2031,
+      "lastModified": "2026-02-03T13:29:27+07:00"
     },
     {
       "path": "skills/skill-creator/references/structure-organization-criteria.md",
@@ -5266,15 +5338,15 @@
     },
     {
       "path": "skills/skill-creator/references/validation-checklist.md",
-      "checksum": "ea8cf3df200fa3c071e4a2d7810940c4f640f1e92325aa55426df3e0548ce84c",
-      "size": 1675,
-      "lastModified": "2026-01-20T14:10:08+07:00"
+      "checksum": "9ce1cd1f8f4d7a05bb844dec8bddedc86f47abcce1a9eda8170ca201b0be4bc3",
+      "size": 2628,
+      "lastModified": "2026-02-03T13:29:27+07:00"
     },
     {
       "path": "skills/skill-creator/scripts/encoding_utils.py",
-      "checksum": "469082d6a2412c964c638cec782209112bb89c3e69bfa634c56db2f31a560d5b",
-      "size": 1392,
-      "lastModified": "2026-02-02T20:11:34-05:00"
+      "checksum": "ca81ae98072328ad4be406e2ceb672bc5c42fd0a65efdefc836b705e2e9c6c6d",
+      "size": 1088,
+      "lastModified": "2026-02-03T13:29:27+07:00"
     },
     {
       "path": "skills/skill-creator/scripts/init_skill.py",
@@ -6514,8 +6586,8 @@
     },
     {
       "path": ".opencode/agents/code-reviewer.md",
-      "checksum": "b4d938c74cc9e334a50d808dfc5fd7ce954be21822d2726c4eaab75746a61e78",
-      "size": 7580,
+      "checksum": "ec9ab397208627de28c6cad182c0b53e8536e85f2de4045634d7e8b0629b0086",
+      "size": 3631,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6633,8 +6705,8 @@
     },
     {
       "path": ".opencode/commands/docs-init.md",
-      "checksum": "a520900efe86f8adc9a81be826c0d9ff58031213a23c3ce6dd30cd0673df598d",
-      "size": 1870,
+      "checksum": "043d4f9382bbcbe42827064601e3ec567f0f986435058832992360fd7b6c30a0",
+      "size": 1894,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6645,8 +6717,8 @@
     },
     {
       "path": ".opencode/commands/docs-update.md",
-      "checksum": "5c19dac5dbcadb7977a19879bbe4e73fb53022919ecb0b03e1180f12817ac099",
-      "size": 3330,
+      "checksum": "8fdb77997d29ef2a6d9d8bf254aaf24b284e1dfe5464262f1ae982597cb9ceff",
+      "size": 3371,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6681,32 +6753,32 @@
     },
     {
       "path": ".opencode/commands/plan-fast.md",
-      "checksum": "651e9ba9e7439680ca59cc2c07d39137dcf8336a7cc0b9178f5cf730060251bc",
-      "size": 3151,
+      "checksum": "ea37a1b2fe043a229b434fd228259d80c8af6d6fe7fcec9e201b9359b4622ef3",
+      "size": 3545,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/commands/plan-hard.md",
-      "checksum": "e34c331bcf1feb6d847bd7cfbaa7d42dcf3fdd5a0728efd6e9fe7c46d3609261",
-      "size": 4609,
+      "checksum": "588465f4b3a27bbab97138384af5168374d789542ee8bd96eed312666be258e1",
+      "size": 5018,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/commands/plan-parallel.md",
-      "checksum": "2d7a9f5c625c739921f7d9a78257ab7199ed219c8d5b001b16fd1a9ef4a072e0",
-      "size": 5721,
+      "checksum": "7bd8dc820ff09beba00127f6c224c39dfc89abe278babbc4a142d60ca522e020",
+      "size": 6480,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/commands/plan-two.md",
-      "checksum": "39dce35bd0d74f6b4531f9cd51d51cc339bf01cfe17e128a067fc28745b228c0",
-      "size": 2020,
+      "checksum": "fe66c65497ce4a70d8a92a65162671e5e5f5d76c38ca82716ab2d8df89638786",
+      "size": 2732,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/commands/plan-validate.md",
-      "checksum": "6364a91087715cdcd78218b2f09ca5bf767f9643a2ae0bba86fe8ab67ce55edb",
-      "size": 5569,
+      "checksum": "bd7c9a7fe11e35e8c07736cd73f3c32282c455c08f464ad3de3cda2110a5a760",
+      "size": 7046,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6717,8 +6789,8 @@
     },
     {
       "path": ".opencode/commands/preview.md",
-      "checksum": "152f78e264b959d6f90c9988beb49cc5e502355c6b770618fa9d14d33c03fd3c",
-      "size": 2752,
+      "checksum": "42cbefd67dab07057fc68b090bd00ee4d61af0dbd11c1167e11cd388174b7c0f",
+      "size": 9671,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6776,8 +6848,8 @@
     },
     {
       "path": ".opencode/plugin/lib/ck-config-utils.cjs",
-      "checksum": "e17e9128e3739d2b0208e2f1ae11596a3dfc78672a11e72935a15f75e5a36b0f",
-      "size": 25962,
+      "checksum": "e8b5bcc1f76b68ff6aacfd962bd61cff999ba4da0b7b3b33c84d991d7cea55c3",
+      "size": 26492,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6788,8 +6860,8 @@
     },
     {
       "path": ".opencode/plugin/lib/context-builder.cjs",
-      "checksum": "db3be490e3eda6b569072f19ed205b2309e8ee2b1dc4a031c1f2952e9f21c725",
-      "size": 23737,
+      "checksum": "2cbc9b93ccd4652c0ccc96cb3a9160984fbb01f09867fb37c883a02f83c0d773",
+      "size": 23688,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6902,8 +6974,8 @@
     },
     {
       "path": ".opencode/scripts/ck-help.py",
-      "checksum": "b5a4734669f7f35fb566e7c6b87ae6e3e03b4de5af351c84e98a1bfbabf6e5c0",
-      "size": 40992,
+      "checksum": "60d5d95f79f4a047d2136e05f1b82ce40070e3129a93fb12d384067dde9d50cb",
+      "size": 41363,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -6986,14 +7058,14 @@
     },
     {
       "path": ".opencode/scripts/worktree.cjs",
-      "checksum": "83b7abdd8dd1b6a07db4e692e1ee51d0d8bd7b5dc8778ac96c4cbc094b9deb0a",
-      "size": 26672,
+      "checksum": "b4816fc4f4e43a35593f26c89a0fa813335348bbc605346c0a4729598abe594a",
+      "size": 26998,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/scripts/worktree.test.cjs",
-      "checksum": "a3df5d9f270852302fea37757850836be0b6b4896bd2a03f3fef4422f7a5dd10",
-      "size": 30707,
+      "checksum": "065bafebe8548bfbf17f5006ae402aa35e0a2646f8a951a88213433c646214dc",
+      "size": 31286,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -7535,20 +7607,25 @@
     },
     {
       "path": ".opencode/skills/code-review/SKILL.md",
-      "checksum": "512cb440d9066dc441cff08d62326f2d7d814d5bc1fdd6b5fb52c6b38e256b5e",
-      "size": 5209,
+      "checksum": "17877a3224aca6623134d0749db9a5fef7b95a7fbbd4c662303cc8e8e61ca63f",
+      "size": 3903,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/skills/code-review/references/code-review-reception.md",
-      "checksum": "a8847b178c983555ef9b8b650ca0fe8fc522f8390548b0b6ea6f274434acd9a8",
-      "size": 6318,
+      "checksum": "f8b818db1b47ecf7a43328783cd298f4efeacdf8d2bb04061281149a2256cada",
+      "size": 3214,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
+      "path": ".opencode/skills/code-review/references/edge-case-scouting.md",
+      "checksum": "02e705d4482937c771930e19da73ba3fb1e7eb2c813cdb0f52f34ae06e58ddc7",
+      "size": 3015
+    },
+    {
       "path": ".opencode/skills/code-review/references/requesting-code-review.md",
-      "checksum": "4f0d44953238f97d766a8f6457c14c0c14d87e84907fc7cd1cf28e8dbad60f18",
-      "size": 2877,
+      "checksum": "22793d73c3e0c2c36f03af1098b369016bff4edd8f64c9371d11f634d2fa62c4",
+      "size": 3180,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -7647,8 +7724,8 @@
     },
     {
       "path": ".opencode/skills/cook/SKILL.md",
-      "checksum": "f0f10cf9526f2585eceb38de1f8ce25d56a81faa54913b3512cd3093266f36a9",
-      "size": 4055
+      "checksum": "e7281286931f29516519d89e420debfc2ba05fd999c8f5db8ce0ada695fdfe1f",
+      "size": 4387
     },
     {
       "path": ".opencode/skills/cook/references/intent-detection.md",
@@ -7667,8 +7744,8 @@
     },
     {
       "path": ".opencode/skills/cook/references/workflow-steps.md",
-      "checksum": "64821f43423e0bf6740a428b68160a948704735637f2b6d212f3441a28778b9d",
-      "size": 5646
+      "checksum": "aefc1fc5d86616ea904ae85e8b8ac9174a04b6aba209c5c9868aba96b02a288d",
+      "size": 6803
     },
     {
       "path": ".opencode/skills/copywriting/SKILL.md",
@@ -8537,8 +8614,8 @@
     },
     {
       "path": ".opencode/skills/markdown-novel-viewer/SKILL.md",
-      "checksum": "0eb667d80bf73873388425b277ac6eede84270efa262edaef62191fee3c4f3cb",
-      "size": 7243,
+      "checksum": "036261ae1b6d8a4b477e4c4703b3db946c88fd182c2cdd43134b14f728eafa1e",
+      "size": 9124,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -8555,20 +8632,65 @@
     },
     {
       "path": ".opencode/skills/markdown-novel-viewer/assets/novel-theme.css",
-      "checksum": "edf410c331eb18fe244bbef05f4f6f65c7ff96ea26eed84c5b0ba485e6895ea4",
-      "size": 15026,
+      "checksum": "5cd1b6e39f05ab3e47d09bb0e7b4a7bed1c8e887ee84fdfd3e792e9a8d0171e8",
+      "size": 612,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
       "path": ".opencode/skills/markdown-novel-viewer/assets/reader.js",
-      "checksum": "6b3383ea11ce5bd80b01f93945150563b1899f6416efdfe112833c1cc62ec437",
-      "size": 10158,
+      "checksum": "f1bb49ea0e5d1a69a9c5c21f81a41f0d0a34c4c6b5b7b9c1014219a3a4f6eeaa",
+      "size": 22060,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-base.css",
+      "checksum": "c4ff0f672e8ac24cdb07de6161f8844188318a76cf4d210fb6e4b0354af413b1",
+      "size": 1013
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-components.css",
+      "checksum": "6882ee0b7efa6c889de046d39c7627257b323f5490dfb337d37c8e7540fdebeb",
+      "size": 1343
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-content.css",
+      "checksum": "de0bd34b2cbc707f57573898d2f4c6688db3f1235033915c98ec273ff54121ae",
+      "size": 2857
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-header.css",
+      "checksum": "f1e0e91b9ea83b804af52dc6d5f2300bd18274ec502e902098751d41fbdca023",
+      "size": 3980
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-mermaid.css",
+      "checksum": "08b0c41340f2eaaf2c416f1bb5671e7666837ee354c85a4d4094a9dcc60c6ba5",
+      "size": 2522
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-overlays.css",
+      "checksum": "464d82b4861edcf9ef06d3f1bb0cd1f3775c986ade36b8a8498721d173c89383",
+      "size": 3729
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-responsive.css",
+      "checksum": "9b528f14390993caa252aa459a2bba02064a5cc9a69ec492435b27616d722101",
+      "size": 4653
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-sidebar.css",
+      "checksum": "f56b56320744a68f132b58eba09a39493f1b50371a649c97a2f51ef908a083c8",
+      "size": 6351
+    },
+    {
+      "path": ".opencode/skills/markdown-novel-viewer/assets/styles/novel-theme-variables.css",
+      "checksum": "99a1177a06ce7641cdf5e3f831d6e3b84937154012a15204603d13b3ac7370b1",
+      "size": 1395
+    },
+    {
       "path": ".opencode/skills/markdown-novel-viewer/assets/template.html",
-      "checksum": "58fdd359df3c80d6305b8917b5da0b1d4f7983dce0d4e1d968982e4c7b6fdbab",
-      "size": 3532,
+      "checksum": "f735e6aab371063babc28b8ec69110edaed15ab7a184561775af1d6ad8ad4b02",
+      "size": 6181,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -8590,8 +8712,8 @@
     },
     {
       "path": ".opencode/skills/markdown-novel-viewer/scripts/lib/plan-navigator.cjs",
-      "checksum": "e8269a00f5a1a400b33b4a8303656a7761d3e358ae84933d4fbc94387f0ac847",
-      "size": 18269,
+      "checksum": "9251db2bc7d2ec2d4eef863bc6908157c3e4c2f45ad03995bf36127389f6ebb0",
+      "size": 20464,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -10107,8 +10229,8 @@
     },
     {
       "path": ".opencode/skills/skill-creator/SKILL.md",
-      "checksum": "850f19ff63d8bacb33ce38604b7c59f7bdf44604ba5aa09521bd8843ded0e598",
-      "size": 18288,
+      "checksum": "137460ec17a135caea309794236263914dd27bca182d417fecfb1f34ff2db101",
+      "size": 18714,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -10143,8 +10265,8 @@
     },
     {
       "path": ".opencode/skills/skill-creator/references/script-quality-criteria.md",
-      "checksum": "88aff5b6b14604bafbb47a94bcbab90400391090d7196aab34013ce4b280f31f",
-      "size": 1793
+      "checksum": "736ff468cc5c94578f27b05176118b630fe3791f9cf41e05aa43f377b2a268e2",
+      "size": 2055
     },
     {
       "path": ".opencode/skills/skill-creator/references/structure-organization-criteria.md",
@@ -10158,13 +10280,13 @@
     },
     {
       "path": ".opencode/skills/skill-creator/references/validation-checklist.md",
-      "checksum": "aaca1b6954647721fc96121a38cfe2d80ba01690b0507301fb8719238ab5e74d",
-      "size": 1679
+      "checksum": "2c812c169a229543a0766d6b062ecc6981a7edeca6a2bf95964ad570842f89da",
+      "size": 2640
     },
     {
       "path": ".opencode/skills/skill-creator/scripts/encoding_utils.py",
-      "checksum": "469082d6a2412c964c638cec782209112bb89c3e69bfa634c56db2f31a560d5b",
-      "size": 1392,
+      "checksum": "ca81ae98072328ad4be406e2ceb672bc5c42fd0a65efdefc836b705e2e9c6c6d",
+      "size": 1088,
       "lastModified": "2026-01-25T17:53:40+07:00"
     },
     {
@@ -11375,7 +11497,7 @@
     },
     {
       "path": "AGENTS.md",
-      "checksum": "f07b6ed75810a3848f500b131563b3f8981e22f259cf8c61c9ca07f5a206dca3",
+      "checksum": "a3834e91573dbb36f2c08354251d52e986cad28d1ccea381c3b1c167350720ef",
       "size": 2192,
       "lastModified": "2026-01-18T09:18:05-05:00"
     }

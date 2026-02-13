@@ -1,131 +1,111 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { UseCaseItem } from "./use-case-item";
 import { SectionHeader } from "@/components/ui/section-header";
 
-/** Use case data structure */
-interface UseCase {
+/** Benefit data structure */
+interface Benefit {
   id: string;
   title: string;
   description: string;
   ctaText: string;
   ctaHref: string;
-  videoSrc: string;
+  imageSrc: string;
 }
 
-/** Use cases data - GoAds use cases */
-const USE_CASES: UseCase[] = [
+/** Benefits data - GoAds advantages */
+const BENEFITS: Benefit[] = [
   {
-    id: "ecommerce-scaling",
-    title: "E-commerce Scaling",
+    id: "multi-platform",
+    title: "Run Ads For Any Vertical",
     description:
-      "Scale your store with enterprise-grade Meta infrastructure. Access verified BM5s with $250K+ spend limits, aged profiles with 2+ years history, and unlimited ad accounts through a single dashboard. GoAds delivers 98.7% account stability with sub-2-hour support response times.",
+      "Run almost any kind of ads on any advertising platform, doesn't matter which vertical you're in. We have a solution for everyone and for every advertising platform.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-multi-platform.png",
   },
   {
-    id: "agency-operations",
-    title: "Agency Operations",
+    id: "no-bans",
+    title: "No Bans or Restrictions",
     description:
-      "Manage client campaigns with wholesale-grade ad infrastructure. Provision unlimited accounts across Meta, TikTok, and Google through our Agency Portal with bulk pricing, white-label options, and dedicated account managers. GoAds serves 500+ agencies with 99.2% fulfillment accuracy.",
+      "Stop losing days to restrictions. Run ads with whitelisted accounts that have unlimited spend, instant replacements, and dedicated support from Meta reps.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-no-bans.png",
   },
   {
-    id: "affiliate-performance",
-    title: "Affiliate & Performance",
+    id: "unlimited-scale",
+    title: "Scale Without Limits",
     description:
-      "Run aggressive campaigns on bulletproof infrastructure. Deploy across 15+ GEOs with pre-warmed accounts, instant replacement guarantees, and vertical-agnostic support. GoAds offers the industry's fastest 7-day warranty claims with 94% approval rates.",
+      "We offer unlimited ad spend potential on various advertising platforms, helping you reach new heights without hitting budget restrictions or account caps.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-unlimited-scale.png",
   },
   {
-    id: "lead-generation",
-    title: "Lead Generation",
+    id: "instant-replacement",
+    title: "Keep Your Ads Running",
     description:
-      "Capture high-intent leads with conversion-optimized ad accounts. Access pre-configured lead form templates, instant experience setups, and CRM-ready integrations across real estate, insurance, and B2B verticals. GoAds accounts achieve 23% higher lead quality scores on average.",
+      "If your ad account gets disabled, we'll instantly replace it for you, so your campaigns continue running without interruption.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-instant-replacement.png",
   },
   {
-    id: "saas-growth",
-    title: "SaaS & App Growth",
+    id: "pixel-data",
+    title: "Never Lose Your Pixel Data",
     description:
-      "Acquire users profitably with app-install optimized infrastructure. Deploy across iOS and Android with MMP-integrated accounts, SKAN-compliant setups, and subscription-focused pixel configurations. GoAds delivers 35% lower CPIs through properly seasoned accounts.",
+      "We will help you set up a bulletproof account structure so you can run ads without worrying about losing your pixel or analytics data forever.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-pixel-data.png",
   },
   {
-    id: "content-creators",
-    title: "Content Creators",
+    id: "lower-costs",
+    title: "Lower CPA's & CPM's",
     description:
-      "Monetize your audience with creator-friendly ad accounts. Launch courses, merchandise, and digital products with pre-approved commerce setups, influencer-tier support, and flexible spending limits. GoAds powers 200+ creators generating $10M+ in monthly ad-driven revenue.",
+      "Our whitelisted agency ad accounts have built up a strong reputation over the years, allowing us to get up to 50% lower CPA's and CPM's.",
     ctaText: "Get Started",
     ctaHref: "/products",
-    videoSrc: "https://s.krea.ai/videoToolDemo_lowBitrate.mp4",
+    imageSrc: "/images/benefits/benefit-lower-costs.png",
+  },
+  {
+    id: "support",
+    title: "24/7 Customer Support",
+    description:
+      "Our team is there to help 24/7, ready to answer any of your burning questions.",
+    ctaText: "Get Started",
+    ctaHref: "/products",
+    imageSrc: "/images/benefits/benefit-support.png",
   },
 ];
 
-/** Use Cases Section - Feature showcase with video preview */
+/** Benefits Section - Feature showcase with image preview */
 export function UseCasesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [videoProgress, setVideoProgress] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Handle video time update for progress bar
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleTimeUpdate = () => {
-      if (video.duration) {
-        setVideoProgress((video.currentTime / video.duration) * 100);
-      }
-    };
-
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    return () => video.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [activeIndex]);
-
-  // Auto-advance to next use case when video ends
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleEnded = () => {
-      setActiveIndex((prev) => (prev + 1) % USE_CASES.length);
-    };
-
-    video.addEventListener("ended", handleEnded);
-    return () => video.removeEventListener("ended", handleEnded);
-  }, []);
 
   return (
     <section className="section-container pt-24 md:pt-40">
       <SectionHeader
-        subtitle="Use cases"
-        title="Built for How You Work"
+        subtitle="Why GoAds"
+        title="The GoAds Advantage"
         className="max-w-3xl"
       />
 
       {/* Content Area */}
       <div className="mt-11 flex w-full flex-col-reverse items-end gap-8 lg:flex-row">
-        {/* Use Case List - all items visible, no internal scroll */}
+        {/* Benefits List */}
         <div className="relative z-0 flex-1">
           <ul className="no-scrollbar space-y-3 lg:max-h-[40rem] lg:overflow-y-scroll">
-            {USE_CASES.map((useCase, index) => (
+            {BENEFITS.map((benefit, index) => (
               <UseCaseItem
-                key={useCase.id}
-                title={useCase.title}
-                description={useCase.description}
-                ctaText={useCase.ctaText}
-                ctaHref={useCase.ctaHref}
+                key={benefit.id}
+                title={benefit.title}
+                description={benefit.description}
+                ctaText={benefit.ctaText}
+                ctaHref={benefit.ctaHref}
                 isActive={activeIndex === index}
                 onClick={() => setActiveIndex(index)}
               />
@@ -133,9 +113,9 @@ export function UseCasesSection() {
           </ul>
         </div>
 
-        {/* Video Preview */}
+        {/* Image Preview */}
         <div className="sticky top-17 z-1 mb-auto w-full flex-1 sm:static lg:w-auto">
-          <div className="bg-primary-100 relative aspect-video overflow-hidden rounded-lg shadow-sm">
+          <div className="bg-primary-900 relative aspect-video overflow-hidden rounded-lg shadow-sm">
             {/* Top gradient overlay */}
             <div
               className="absolute top-0 left-0 z-10 h-[25%] w-full"
@@ -145,31 +125,15 @@ export function UseCasesSection() {
               }}
             />
 
-            {/* Progress bar */}
-            <div className="bg-primary-200/40 absolute top-1.5 right-1.5 left-1.5 z-20 h-1 overflow-hidden rounded-full">
-              <div
-                className="bg-primary-0 h-full rounded-full transition-[width] ease-linear"
-                style={{
-                  width: `${videoProgress}%`,
-                  transitionDuration: "100ms",
-                }}
-              />
-            </div>
-
-            {/* Video */}
-            <video
-              ref={videoRef}
-              key={USE_CASES[activeIndex].videoSrc}
-              autoPlay
-              muted
-              playsInline
-              disablePictureInPicture
-              className="relative z-0 h-full w-full"
-              preload="metadata"
-              src={USE_CASES[activeIndex].videoSrc}
-            >
-              Your browser does not support the video tag.
-            </video>
+            {/* Image */}
+            <Image
+              src={BENEFITS[activeIndex].imageSrc}
+              alt={BENEFITS[activeIndex].title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority={activeIndex === 0}
+            />
           </div>
         </div>
       </div>

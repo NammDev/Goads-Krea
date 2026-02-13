@@ -126,26 +126,60 @@ After collecting answers, update `plan.md` with a detailed validation log. If a 
 - **Session numbering**: Increment session number from last existing session. First validation = Session 1
 - **Trigger**: State what prompted this validation round (initial, re-validation, scope change, etc.)
 
-2. If answers require plan changes, document them in `#### Impact on Phases` but **do not modify phase files** — just document what needs updating.
+2. If answers require plan changes, document them in `#### Impact on Phases` section.
+
+### Step 6: Propagate Changes to Phases (Auto-Apply)
+
+**Auto-propagate** validation decisions to affected phase files.
+
+**Process:**
+1. Parse "Impact on Phases" section → If empty, skip and report "No phase changes required"
+2. For each phase reference (accepts "Phase 2", "phase-02", "P2"):
+   - Glob for `phase-{N:02d}-*.md` → If missing, warn and skip
+   - Locate target section (exact → fuzzy → fallback to Key Insights)
+   - Apply change + add marker: `<!-- Updated: Validation Session N - {change} -->`
+   - Skip if same-session marker already exists (prevent duplication)
+
+**Section mapping:**
+| Change Type | Target Section |
+|-------------|----------------|
+| Requirements | Requirements |
+| Architecture | Architecture |
+| Scope | Overview / Implementation Steps |
+| Risk | Risk Assessment |
+| Unknown | Key Insights (new subsection) |
+
+**Error handling:** Best-effort — log warnings for missing files/sections, continue with others, report all in Output.
 
 ## Output
 
 After validation completes, provide summary:
 - Number of questions asked
 - Key decisions confirmed
+- **Phase propagation results:**
+  - ✅ Files updated (with section names)
+  - ⚠️ Warnings (skipped phases, fallback sections)
+  - ❌ Errors (if any write failures)
 - Any items flagged for plan revision
 - Recommendation: proceed to implementation or revise plan first
 
 ## Next Steps (MANDATORY)
 
-**IMPORTANT:** After providing the validation summary, you MUST remind the user:
+**IMPORTANT:** After providing the validation summary, you MUST remind the user with the **full absolute path**:
 
 > **Best Practice:** Run `/clear` before implementing to start with fresh context.
-> Then run `/cook {plan-path}` to begin implementation.
+> Then run:
+> ```
+> /cook --auto {ABSOLUTE_PATH_TO_PLAN_DIR}/plan.md
+> ```
+> *(Replace with actual absolute path, e.g., `/home/user/project/plans/260203-1234-feature/plan.md`)*
+>
+> **Why `--auto`?** Plan was already validated - safe to skip review gates.
+> **Why absolute path?** After `/clear`, the new session loses context. Worktree paths won't be discoverable without the full path.
 >
 > Fresh context helps Claude focus solely on implementation without planning context pollution, improving plan adherence.
 
-This reminder is **NON-NEGOTIABLE** - always output it at the end of validation.
+This reminder is **NON-NEGOTIABLE** - always output it at the end of validation with the actual absolute path.
 
 ## Important Notes
 

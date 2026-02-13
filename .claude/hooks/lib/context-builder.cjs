@@ -380,7 +380,7 @@ function buildModularizationSection() {
     `## **[IMPORTANT] Consider Modularization:**`,
     `- Check existing modules before creating new`,
     `- Analyze logical separation boundaries (functions, classes, concerns)`,
-    `- Use kebab-case naming with descriptive names, it's fine if the file name is long because this ensures file names are self-documenting for LLM tools (Grep, Glob, Search)`,
+    `- Prefer kebab-case for JS/TS/Python/shell; respect language conventions (C#/Java use PascalCase, Go/Rust use snake_case)`,
     `- Write descriptive code comments`,
     `- After modularization, continue with main task`,
     `- When not to modularize: Markdown files, plain text files, bash scripts, configuration files, environment variables files, etc.`,
